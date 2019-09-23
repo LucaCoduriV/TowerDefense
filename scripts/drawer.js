@@ -1,13 +1,17 @@
-const spritesGroundSize = 100;
+//variable pour tester les objets
+var map = new Map();
+var vert = new Ennemy(1, 100, ennemyType.GREEN);
 
 function draw() {
 
-    ctx.drawImage(sprites[1], 10, 10, spritesGroundSize, spritesGroundSize);
+    map.drawMap();
+    vert.drawEnnemy();
+
 
 
 }
 
 function update() {
     draw();
-    requestAnimationFrame(draw);
+    requestAnimationFrame(update);
 }

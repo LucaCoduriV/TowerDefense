@@ -1,11 +1,11 @@
-var canvas;
-var ctx;
-var sprites;
+let canvas;
+let ctx;
+let sprites;
 
 //quand la page à chargé tous ses fichiers
-$(window).bind("load", function() {
+window.onload = function () {
     main();
-});
+}
 
 //Function qui se chargera d'executer toutes les autres fonctions
 function main() {
@@ -20,6 +20,13 @@ function main() {
     }
 
     update();
+
+    //Test sans aucun rapport avec le jeu :)/////
+    document.addEventListener('keydown', (e) => {
+        if (e.code === "ArrowUp")        vert.position.Y -= 10
+        else if (e.code === "ArrowDown") vert.position.Y += 10
+    });
+    /////////////////////////////////////////////
 
 
 
