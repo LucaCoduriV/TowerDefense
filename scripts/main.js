@@ -19,14 +19,7 @@ function main() {
         console.log(e)
     }
 
-    update();
-
-    //Test sans aucun rapport avec le jeu :)/////
-    document.addEventListener('keydown', (e) => {
-        if (e.code === "ArrowUp")        vert.position.Y -= 10
-        else if (e.code === "ArrowDown") vert.position.Y += 10
-    });
-    /////////////////////////////////////////////
+    loop();
 
 
 
