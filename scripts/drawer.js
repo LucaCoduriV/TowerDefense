@@ -8,6 +8,7 @@ function draw() {
     map.drawMap();
     vert.drawEnnemy();
     defense.drawTurret();
+    defense1.drawTurret();
 
 
 }

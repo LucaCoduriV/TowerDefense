@@ -2,6 +2,7 @@ let canvas;
 let ctx;
 let sprites;
 var defense = new Turret(levels.level1, 10, 4)
+var defense1 = new Turret(levels.level1, 10, 1)
 
 
 
