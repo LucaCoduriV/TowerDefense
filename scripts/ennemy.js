@@ -4,20 +4,49 @@ let ennemyType = {
     RED: "assets/sprites/towerDefense_tile246.png",
     BROWN: "assets/sprites/towerDefense_tile247.png"
 };
+
 //cette classe représente les ennemis que les tourelles devront abattre
 class Ennemy {
-    constructor(speed, lifePoint, type) {
+    constructor(speed, maxLifePoint, type) {
         this.speed = speed;
-        this.lifePoint = lifePoint;
+        this.lifePoint = maxLifePoint;
+        this.maxLifePoint = maxLifePoint;
         this.type = new Image();
         this.type.src = type;
         this.position = {X: 0, Y: 0};
+        this.lifePointBarSize = 20;
     }
 
     //permet de dessiner l'ennemi
     drawEnnemy() {
-        ctx.drawImage(this.type, spritesGroundSize * this.position.X, spritesGroundSize * this.position.Y, 100, 100)
+        ctx.drawImage(this.type, spritesGroundSize * this.position.X, spritesGroundSize * this.position.Y, 100, 100);
+        this.drawMaxLifePointBar();
+        this.drawCurrentLifePointBar();
     }
 
+    drawMaxLifePointBar() {
+        ctx.save();
+        ctx.fillStyle = "#FF0000";
+        ctx.fillRect(spritesGroundSize * this.position.X + spritesGroundSize/3, spritesGroundSize * this.position.Y, this.lifePointBarSize, 3);
+        ctx.restore();
+    }
+
+    drawCurrentLifePointBar() {
+        ctx.save();
+        ctx.fillStyle = "#57ff11";
+        ctx.fillRect(spritesGroundSize * this.position.X + spritesGroundSize/3, spritesGroundSize * this.position.Y, this.lifePointBarSize, 3);
+        ctx.restore();
+    }
+
+
+}
+
+class Bullet {
+    constructor() {
+
+    }
+}
+
+function ennemyFactory() {
 
 }
