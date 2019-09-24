@@ -18,11 +18,19 @@ class Turret {
     }
 
     drawTurret() {
+        //Est la distance entre la tourrelle et le joueur
+        var distBetweenTurretEnnemy = {
+            X: this.position.X - vert.position.X,
+            Y: this.position.Y - vert.position.Y
+        }
+        var angle = (this.position.X - vert.position.X > 0) ? (-90 * Math.PI / 180):(90 * Math.PI / 180);
+
+
         ctx.drawImage(this.turretBase, spritesGroundSize * this.position.X, spritesGroundSize * this.position.Y, spritesGroundSize, spritesGroundSize);
         ctx.save();
         ctx.translate(spritesGroundSize * this.position.X + spritesGroundSize / 2, spritesGroundSize * this.position.Y + spritesGroundSize / 2);
-        ctx.rotate((Math.atan((this.position.Y - vert.position.Y) / (this.position.X - vert.position.X))) + (-90 * Math.PI / 180));
-        console.log((Math.atan((this.position.Y - vert.position.Y) / (this.position.X - vert.position.X))) + (-90 * Math.PI / 180));
+        // la rotation relative à la position du joueur - 90 degrés pour que le cannon pointe le joueur
+        ctx.rotate((Math.atan(distBetweenTurretEnnemy.Y / distBetweenTurretEnnemy.X)) + angle);
         ctx.drawImage(this.level, -50, -50, spritesGroundSize, spritesGroundSize);
         ctx.restore();
     }
