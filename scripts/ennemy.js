@@ -16,7 +16,7 @@ class Ennemy {
 
     //permet de dessiner l'ennemi
     drawEnnemy() {
-        ctx.drawImage(this.type, this.position.X, this.position.Y, 100, 100)
+        ctx.drawImage(this.type, spritesGroundSize * this.position.X, spritesGroundSize * this.position.Y, 100, 100)
     }
 
 

@@ -14,26 +14,23 @@ function draw() {
 
 //Cette fonction met à jour les éléments
 function update() {
-
+    if(key_left){
+        vert.position.X -= 0.1;
+    }
+    if(key_right){
+        vert.position.X += 0.1;
+    }
+    if(key_up){
+        vert.position.Y -= 0.1;
+    }
+    if(key_down){
+        vert.position.Y += 0.1;
+    }
 
 }
 
 //cette fonction représente la gameloop du jeu
 function loop(){
-
-    if(key_left){
-        vert.position.X -= 10;
-    }
-    if(key_right){
-        vert.position.X += 10;
-    }
-    if(key_up){
-        vert.position.Y -= 10;
-    }
-    if(key_down){
-        vert.position.Y += 10;
-    }
-
     update();
     draw();
     requestAnimationFrame(loop);

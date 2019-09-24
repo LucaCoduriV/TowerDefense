@@ -19,7 +19,12 @@ class Turret {
 
     drawTurret() {
         ctx.drawImage(this.turretBase, spritesGroundSize * this.position.X, spritesGroundSize * this.position.Y, spritesGroundSize, spritesGroundSize);
-        ctx.drawImage(this.level, spritesGroundSize * this.position.X, spritesGroundSize * this.position.Y, spritesGroundSize, spritesGroundSize);
+        ctx.save();
+        ctx.translate(spritesGroundSize * this.position.X + spritesGroundSize / 2, spritesGroundSize * this.position.Y + spritesGroundSize / 2);
+        ctx.rotate((Math.atan((this.position.Y - vert.position.Y) / (this.position.X - vert.position.X))) + (-90 * Math.PI / 180));
+        console.log((Math.atan((this.position.Y - vert.position.Y) / (this.position.X - vert.position.X))) + (-90 * Math.PI / 180));
+        ctx.drawImage(this.level, -50, -50, spritesGroundSize, spritesGroundSize);
+        ctx.restore();
     }
 
     shoot() {
@@ -30,7 +35,4 @@ class Turret {
 
     }
 
-    followEnnemy() {
-
-    }
 }
