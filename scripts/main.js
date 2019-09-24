@@ -2,6 +2,10 @@ let canvas;
 let ctx;
 let sprites;
 
+
+
+
+
 //quand la page à chargé tous ses fichiers
 window.onload = function () {
     main();
@@ -12,16 +16,10 @@ function main() {
     canvas = document.getElementById("canvas");
     ctx = canvas.getContext("2d");
 
-    try{
-        loadSprites();
-        console.log("sprites loaded")
-    }catch (e) {
-        console.log(e)
-    }
+    loadSprites();
+    console.log("sprites loaded");
 
     loop();
-
-
 
 
 }

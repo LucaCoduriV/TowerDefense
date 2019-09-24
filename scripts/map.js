@@ -24,8 +24,8 @@ class Map {
     }
 }
 
+//Création du tableau contenant les 299 sprites du jeux
 function loadSprites() {
-    //Création du tableau contenant les 299 sprites du jeux
     sprites = new Array(300);
     for (var i = 1; i <= 299; i++) {
         sprites[i] = new Image();
