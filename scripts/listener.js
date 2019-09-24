@@ -1,9 +1,12 @@
 document.addEventListener("keydown", handleKeyDown, true);
 document.addEventListener("keyup", handleKeyUp, true);
+document.addEventListener("mousemove", handleMouseMove);
+
 var key_left = false;
 var key_up = false;
 var key_down = false;
 var key_right = false;
+
 
 //permet de détecter quand une touche est appuyée
 function handleKeyDown(event){
@@ -42,4 +45,8 @@ function handleKeyUp(event) {
             key_right = false;
             break;
     }
+}
+function handleMouseMove(event) {
+    console.log(event.page.X);
+    console.log(event.page.Y);
 }
