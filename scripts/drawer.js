@@ -2,10 +2,13 @@
 map = new Map();
 vert = new Ennemy(1, 100, ennemyType.GREEN);
 
+
 //cette fonction dessine sur le canevas
 function draw() {
     map.drawMap();
     vert.drawEnnemy();
+    defense.drawTurret();
+
 
 }
 
