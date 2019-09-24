@@ -14,7 +14,7 @@ class Ennemy {
         this.type = new Image();
         this.type.src = type;
         this.position = {X: 0, Y: 0};
-        this.lifePointBarSize = 20;
+        this.lifePointBarSize = 30;
     }
 
     //permet de dessiner l'ennemi
@@ -25,26 +25,22 @@ class Ennemy {
     }
 
     drawMaxLifePointBar() {
+
         ctx.save();
         ctx.fillStyle = "#FF0000";
-        ctx.fillRect(spritesGroundSize * this.position.X + spritesGroundSize/3, spritesGroundSize * this.position.Y, this.lifePointBarSize, 3);
+        ctx.fillRect(spritesGroundSize * this.position.X + spritesGroundSize/3, spritesGroundSize * this.position.Y + 20, this.lifePointBarSize, 3);
         ctx.restore();
     }
 
     drawCurrentLifePointBar() {
+        var currentLifeBarSize = this.lifePoint * this.lifePointBarSize / this.maxLifePoint;
         ctx.save();
         ctx.fillStyle = "#57ff11";
-        ctx.fillRect(spritesGroundSize * this.position.X + spritesGroundSize/3, spritesGroundSize * this.position.Y, this.lifePointBarSize, 3);
+        ctx.fillRect(spritesGroundSize * this.position.X + spritesGroundSize/3, spritesGroundSize * this.position.Y + 20, currentLifeBarSize, 3);
         ctx.restore();
     }
 
 
-}
-
-class Bullet {
-    constructor() {
-
-    }
 }
 
 function ennemyFactory() {

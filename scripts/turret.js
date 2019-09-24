@@ -44,3 +44,8 @@ class Turret {
     }
 
 }
+class Bullet {
+    constructor() {
+
+    }
+}

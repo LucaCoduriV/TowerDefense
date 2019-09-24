@@ -1,6 +1,6 @@
 //variable pour tester les objets
 map = new Map();
-vert = new Ennemy(1, 100, ennemyType.GREEN);
+vert = new Ennemy(1, 200, ennemyType.GREEN);
 
 
 //cette fonction dessine sur le canevas
