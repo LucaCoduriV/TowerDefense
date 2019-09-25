@@ -36,6 +36,7 @@ function update(timestamp) {
     for (var i = 0; i < ennemies.length; i++) {
         if (ennemies[i].isReadyToUse) ennemies[i].followRoad();
     }
+    bullet.move();
 
 }
 

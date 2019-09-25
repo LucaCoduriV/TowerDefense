@@ -16,7 +16,6 @@ class Bullet {
         ctx.save();
         ctx.translate(this.position.X, this.position.Y);
         ctx.rotate(this.angle * Math.PI / 180);
-        this.move();
         ctx.drawImage(this.sprite, -spritesGroundSize / 2, -spritesGroundSize / 2, spritesGroundSize, spritesGroundSize); //-spritesGroudSize / 2 permet de placer le sprite en gardant l'origine au milieu de l'image
         ctx.restore();
     }

@@ -41,7 +41,7 @@ class Ennemy {
         ctx.restore();
     }
     followRoad(){
-        this.position.X += 0.02;
+        this.position.X += 0.005;
     }
 
 
@@ -59,7 +59,5 @@ function ennemyFactory(ennemyNumber,positionX,positionY, time) {
             clearInterval(inter);
         }
     },time)
-
-
     return arr;
 }
