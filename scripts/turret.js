@@ -7,16 +7,16 @@ class Bullet {
     constructor(angle, speed, positionX, positionY) {
         this.sprite = new Image();
         this.sprite.src = "assets/sprites/towerDefense_tile297.png";
-        this.position ={X: positionX, Y:positionY};
+        this.position = {X: positionX, Y:positionY};
         this.speed = speed;
         this.angle = angle;
     }
 
     drawBullet() {
         ctx.save();
-        ctx.translate(spritesGroundSize * this.position.X + spritesGroundSize / 2, spritesGroundSize * this.position.Y + spritesGroundSize / 2);
+        ctx.translate(this.position.X, this.position.Y);
         ctx.rotate(this.angle * Math.PI / 180);
-        ctx.drawImage(this.sprite, this.position.X, this.position.Y, spritesGroundSize, spritesGroundSize);
+        ctx.drawImage(this.sprite, -spritesGroundSize / 2, -spritesGroundSize / 2, spritesGroundSize, spritesGroundSize); //-spritesGroudSize / 2 permet de placer le sprite en gardant l'origine au milieu de l'image
         ctx.restore();
     }
 
