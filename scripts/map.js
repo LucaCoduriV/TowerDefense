@@ -23,19 +23,19 @@ class Map {
     getRoadDirection(ActualPositionX, ActualPositionY){
         var directionToTake = [];
         var roadId = 93;
-        var actualSquare = {
-            X: Math.ceil(ActualPositionX/100)-1,
-            Y: Math.ceil(ActualPositionY/100)-1
-        }
+        /*var actualSquare = {
+            X: Math.ceil(ActualPositionX/spritesGroundSize)-1,
+            Y: Math.ceil(ActualPositionY/spritesGroundSize)-1
+        }*/
         console.log(actualSquare);
         //check si la route continue à droite on envoie 0
-        if(this.cords[actualSquare.Y][actualSquare.X+1] == roadId) directionToTake.push(0);
+        if(this.cords[ActualPositionY][ActualPositionX+1] == roadId) directionToTake.push(0);
         //check si la route continue en bas on envoie 1
-        if(this.cords[actualSquare.Y+1][actualSquare.X] == roadId) directionToTake.push(1);
+        if(this.cords[ActualPositionY+1][ActualPositionX] == roadId) directionToTake.push(1);
         //check si la route continue à gauche on envoie 2
-        if(this.cords[actualSquare.Y][actualSquare.X-1] == roadId) directionToTake.push(2);
+        if(this.cords[ActualPositionY][ActualPositionX-1] == roadId) directionToTake.push(2);
         //check si la route continue en haut on envoie 3
-        if(this.cords[actualSquare.Y-1][actualSquare.X] == roadId) directionToTake.push(3);
+        if(this.cords[ActualPositionY-1][ActualPositionX] == roadId) directionToTake.push(3);
 
 
 

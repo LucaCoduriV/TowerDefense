@@ -7,7 +7,7 @@ var ennemyType = {
 
 //cette classe représente les ennemis que les tourelles devront abattre
 class Ennemy {
-    constructor(speed, maxLifePoint, type,positionX = 0, positionY = 0, isReady = false) {
+    constructor(speed, maxLifePoint, type, positionX = 0, positionY = 0, isReady = false) {
         this.speed = speed;
         this.lifePoint = maxLifePoint;
         this.maxLifePoint = maxLifePoint;
@@ -40,24 +40,39 @@ class Ennemy {
         ctx.fillRect(spritesGroundSize * this.position.X + spritesGroundSize / 3, spritesGroundSize * this.position.Y + 20, currentLifeBarSize, this.lifePointBarSizeHeight * spritesGroundSize);
         ctx.restore();
     }
-    followRoad(){
+
+    followRoad() {
+        var lastPosition = this.getActualSquare(this.position.X, this.position.Y)
+
+        if () {
+
+        }
+
         this.position.X += 0.005;
+    }
+
+    getActualSquare(ActualPositionX, ActualPositionY) {
+        var actualSquare = {
+            X: Math.ceil(ActualPositionX / spritesGroundSize) - 1,
+            Y: Math.ceil(ActualPositionY / spritesGroundSize) - 1
+        }
+        return actualSquare;
     }
 
 
 }
 
-function ennemyFactory(ennemyNumber,positionX,positionY, time) {
+function ennemyFactory(ennemyNumber, positionX, positionY, time) {
     var numberEnnemyCreated = 0;
     var arr = [];
     var inter = setInterval(function () {
 
-        if(numberEnnemyCreated < ennemyNumber){
-            arr.push(new Ennemy(1, 200, ennemyType.GREEN, positionX,positionY,true));
+        if (numberEnnemyCreated < ennemyNumber) {
+            arr.push(new Ennemy(1, 200, ennemyType.GREEN, positionX, positionY, true));
             numberEnnemyCreated++;
-        }else{
+        } else {
             clearInterval(inter);
         }
-    },time)
+    }, time)
     return arr;
 }
