@@ -8,7 +8,7 @@ var key_down = false;
 var key_right = false;
 
 
-//permet de détecter quand une touche est appuyée
+//permet de détecter quand une touche est appuyée.
 function handleKeyDown(event){
     switch (event.code) {
         default:

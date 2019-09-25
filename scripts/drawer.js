@@ -1,4 +1,4 @@
-//variable pour tester les objets
+//variable pour tester les objets.
 map = new Map();
 vert = new Ennemy(1, 200, ennemyType.GREEN);
 var turretsPositions = new Array(map.cords.length);

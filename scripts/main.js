@@ -8,7 +8,7 @@ var defense1 = new Turret(levels.level1, 10, 1);
 
 
 
-//quand la page à chargé tous ses fichiers
+//quand la page à chargé tous ses fichiers.
 window.onload = function () {
     main();
 }

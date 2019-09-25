@@ -2,7 +2,7 @@ const spritesGroundSize = 100;
 
 class Map {
     constructor() {
-        //ce tableau indique quelle sprite doit se trouver à chaque emplacement du cadrillage
+        //ce tableau indique quelle sprite doit se trouver à chaque emplacement du cadrillage.
         this.cords = [
             [70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70],
             [93, 93, 93, 93,93, 93, 93, 93, 93, 93, 93, 93],

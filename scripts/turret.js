@@ -13,7 +13,7 @@ class Turret {
     }
 
     drawTurret() {
-        //Est la distance entre la tourrelle et le joueur
+        //Est la distance entre la tourrelle et le joueur.
         var distBetweenTurretEnnemy = {
             X: this.position.X - vert.position.X,
             Y: this.position.Y - vert.position.Y

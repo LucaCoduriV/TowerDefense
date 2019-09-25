@@ -1,4 +1,4 @@
-//ennemyType est une liste contenant les différents ennemis
+//ennemyType est une liste contenant les différents ennemis.
 let ennemyType = {
     GREEN: "assets/sprites/towerDefense_tile245.png",
     RED: "assets/sprites/towerDefense_tile246.png",
