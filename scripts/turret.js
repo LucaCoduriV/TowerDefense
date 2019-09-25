@@ -3,6 +3,32 @@ let levels = {
     level2: "assets/sprites/towerDefense_tile250.png"
 }
 
+class Bullet {
+    constructor(angle, speed, positionX, positionY) {
+        this.sprite = new Image();
+        this.sprite.src = "assets/sprites/towerDefense_tile297.png";
+        this.position ={X: positionX, Y:positionY};
+        this.speed = speed;
+        this.angle = angle;
+    }
+
+    drawBullet() {
+        ctx.save();
+        ctx.translate(spritesGroundSize * this.position.X + spritesGroundSize / 2, spritesGroundSize * this.position.Y + spritesGroundSize / 2);
+        ctx.rotate(this.angle * Math.PI / 180);
+        ctx.drawImage(this.sprite, this.position.X, this.position.Y, spritesGroundSize, spritesGroundSize);
+        ctx.restore();
+    }
+
+    move() {
+
+    }
+
+    hitTarget() {
+
+    }
+}
+
 class Turret {
     constructor(level, positionX, positionY) {
         this.sprite = new Image();
@@ -11,7 +37,6 @@ class Turret {
         this.turretBaseSprite = new Image();
         this.turretBaseSprite.src = "assets/sprites/towerDefense_tile181.png";
         this.fireRate;
-        this
     }
 
     drawTurret() {
@@ -40,9 +65,4 @@ class Turret {
 
     }
 
-}
-class Bullet {
-    constructor() {
-
-    }
 }

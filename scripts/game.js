@@ -4,6 +4,7 @@ function draw() {
     vert.drawEnnemy();
     defense.drawTurret();
     defense1.drawTurret();
+    bullet.drawBullet();
 
 
 }

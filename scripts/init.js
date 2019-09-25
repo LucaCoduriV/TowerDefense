@@ -3,6 +3,7 @@ let ctx;
 let sprites;
 var defense = new Turret(levels.level1, 10, 4);
 var defense1 = new Turret(levels.level1, 10, 1);
+var bullet = new Bullet(90, 0.1, 600,300)
 var map = new Map();
 var vert = new Ennemy(1, 200, ennemyType.GREEN);
 var turretsPositions = new Array(map.cords.length);
@@ -28,6 +29,7 @@ function init() {
     console.log("sprites loaded");
 
     loop();
+
 
 
 }
