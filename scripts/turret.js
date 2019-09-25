@@ -18,7 +18,7 @@ class Turret {
             X: this.position.X - vert.position.X,
             Y: this.position.Y - vert.position.Y
         }
-        var angle = (this.position.X - vert.position.X > 0) ? (-90 * Math.PI / 180):(90 * Math.PI / 180);
+        var angle = (this.position.X - vert.position.X > 0) ? (-90 * Math.PI / 180) : (90 * Math.PI / 180);
 
 
         ctx.drawImage(this.turretBase, spritesGroundSize * this.position.X, spritesGroundSize * this.position.Y, spritesGroundSize, spritesGroundSize);
@@ -30,6 +30,26 @@ class Turret {
         ctx.restore();
     }
 
+    distBetweenTurretEnnemy(ennemy) {
+        var distX = this.position.X - ennemy.position.X;
+        var distY = this.position.Y - ennemy.position.Y;
+
+        return Math.sqrt(Math.pow(distX, 2) + Math.pow(distY, 2));
+    }
+
+    lookForNearestEnnemy(ennemies) {
+        var nearestId;
+        var distance;
+
+        for (var i = 0; i < ennemies.length; i++) {
+            if (this.distBetweenTurretEnnemy(ennemies[i]) < distance){
+                distance = this.distBetweenTurretEnnemy(ennemies[i]);
+                nearestId = i;
+            }
+        }
+        return nearestId;
+    }
+
     shoot() {
 
     }
@@ -39,6 +59,7 @@ class Turret {
     }
 
 }
+
 class Bullet {
     constructor() {
 

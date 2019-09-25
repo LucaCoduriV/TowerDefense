@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="05a67e6b-b10a-48e5-93b2-2b0319590114" name="RaspberryPi" url="http://80.219.216.167">
+        <fileTransfer host="80.219.216.167" port="21" rootFolder="/var/www/html/TowerDefense/">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+          <option name="port" value="21" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
