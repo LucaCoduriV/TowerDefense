@@ -47,6 +47,6 @@ function handleKeyUp(event) {
     }
 }
 function handleMouseMove(event) {
-    //console.log(event.clientX);
+   // console.log(event.clientX);
     //console.log(event.clientY);
 }
