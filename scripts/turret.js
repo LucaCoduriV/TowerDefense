@@ -5,11 +5,13 @@ let levels = {
 
 class Turret {
     constructor(level, positionX, positionY) {
-        this.level = new Image();
-        this.level.src = level;
+        this.sprite = new Image();
+        this.sprite.src = level;
         this.position = {X: positionX, Y: positionY};
-        this.turretBase = new Image();
-        this.turretBase.src = "assets/sprites/towerDefense_tile181.png";
+        this.turretBaseSprite = new Image();
+        this.turretBaseSprite.src = "assets/sprites/towerDefense_tile181.png";
+        this.fireRate;
+        this
     }
 
     drawTurret() {
@@ -21,12 +23,12 @@ class Turret {
         var angle = (this.position.X - vert.position.X > 0) ? (-90 * Math.PI / 180):(90 * Math.PI / 180);
 
 
-        ctx.drawImage(this.turretBase, spritesGroundSize * this.position.X, spritesGroundSize * this.position.Y, spritesGroundSize, spritesGroundSize);
+        ctx.drawImage(this.turretBaseSprite, spritesGroundSize * this.position.X, spritesGroundSize * this.position.Y, spritesGroundSize, spritesGroundSize);
         ctx.save();
         ctx.translate(spritesGroundSize * this.position.X + spritesGroundSize / 2, spritesGroundSize * this.position.Y + spritesGroundSize / 2);
         // la rotation relative à la position du joueur - 90 degrés pour que le cannon pointe le joueur
         ctx.rotate((Math.atan(distBetweenTurretEnnemy.Y / distBetweenTurretEnnemy.X)) + angle);
-        ctx.drawImage(this.level, -50, -50, spritesGroundSize, spritesGroundSize);
+        ctx.drawImage(this.sprite, -50, -50, spritesGroundSize, spritesGroundSize);
         ctx.restore();
     }
 
