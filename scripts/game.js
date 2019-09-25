@@ -21,8 +21,6 @@ function update() {
     if(key_down){
         vert.position.Y += 0.1;
     }
-    console.log(defense.lookForNearestEnnemy(ennemies));
-
 }
 
 //cette fonction représente la gameloop du jeu
