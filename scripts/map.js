@@ -1,5 +1,3 @@
-const spritesGroundSize = 100;
-
 class Map {
     constructor() {
         //ce tableau indique quelle sprite doit se trouver à chaque emplacement du cadrillage.
