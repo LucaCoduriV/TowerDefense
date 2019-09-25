@@ -16,7 +16,6 @@ class Map {
         for (var i = 0; i < this.cords.length; i++) {
             for (var j = 0; j < this.cords[i].length; j++) {
                 ctx.drawImage(sprites[this.cords[i][j]], j * spritesGroundSize, i * spritesGroundSize, spritesGroundSize, spritesGroundSize);
-
             }
         }
     }

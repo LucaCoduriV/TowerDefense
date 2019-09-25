@@ -39,10 +39,17 @@ class Ennemy {
         ctx.fillRect(spritesGroundSize * this.position.X + spritesGroundSize / 3, spritesGroundSize * this.position.Y + 20, currentLifeBarSize, this.lifePointBarSizeHeight * spritesGroundSize);
         ctx.restore();
     }
+    followRoad(){
+        this.position.X += 0.02;
+    }
 
 
 }
 
-function ennemyFactory() {
-
+function ennemyFactory(ennemyNumber) {
+    var arr = [];
+    for (i = 0; i < ennemyNumber; i++) {
+        arr.push(new Ennemy(1, 200, ennemyType.GREEN));
+    }
+    return arr;
 }

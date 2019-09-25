@@ -1,6 +1,7 @@
 let canvas;
 let ctx;
 let sprites;
+var lastRender = 0;
 var defense = new Turret(levels.level1, 10, 4);
 var defense1 = new Turret(levels.level1, 10, 1);
 var bullet = new Bullet(79, 2, 600,300);
@@ -12,14 +13,18 @@ var vert2 = new Ennemy(1, 200, ennemyType.GREEN);
 vert.position.X =  1;
 vert.position.Y =  1;
 
-vert2.position.X = 2;
-vert2.position.Y = 2;
+var ennemies = ennemyFactory(10);
+var canEnnemyMove = new Array(ennemies.length);
+canEnnemyMove.fill(false);
+var ennemyId = 0;
 
-var ennemies = [vert,vert2];
 var turretsPositions = new Array(map.cords.length);
+
+
 for (var i = 0; i < turretsPositions.length; i++) {
-    turretsPositions[i] = new Array(map.cords[0].length)
+    turretsPositions[i] = new Array(map.cords[0].length);
 }
+
 
 
 
@@ -38,8 +43,6 @@ function init() {
     loadSprites();
     console.log("sprites loaded");
 
-    loop();
-
-
+    requestAnimationFrame(loop);
 
 }
