@@ -1,13 +1,19 @@
 //tuto https://www.sitepoint.com/quick-tip-game-loop-in-javascript/
+//tuto2 https://spicyyoghurt.com/tutorials/html5-javascript-game-development/collision-detection-physics
+//tuto3 https://isaacsukin.com/news/2015/01/detailed-explanation-javascript-game-loops-and-timing#choosing-timestep
 //cette fonction dessine sur le canevas
 function draw(secondsPassed) {
     map.drawMap();
     //vert.drawEnnemy();
-    defense.drawTurret(ennemies);
-    defense1.drawTurret(ennemies);
+    if(ennemies[0] != null){
+        defense.drawTurret(ennemies);
+        defense1.drawTurret(ennemies);
+    }
+
     bullet.drawBullet();
+
     for (var i = 0; i < ennemies.length; i++) {
-        ennemies[i].drawEnnemy();
+        if (ennemies[i].isReadyToUse) ennemies[i].drawEnnemy();
     }
 
     drawFPS(secondsPassed);
@@ -27,6 +33,9 @@ function update(timestamp) {
     if (key_down) {
         ennemies[0].position.Y += 0.1;
     }
+    for (var i = 0; i < ennemies.length; i++) {
+        if (ennemies[i].isReadyToUse) ennemies[i].followRoad();
+    }
 
 }
 
@@ -45,7 +54,7 @@ function loop(timestamp) {
     requestAnimationFrame(loop);
 }
 
-function drawFPS(secondsPassed){
+function drawFPS(secondsPassed) {
     var fps = Math.round(1 / secondsPassed);
     //Draw number to the screen
     ctx.font = '25px Arial';

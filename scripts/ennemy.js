@@ -7,15 +7,16 @@ var ennemyType = {
 
 //cette classe représente les ennemis que les tourelles devront abattre
 class Ennemy {
-    constructor(speed, maxLifePoint, type) {
+    constructor(speed, maxLifePoint, type,positionX = 0, positionY = 0, isReady = false) {
         this.speed = speed;
         this.lifePoint = maxLifePoint;
         this.maxLifePoint = maxLifePoint;
         this.sprite = new Image();
         this.sprite.src = type;
-        this.position = {X: 0, Y: 0};
+        this.position = {X: positionX, Y: positionY};
         this.lifePointBarSizeWidth = 0.3;
         this.lifePointBarSizeHeight = 0.03;
+        this.isReadyToUse = isReady;
     }
 
     //permet de dessiner l'ennemi
@@ -46,10 +47,19 @@ class Ennemy {
 
 }
 
-function ennemyFactory(ennemyNumber) {
+function ennemyFactory(ennemyNumber,positionX,positionY, time) {
+    var numberEnnemyCreated = 0;
     var arr = [];
-    for (i = 0; i < ennemyNumber; i++) {
-        arr.push(new Ennemy(1, 200, ennemyType.GREEN));
-    }
+    var inter = setInterval(function () {
+
+        if(numberEnnemyCreated < ennemyNumber){
+            arr.push(new Ennemy(1, 200, ennemyType.GREEN, positionX,positionY,true));
+            numberEnnemyCreated++;
+        }else{
+            clearInterval(inter);
+        }
+    },time)
+
+
     return arr;
 }

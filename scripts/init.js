@@ -2,8 +2,8 @@ let canvas;
 let ctx;
 let sprites;
 var lastRender = 0;
-var defense = new Turret(levels.level1, 10, 4);
-var defense1 = new Turret(levels.level1, 10, 1);
+var defense = new Turret(levels.level1, 10, 2);
+var defense1 = new Turret(levels.level1, 5, 2);
 var bullet = new Bullet(79, 2, 600,300);
 var map = new Map();
 
@@ -13,10 +13,9 @@ var vert2 = new Ennemy(1, 200, ennemyType.GREEN);
 vert.position.X =  1;
 vert.position.Y =  1;
 
-var ennemies = ennemyFactory(10);
-var canEnnemyMove = new Array(ennemies.length);
-canEnnemyMove.fill(false);
-var ennemyId = 0;
+var ennemies = ennemyFactory(10,1,1,1000);
+
+
 
 var turretsPositions = new Array(map.cords.length);
 
