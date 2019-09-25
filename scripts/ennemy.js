@@ -14,30 +14,29 @@ class Ennemy {
         this.sprite = new Image();
         this.sprite.src = type;
         this.position = {X: 0, Y: 0};
-        this.lifePointBarSizeWidth = 30;
-        this.lifePointBarSizeHeight = 3;
+        this.lifePointBarSizeWidth = 0.3;
+        this.lifePointBarSizeHeight = 0.03;
     }
 
     //permet de dessiner l'ennemi
     drawEnnemy() {
-        ctx.drawImage(this.sprite, spritesGroundSize * this.position.X, spritesGroundSize * this.position.Y, 100, 100);
+        ctx.drawImage(this.sprite, spritesGroundSize * this.position.X, spritesGroundSize * this.position.Y, spritesGroundSize, spritesGroundSize);
         this.drawMaxLifePointBar();
         this.drawCurrentLifePointBar();
     }
 
     drawMaxLifePointBar() {
-
         ctx.save();
         ctx.fillStyle = "#FF0000";
-        ctx.fillRect(spritesGroundSize * this.position.X + spritesGroundSize / 3, spritesGroundSize * this.position.Y + 20, this.lifePointBarSizeWidth, this.lifePointBarSizeHeight);
+        ctx.fillRect(spritesGroundSize * this.position.X + spritesGroundSize / 3, spritesGroundSize * this.position.Y + 20, this.lifePointBarSizeWidth * spritesGroundSize, this.lifePointBarSizeHeight * spritesGroundSize);
         ctx.restore();
     }
 
     drawCurrentLifePointBar() {
-        var currentLifeBarSize = this.lifePoint * this.lifePointBarSizeWidth / this.maxLifePoint;
+        var currentLifeBarSize = this.lifePoint * this.lifePointBarSizeWidth / this.maxLifePoint * spritesGroundSize;
         ctx.save();
         ctx.fillStyle = "#57ff11";
-        ctx.fillRect(spritesGroundSize * this.position.X + spritesGroundSize / 3, spritesGroundSize * this.position.Y + 20, currentLifeBarSize, this.lifePointBarSizeHeight);
+        ctx.fillRect(spritesGroundSize * this.position.X + spritesGroundSize / 3, spritesGroundSize * this.position.Y + 20, currentLifeBarSize, this.lifePointBarSizeHeight * spritesGroundSize);
         ctx.restore();
     }
 

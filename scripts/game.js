@@ -2,11 +2,10 @@
 function draw() {
     map.drawMap();
     vert.drawEnnemy();
-    defense.drawTurret();
-    defense1.drawTurret();
+    vert2.drawEnnemy();
+    defense.drawTurret(ennemies);
+    defense1.drawTurret(ennemies);
     bullet.drawBullet();
-
-
 }
 
 //Cette fonction met à jour les éléments
