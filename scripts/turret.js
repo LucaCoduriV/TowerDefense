@@ -41,6 +41,7 @@ class Turret {
     }
 
     drawTurret(ennemies) {
+        //ces lignes de codes sont appliqué seulement quand un ennemis se trouve sur la map
         try{
             var nearestEnnemy = this.lookForNearestEnnemy(ennemies);
 
@@ -54,6 +55,7 @@ class Turret {
         ctx.drawImage(this.turretBaseSprite, spritesGroundSize * this.position.X, spritesGroundSize * this.position.Y, spritesGroundSize, spritesGroundSize);
         ctx.save();
         ctx.translate(spritesGroundSize * this.position.X + spritesGroundSize / 2, spritesGroundSize * this.position.Y + spritesGroundSize / 2);
+        //ces lignes de codes sont appliqué seulement quand un ennemis se trouve sur la map
         // la rotation relative à la position du joueur - 90 degrés pour que le cannon pointe le joueur
         try{
             ctx.rotate((Math.atan(this.distBetweenTurretEnnemyY(ennemies, nearestEnnemy) / this.distBetweenTurretEnnemyX(ennemies, nearestEnnemy))) + angle);
