@@ -9,6 +9,10 @@ class Map {
             [24, 24, 45, 24, 24, 24, 24, 92, 93, 94, 24, 24],
             [24, 24, 24, 24, 24, 24, 24, 92, 93, 94, 24, 24]
         ];
+        this.startCords = {X:0,Y:1};
+        this.endCords = {X:0,Y:1};
+        this.waypoints = [];
+        this.setWaypoints();
     }
 
     //cette méthode affiche la map sur le canvas
@@ -29,17 +33,37 @@ class Map {
         }*/
         console.log(actualSquare);
         //check si la route continue à droite on envoie 0
-        if(this.cords[ActualPositionY][ActualPositionX+1] == roadId) directionToTake.push(0);
+        if(this.cords[ActualPositionY][ActualPositionX+1] === roadId) directionToTake.push(0);
         //check si la route continue en bas on envoie 1
-        if(this.cords[ActualPositionY+1][ActualPositionX] == roadId) directionToTake.push(1);
+        if(this.cords[ActualPositionY+1][ActualPositionX] === roadId) directionToTake.push(1);
         //check si la route continue à gauche on envoie 2
-        if(this.cords[ActualPositionY][ActualPositionX-1] == roadId) directionToTake.push(2);
+        if(this.cords[ActualPositionY][ActualPositionX-1] === roadId) directionToTake.push(2);
         //check si la route continue en haut on envoie 3
-        if(this.cords[ActualPositionY-1][ActualPositionX] == roadId) directionToTake.push(3);
+        if(this.cords[ActualPositionY-1][ActualPositionX] === roadId) directionToTake.push(3);
 
 
 
         return directionToTake;
+    }
+    setWaypoints(){
+        var numberOfWaypoint = 0;
+        console.log("coucou");
+        for(var i = 0; i < this.cords.length; i++){
+            for(var j = 0; j<this.cords[i].length;j++){
+                if(this.cords[i][j] === 93){
+                    this.waypoints.push(new Waypoint(numberOfWaypoint,j*spritesGroundSize+spritesGroundSize/2,i*spritesGroundSize+spritesGroundSize/2));
+                    console.log(numberOfWaypoint);
+                    numberOfWaypoint++;
+                }
+            }
+        }
+    }
+}
+
+class Waypoint{
+    constructor(id, positionX, positionY){
+        this.id = id;
+        this.position = {X: positionX, Y:positionY};
     }
 }
 

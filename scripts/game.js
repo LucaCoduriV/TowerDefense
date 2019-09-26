@@ -31,7 +31,14 @@ function update(timestamp) {
         ennemies[0].position.Y += 0.1;
     }
     for (var i = 0; i < ennemies.length; i++) {
-        if (ennemies[i].isReadyToUse) ennemies[i].followRoad();
+        if (ennemies[i].isReadyToUse) ennemies[i].followWaypoints();
+    }
+    try{
+        console.log(ennemies[0].position);
+        console.log(Math.floor(ennemies[0].position.X), Math.floor(ennemies[0].position.Y));
+        console.log("waypoint: " + ennemies[0].waypointId);
+    }catch (e) {
+        
     }
     bullet.move();
 

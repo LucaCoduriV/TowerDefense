@@ -17,6 +17,8 @@ class Ennemy {
         this.lifePointBarSizeWidth = 0.3;
         this.lifePointBarSizeHeight = 0.03;
         this.isReadyToUse = isReady;
+        this.angleToWalk;
+        this.waypointId = 0;
     }
 
     //permet de dessiner l'ennemi
@@ -41,14 +43,28 @@ class Ennemy {
         ctx.restore();
     }
 
-    followRoad() {
-        /*var lastPosition = this.getActualSquare(this.position.X, this.position.Y)
+    distBetweenEnnemyWaypointX(waypointId) {
+        return this.position.X*spritesGroundSize - map.waypoints[waypointId].position.X;
+    }
 
-        if () {
+    distBetweenEnnemyWaypointY(waypointId) {
+        return this.position.Y*spritesGroundSize - map.waypoints[waypointId].position.Y;
+    }
 
-        }*/
+    followWaypoints() {
+        this.angleToWalk = Math.atan(this.distBetweenEnnemyWaypointY(this.waypointId) / this.distBetweenEnnemyWaypointX(this.waypointId));
 
-        this.position.X += 0.005;
+        if (this.position.X < map.waypoints[this.waypointId].position.X) {
+            this.position.X += this.speed * Math.cos(this.angleToWalk * Math.PI / 180);
+        }
+        if(this.position.Y <= map.waypoints[this.waypointId].position.Y){
+            this.position.Y += this.speed * Math.sin(this.angleToWalk * Math.PI / 180);
+        }
+        if(Math.floor(this.position.X) === Math.floor((map.waypoints[this.waypointId].position.X)/spritesGroundSize) && Math.floor(this.position.Y) === Math.floor((map.waypoints[this.waypointId].position.Y)/spritesGroundSize)){
+            this.waypointId++;
+        }
+        console.log("waypoint X: " + Math.floor((map.waypoints[this.waypointId].position.X)/spritesGroundSize))
+
     }
 
     getActualSquare(ActualPositionX, ActualPositionY) {
@@ -68,7 +84,7 @@ function ennemyFactory(ennemyNumber, positionX, positionY, time) {
     var inter = setInterval(function () {
 
         if (numberEnnemyCreated < ennemyNumber) {
-            arr.push(new Ennemy(1, 200, ennemyType.GREEN, positionX, positionY, true));
+            arr.push(new Ennemy(0.005, 200, ennemyType.GREEN, positionX, positionY, true));
             numberEnnemyCreated++;
         } else {
             clearInterval(inter);
