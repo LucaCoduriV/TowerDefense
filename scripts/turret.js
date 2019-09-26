@@ -43,45 +43,42 @@ class Turret {
     drawTurret(ennemies) {
         //ces lignes de codes sont appliqué seulement quand un ennemis se trouve sur la map
         try{
-            var nearestEnnemy = this.lookForNearestEnnemy(ennemies);
-
-            var angle = this.acquireTarget(ennemies, nearestEnnemy);
+            var angle = this.acquireTargetAngle(ennemies);
         }catch(e){
             console.log("aucun ennemis détecté");
-            angle = 0;
         }
-
-
         ctx.drawImage(this.turretBaseSprite, spritesGroundSize * this.position.X, spritesGroundSize * this.position.Y, spritesGroundSize, spritesGroundSize);
         ctx.save();
         ctx.translate(spritesGroundSize * this.position.X + spritesGroundSize / 2, spritesGroundSize * this.position.Y + spritesGroundSize / 2);
         //ces lignes de codes sont appliqué seulement quand un ennemis se trouve sur la map
         // la rotation relative à la position du joueur - 90 degrés pour que le cannon pointe le joueur
-        try{
-            ctx.rotate((Math.atan(this.distBetweenTurretEnnemyY(ennemies, nearestEnnemy) / this.distBetweenTurretEnnemyX(ennemies, nearestEnnemy))) + angle);
-        }catch(e){
-            console.log("aucun ennemis détecté");
-        }
-
+        ctx.rotate(angle);
         ctx.drawImage(this.sprite, -spritesGroundSize/2, -spritesGroundSize/2, spritesGroundSize, spritesGroundSize);
         ctx.restore();
     }
 
 
-
-    acquireTarget(ennemies,id){
-        //Est la distance entre la tourrelle et le joueur.
-        var angle = (this.position.X * spritesGroundSize - ennemies[id].position.X > 0) ? (-90 * Math.PI / 180) : (90 * Math.PI / 180);
+    //Trouve l'angle que la tourrelle doit prendre pour viser l'ennemi le plus proche
+    acquireTargetAngle(ennemies){
+        var nearestEnnemy = this.lookForNearestEnnemy(ennemies);
+        var angleCorrection = (this.position.X * spritesGroundSize - ennemies[nearestEnnemy].position.X > 1) ? (-90 * Math.PI / 180) : (90 * Math.PI / 180);
+        var angle = ((Math.atan(this.distBetweenTurretEnnemyY(ennemies, nearestEnnemy) / this.distBetweenTurretEnnemyX(ennemies, nearestEnnemy))) + angleCorrection);
+        if(angle === Math.PI){
+            angle += (Math.PI);
+        }else if(angle === 0){
+            angle += (Math.PI);
+        }
         return angle;
     }
-
+    //Est la distance entre la tourrelle et le joueur sur l'axe X
     distBetweenTurretEnnemyX(ennemies,id){
         return this.position.X * spritesGroundSize - ennemies[id].position.X;
     }
+    //Est la distance entre la tourrelle et le joueur sur l'axe Y
     distBetweenTurretEnnemyY(ennemies,id){
         return this.position.Y * spritesGroundSize - ennemies[id].position.Y;
     }
-
+    //Est la distance entre la tourrelle et le joueur.
     distBetweenTurretEnnemy(ennemy) {
         var distX = this.position.X * spritesGroundSize - ennemy.position.X;
         var distY = this.position.Y * spritesGroundSize - ennemy.position.Y;
@@ -89,6 +86,7 @@ class Turret {
         return Math.sqrt(Math.pow(distX, 2) + Math.pow(distY, 2));
     }
 
+    //Cherche l'id de l'ennemi le plus proche de la tourrelle en question
     lookForNearestEnnemy(ennemies) {
         var nearestId;
         var distance = 0;

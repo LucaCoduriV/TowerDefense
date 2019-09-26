@@ -64,7 +64,7 @@ class Ennemy {
             this.waypointId++;
         }
         console.log("waypoint X: " + Math.floor((map.waypoints[this.waypointId].position.X)/spritesGroundSize))*/
-        this.position.X++;
+        //this.position.X++;
 
     }
 
