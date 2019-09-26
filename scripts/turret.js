@@ -7,7 +7,7 @@ class Bullet {
     constructor(angle, speed, positionX, positionY) {
         this.sprite = new Image();
         this.sprite.src = "assets/sprites/towerDefense_tile297.png";
-        this.position = {X: positionX, Y:positionY};
+        this.position = {X: positionX, Y: positionY};
         this.speed = speed;
         this.angle = angle;
     }
@@ -42,9 +42,9 @@ class Turret {
 
     drawTurret(ennemies) {
         //ces lignes de codes sont appliqué seulement quand un ennemis se trouve sur la map
-        try{
+        try {
             var angle = this.acquireTargetAngle(ennemies);
-        }catch(e){
+        } catch (e) {
             console.log("aucun ennemis détecté");
         }
         ctx.drawImage(this.turretBaseSprite, spritesGroundSize * this.position.X, spritesGroundSize * this.position.Y, spritesGroundSize, spritesGroundSize);
@@ -53,31 +53,34 @@ class Turret {
         //ces lignes de codes sont appliqué seulement quand un ennemis se trouve sur la map
         // la rotation relative à la position du joueur - 90 degrés pour que le cannon pointe le joueur
         ctx.rotate(angle);
-        ctx.drawImage(this.sprite, -spritesGroundSize/2, -spritesGroundSize/2, spritesGroundSize, spritesGroundSize);
+        ctx.drawImage(this.sprite, -spritesGroundSize / 2, -spritesGroundSize / 2, spritesGroundSize, spritesGroundSize);
         ctx.restore();
     }
 
 
     //Trouve l'angle que la tourrelle doit prendre pour viser l'ennemi le plus proche
-    acquireTargetAngle(ennemies){
+    acquireTargetAngle(ennemies) {
         var nearestEnnemy = this.lookForNearestEnnemy(ennemies);
         var angleCorrection = (this.position.X * spritesGroundSize - ennemies[nearestEnnemy].position.X > 1) ? (-90 * Math.PI / 180) : (90 * Math.PI / 180);
         var angle = ((Math.atan(this.distBetweenTurretEnnemyY(ennemies, nearestEnnemy) / this.distBetweenTurretEnnemyX(ennemies, nearestEnnemy))) + angleCorrection);
-        if(angle === Math.PI){
+        if (angle === Math.PI) {
             angle += (Math.PI);
-        }else if(angle === 0){
+        } else if (angle === 0) {
             angle += (Math.PI);
         }
         return angle;
     }
+
     //Est la distance entre la tourrelle et le joueur sur l'axe X
-    distBetweenTurretEnnemyX(ennemies,id){
+    distBetweenTurretEnnemyX(ennemies, id) {
         return this.position.X * spritesGroundSize - ennemies[id].position.X;
     }
+
     //Est la distance entre la tourrelle et le joueur sur l'axe Y
-    distBetweenTurretEnnemyY(ennemies,id){
+    distBetweenTurretEnnemyY(ennemies, id) {
         return this.position.Y * spritesGroundSize - ennemies[id].position.Y;
     }
+
     //Est la distance entre la tourrelle et le joueur.
     distBetweenTurretEnnemy(ennemy) {
         var distX = this.position.X * spritesGroundSize - ennemy.position.X;
@@ -92,11 +95,11 @@ class Turret {
         var distance = 0;
 
         for (var i = 0; i < ennemies.length; i++) {
-            if(i == 0){
+            if (i == 0) {
                 distance = this.distBetweenTurretEnnemy(ennemies[i]);
                 nearestId = i;
             }
-            if (this.distBetweenTurretEnnemy(ennemies[i]) < distance){
+            if (this.distBetweenTurretEnnemy(ennemies[i]) < distance) {
                 distance = this.distBetweenTurretEnnemy(ennemies[i]);
                 nearestId = i;
             }

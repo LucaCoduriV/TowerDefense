@@ -17,7 +17,7 @@ class Ennemy {
         this.lifePointBarSizeWidth = 0.3;
         this.lifePointBarSizeHeight = 0.03;
         this.isReadyToUse = isReady;
-        this.angleToWalk;
+        this.DirectionAngleInRadian;
         this.waypointId = 0;
     }
 
@@ -44,26 +44,27 @@ class Ennemy {
     }
 
     distBetweenEnnemyWaypointX(waypointId) {
-        return this.position.X - map.waypoints[waypointId].position.X;
+        return map.waypoints[this.waypointId].position.X - (this.position.X + spritesGroundSize/2);
     }
 
     distBetweenEnnemyWaypointY(waypointId) {
-        return this.position.Y - map.waypoints[waypointId].position.Y;
+        return map.waypoints[this.waypointId].position.Y - (this.position.Y + spritesGroundSize/2);
     }
 
     walk(angle){
-        this.position.X += this.speed * Math.cos(angle * Math.PI / 180);
-        this.position.Y += this.speed * Math.sin(angle * Math.PI / 180);
+        this.position.X += this.speed * Math.cos(angle);
+        this.position.Y += this.speed * Math.sin(angle);
     }
 
     followWaypoints() {
-        this.angleToWalk = Math.atan(this.distBetweenEnnemyWaypointY(this.waypointId) / this.distBetweenEnnemyWaypointX(this.waypointId));
+        this.DirectionAngleInRadian = Math.atan(this.distBetweenEnnemyWaypointY(this.waypointId) / this.distBetweenEnnemyWaypointX(this.waypointId));
 
-        if ((this.position.X - spritesGroundSize/2) !== map.waypoints[0].position.X) {
-            this.walk(this.angleToWalk);
+        if ((this.position.X + spritesGroundSize/2) !== map.waypoints[this.waypointId].position.X || (this.position.Y + spritesGroundSize/2) !== map.waypoints[this.waypointId].position.Y) {
+            this.walk(this.DirectionAngleInRadian);
+            console.log(Math.round(this.position.X),Math.round(this.position.Y) );
         }else{
-            console.log("j'ai atteind le waypoint!")
-            //this.waypointId++;
+            console.log("j'ai atteind le waypoint: " + this.waypointId);
+            this.waypointId++;
         }
 
 
