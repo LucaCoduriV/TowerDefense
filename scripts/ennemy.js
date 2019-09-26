@@ -23,7 +23,7 @@ class Ennemy {
 
     //permet de dessiner l'ennemi
     drawEnnemy() {
-        ctx.drawImage(this.sprite, spritesGroundSize * this.position.X, spritesGroundSize * this.position.Y, spritesGroundSize, spritesGroundSize);
+        ctx.drawImage(this.sprite, this.position.X, this.position.Y, spritesGroundSize, spritesGroundSize);
         this.drawMaxLifePointBar();
         this.drawCurrentLifePointBar();
     }
@@ -31,7 +31,7 @@ class Ennemy {
     drawMaxLifePointBar() {
         ctx.save();
         ctx.fillStyle = "#FF0000";
-        ctx.fillRect(spritesGroundSize * this.position.X + spritesGroundSize / 3, spritesGroundSize * this.position.Y + 20, this.lifePointBarSizeWidth * spritesGroundSize, this.lifePointBarSizeHeight * spritesGroundSize);
+        ctx.fillRect(this.position.X + spritesGroundSize / 3, this.position.Y + 20, this.lifePointBarSizeWidth * spritesGroundSize, this.lifePointBarSizeHeight * spritesGroundSize);
         ctx.restore();
     }
 
@@ -39,20 +39,20 @@ class Ennemy {
         var currentLifeBarSize = this.lifePoint * this.lifePointBarSizeWidth / this.maxLifePoint * spritesGroundSize;
         ctx.save();
         ctx.fillStyle = "#57ff11";
-        ctx.fillRect(spritesGroundSize * this.position.X + spritesGroundSize / 3, spritesGroundSize * this.position.Y + 20, currentLifeBarSize, this.lifePointBarSizeHeight * spritesGroundSize);
+        ctx.fillRect(this.position.X + spritesGroundSize / 3, this.position.Y + 20, currentLifeBarSize, this.lifePointBarSizeHeight * spritesGroundSize);
         ctx.restore();
     }
 
     distBetweenEnnemyWaypointX(waypointId) {
-        return this.position.X*spritesGroundSize - map.waypoints[waypointId].position.X;
+        return this.position.X - map.waypoints[waypointId].position.X;
     }
 
     distBetweenEnnemyWaypointY(waypointId) {
-        return this.position.Y*spritesGroundSize - map.waypoints[waypointId].position.Y;
+        return this.position.Y - map.waypoints[waypointId].position.Y;
     }
 
     followWaypoints() {
-        this.angleToWalk = Math.atan(this.distBetweenEnnemyWaypointY(this.waypointId) / this.distBetweenEnnemyWaypointX(this.waypointId));
+        /*this.angleToWalk = Math.atan(this.distBetweenEnnemyWaypointY(this.waypointId) / this.distBetweenEnnemyWaypointX(this.waypointId));
 
         if (this.position.X < map.waypoints[this.waypointId].position.X) {
             this.position.X += this.speed * Math.cos(this.angleToWalk * Math.PI / 180);
@@ -63,7 +63,8 @@ class Ennemy {
         if(Math.floor(this.position.X) === Math.floor((map.waypoints[this.waypointId].position.X)/spritesGroundSize) && Math.floor(this.position.Y) === Math.floor((map.waypoints[this.waypointId].position.Y)/spritesGroundSize)){
             this.waypointId++;
         }
-        console.log("waypoint X: " + Math.floor((map.waypoints[this.waypointId].position.X)/spritesGroundSize))
+        console.log("waypoint X: " + Math.floor((map.waypoints[this.waypointId].position.X)/spritesGroundSize))*/
+        this.position.X++;
 
     }
 
@@ -84,7 +85,7 @@ function ennemyFactory(ennemyNumber, positionX, positionY, time) {
     var inter = setInterval(function () {
 
         if (numberEnnemyCreated < ennemyNumber) {
-            arr.push(new Ennemy(0.005, 200, ennemyType.GREEN, positionX, positionY, true));
+            arr.push(new Ennemy(1, 200, ennemyType.GREEN, positionX, positionY, true));
             numberEnnemyCreated++;
         } else {
             clearInterval(inter);

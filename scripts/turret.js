@@ -71,20 +71,20 @@ class Turret {
 
     acquireTarget(ennemies,id){
         //Est la distance entre la tourrelle et le joueur.
-        var angle = (this.position.X - ennemies[id].position.X > 0) ? (-90 * Math.PI / 180) : (90 * Math.PI / 180);
+        var angle = (this.position.X * spritesGroundSize - ennemies[id].position.X > 0) ? (-90 * Math.PI / 180) : (90 * Math.PI / 180);
         return angle;
     }
 
     distBetweenTurretEnnemyX(ennemies,id){
-        return this.position.X - ennemies[id].position.X;
+        return this.position.X * spritesGroundSize - ennemies[id].position.X;
     }
     distBetweenTurretEnnemyY(ennemies,id){
-        return this.position.Y - ennemies[id].position.Y;
+        return this.position.Y * spritesGroundSize - ennemies[id].position.Y;
     }
 
     distBetweenTurretEnnemy(ennemy) {
-        var distX = this.position.X - ennemy.position.X;
-        var distY = this.position.Y - ennemy.position.Y;
+        var distX = this.position.X * spritesGroundSize - ennemy.position.X;
+        var distY = this.position.Y * spritesGroundSize - ennemy.position.Y;
 
         return Math.sqrt(Math.pow(distX, 2) + Math.pow(distY, 2));
     }

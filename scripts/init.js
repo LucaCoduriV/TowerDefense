@@ -13,7 +13,7 @@ var map = new Map();
 //vert.position.X =  1;
 //vert.position.Y =  1;
 
-var ennemies = ennemyFactory(10,0,1,1000);
+var ennemies = ennemyFactory(10,0 * spritesGroundSize,1 * spritesGroundSize,1000);
 
 
 

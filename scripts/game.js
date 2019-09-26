@@ -19,16 +19,16 @@ function draw(secondsPassed) {
 //Cette fonction met à jour les éléments
 function update(timestamp) {
     if (key_left) {
-        ennemies[0].position.X -= 0.1;
+        ennemies[0].position.X -= 10;
     }
     if (key_right) {
-        ennemies[0].position.X += 0.1;
+        ennemies[0].position.X += 10;
     }
     if (key_up) {
-        ennemies[0].position.Y -= 0.1;
+        ennemies[0].position.Y -= 10;
     }
     if (key_down) {
-        ennemies[0].position.Y += 0.1;
+        ennemies[0].position.Y += 10;
     }
     for (var i = 0; i < ennemies.length; i++) {
         if (ennemies[i].isReadyToUse) ennemies[i].followWaypoints();
