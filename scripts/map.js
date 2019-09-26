@@ -2,15 +2,14 @@ class Map {
     constructor() {
         //ce tableau indique quelle sprite doit se trouver à chaque emplacement du cadrillage.
         this.cords = [
-            [24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24],
-            [93, 93, 93, 93, 24, 24, 24, 24, 24, 24, 24, 24],
-            [24, 24, 24, 93, 24, 24, 24, 24, 24, 24, 24, 24],
-            [24, 24, 24, 93, 24, 24, 93, 24, 24, 24, 24, 24],
-            [24, 24, 45, 93, 24, 24, 93, 24, 24, 24, 24, 24],
-            [24, 24, 24, 93, 93, 93, 93, 24, 24, 24, 24, 24]
+            [24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 93, 93],
+            [93, 93, 93, 93, 24, 24, 24, 24, 24, 24, 93, 24],
+            [24, 24, 24, 93, 24, 24, 24, 24, 24, 24, 93, 93],
+            [24, 24, 24, 93, 24, 24, 93, 93, 93, 93, 24, 93],
+            [24, 24, 45, 93, 24, 24, 93, 24, 24, 93, 24, 93],
+            [24, 24, 24, 93, 93, 93, 93, 24, 24, 93, 93, 93]
         ];
         this.startCords = {X: 0, Y: 1};
-        this.endCords = {X: 0, Y: 1};
         this.waypoints = [];
         this.setWaypoints();
     }
@@ -32,40 +31,117 @@ class Map {
         }
     }
 
-    //cette méthode indequera la direction à prendre pour suivre le chemin
-    getRoadDirection(ActualPositionX, ActualPositionY) {
-        var directionToTake = [];
-        var roadId = 93;
-        /*var actualSquare = {
-            X: Math.ceil(ActualPositionX/spritesGroundSize)-1,
-            Y: Math.ceil(ActualPositionY/spritesGroundSize)-1
-        }*/
-        console.log(actualSquare);
-        //check si la route continue à droite on envoie 0
-        if (this.cords[ActualPositionY][ActualPositionX + 1] === roadId) directionToTake.push(0);
-        //check si la route continue en bas on envoie 1
-        if (this.cords[ActualPositionY + 1][ActualPositionX] === roadId) directionToTake.push(1);
-        //check si la route continue à gauche on envoie 2
-        if (this.cords[ActualPositionY][ActualPositionX - 1] === roadId) directionToTake.push(2);
-        //check si la route continue en haut on envoie 3
-        if (this.cords[ActualPositionY - 1][ActualPositionX] === roadId) directionToTake.push(3);
-
-
-        return directionToTake;
-    }
-
-    //place les waypoint de la map
-    setWaypoints() {
-        var numberOfWaypoint = 0;
-        for (var i = 0; i < this.cords.length; i++) {
-            for (var j = 0; j < this.cords[i].length; j++) {
-                if (this.cords[i][j] === 93) {
-                    this.waypoints.push(new Waypoint(numberOfWaypoint, j * spritesGroundSize + spritesGroundSize / 2, i * spritesGroundSize + spritesGroundSize / 2));
-                    console.log(numberOfWaypoint);
-                    numberOfWaypoint++;
+    //permet de compter le nombre d'élément egaux se trouvent dans un tableau
+    countNumberElementIn2DTable(table2D, element){
+        var count = 0;
+        for(var i = 0;i<table2D.length;i++){
+            for(var j = 0; j<table2D[0].length;j++){
+                if(table2D[i][j] === 93){
+                    count++;
                 }
             }
         }
+        return count;
+    }
+
+    //cette méthode permet vérifier si x et y existe déjà dans le tableau des waypoints
+    checkPointExistInWaypointsTable(x,y){
+
+        for(var i = 0; i < this.waypoints.length; i++){
+            console.log(this.waypoints[i].position.X, x);
+            console.log(this.waypoints[i].position.Y, y);
+            if(this.waypoints[i].position.X === x && this.waypoints[i].position.Y === y){
+                return true;
+            }
+        }
+        return false;
+    }
+    //place les waypoint de la map en vérifiant ou se trouve les chemins du tableau coords
+    setWaypoints() {
+        var numberOfWaypoint = 0;
+        var totalNumberOfWayPoint = this.countNumberElementIn2DTable(this.cords,93);
+        var currentPositionX = this.startCords.X;
+        var currentPositionY = this.startCords.Y;
+
+        var stop = false;
+        var next = true;
+
+        this.waypoints.push(new Waypoint(numberOfWaypoint, this.startCords.X * spritesGroundSize + spritesGroundSize / 2, this.startCords.Y * spritesGroundSize + spritesGroundSize / 2));
+
+        while (!stop) {
+            next = true;
+            console.log(currentPositionX, currentPositionY);
+            //93 représente le numéro de l'image route en terre
+            //on check à droite
+
+            //vérifie s'il y a un chemin disponible à droite(x+1)
+            if(currentPositionX+1 < this.cords[0].length && next === true){//verifie s'il l'on sort des limite du tableau et grace au next si l'on a pas déjà ajouter une valeur au tableau
+                if(this.cords[currentPositionY][currentPositionX+1] === 93){//verifie si c'est un chemin
+                    if(this.checkPointExistInWaypointsTable((currentPositionX+1) * spritesGroundSize+ spritesGroundSize/2, currentPositionY * spritesGroundSize+ spritesGroundSize/2) === false){//verifie s'il y a pas déjà un waypoint avec les même coordonnées
+                        this.waypoints.push(new Waypoint(numberOfWaypoint, (currentPositionX+1) * spritesGroundSize + spritesGroundSize / 2, currentPositionY * spritesGroundSize + spritesGroundSize / 2));//on ajoute le waypoint dans le tableau de waypoint
+                        currentPositionX+=1;//mettre à jour la valeur pour les prochains tests
+                        next = false;
+                    }
+                }
+            }
+            //vérifie s'il y a un chemin disponible en bas(y+1)
+            if(currentPositionY+1 < this.cords.length && next === true) {//verifie s'il l'on sort des limite du tableau et grace au next si l'on a pas déjà ajouter une valeur au tableau
+                if (this.cords[currentPositionY + 1][currentPositionX] === 93) {//verifie si c'est un chemin
+                    if (this.checkPointExistInWaypointsTable(currentPositionX * spritesGroundSize+ spritesGroundSize/2, (currentPositionY + 1) * spritesGroundSize+ spritesGroundSize/2) === false) {//verifie s'il y a pas déjà un waypoint avec les même coordonnées
+                        this.waypoints.push(new Waypoint(numberOfWaypoint, currentPositionX * spritesGroundSize + spritesGroundSize / 2, (currentPositionY + 1) * spritesGroundSize + spritesGroundSize / 2));//on ajoute le waypoint dans le tableau de waypoint
+                        currentPositionY += 1;//mettre à jour la valeur pour les prochains tests
+                        next = false;
+                    }
+                }
+            }
+            //vérifie s'il y a un chemin disponible à gauche(x-1)
+            if(currentPositionX-1 >= 0 && next === true) { //verifie s'il l'on sort des limite du tableau et grace au next si l'on a pas déjà ajouter une valeur au tableau
+                if (this.cords[currentPositionY][currentPositionX - 1] === 93) {//verifie si c'est un chemin
+                    if (this.checkPointExistInWaypointsTable((currentPositionX - 1) * spritesGroundSize + spritesGroundSize/2, currentPositionY * spritesGroundSize+ spritesGroundSize/2) === false) {//verifie s'il y a pas déjà un waypoint avec les même coordonnées
+                        this.waypoints.push(new Waypoint(numberOfWaypoint, (currentPositionX - 1) * spritesGroundSize + spritesGroundSize / 2, currentPositionY * spritesGroundSize + spritesGroundSize / 2));//on ajoute le waypoint dans le tableau de waypoint
+                        currentPositionX -= 1;//mettre à jour la valeur pour les prochains tests
+                        next = false;
+                    }
+                }
+            }
+            //vérifie s'il y a un chemin disponible en haut(y-1)
+            if(currentPositionY-1 >= 0 && next === true) {//verifie s'il l'on sort des limite du tableau et grace au next si l'on a pas déjà ajouter une valeur au tableau
+                if (this.cords[currentPositionY - 1][currentPositionX] === 93) {//verifie si c'est un chemin
+                    if (this.checkPointExistInWaypointsTable(currentPositionX * spritesGroundSize+ spritesGroundSize/2, (currentPositionY - 1) * spritesGroundSize+ spritesGroundSize/2) === false) {//verifie s'il y a pas déjà un waypoint avec les même coordonnées
+                        this.waypoints.push(new Waypoint(numberOfWaypoint, currentPositionX * spritesGroundSize + spritesGroundSize / 2, (currentPositionY - 1) * spritesGroundSize + spritesGroundSize / 2));//on ajoute le waypoint dans le tableau de waypoint
+                        currentPositionY -= 1;//mettre à jour la valeur pour les prochains tests
+                        next = false;
+                    }
+                }
+            }
+            //vérifie si tout les waypoint on été trouvé, si oui on sort de la boucle en mettant la valeur stop à true
+            if(this.waypoints.length === totalNumberOfWayPoint){
+                stop = true;
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        }
+
+
+        // for (var axeY = 0; axeY < this.cords.length; axeY++){
+        //     for (var axeX = 0; axeX < this.cords[i].length; axeX++) {
+        //
+        //     }
+        // }
+
+
     }
 }
 

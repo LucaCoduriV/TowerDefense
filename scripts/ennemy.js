@@ -51,8 +51,12 @@ class Ennemy {
         return map.waypoints[this.waypointId].position.Y - (this.position.Y + spritesGroundSize/2);
     }
 
-    walk(angle){
-        this.position.X += this.speed * Math.cos(angle);
+    walk(angle){ //il faut verifier si la distance entre l'ennemi et le waypoint et négatif ou pas
+        if(this.position.X < map.waypoints[this.waypointId].position.X){///////////////////////// A MODIFIER LUCA !!
+            this.position.X += this.speed * Math.cos(angle);
+        }else{
+            this.position.X += -this.speed * Math.cos(angle);
+        }///////////////////////////////////////////////////////////////////////////////////////////
         this.position.Y += this.speed * Math.sin(angle);
     }
 
@@ -61,17 +65,11 @@ class Ennemy {
 
         if ((this.position.X + spritesGroundSize/2) !== map.waypoints[this.waypointId].position.X || (this.position.Y + spritesGroundSize/2) !== map.waypoints[this.waypointId].position.Y) {
             this.walk(this.DirectionAngleInRadian);
-            console.log(Math.round(this.position.X),Math.round(this.position.Y) );
+            //console.log(Math.round(this.position.X),Math.round(this.position.Y) );
         }else{
             console.log("j'ai atteind le waypoint: " + this.waypointId);
             this.waypointId++;
         }
-
-
-
-        console.log("waypoint X: " + Math.floor((map.waypoints[this.waypointId].position.X)/spritesGroundSize));
-        //this.position.X++;
-
     }
 
     getActualSquare(ActualPositionX, ActualPositionY) {
