@@ -4,11 +4,8 @@
 //cette fonction dessine sur le canevas
 function draw(secondsPassed) {
     map.drawMap();
-    //vert.drawEnnemy();
-    if(ennemies[0] != null){
-        defense.drawTurret(ennemies);
-        defense1.drawTurret(ennemies);
-    }
+    defense.drawTurret(ennemies);
+    defense1.drawTurret(ennemies);
 
     bullet.drawBullet();
 

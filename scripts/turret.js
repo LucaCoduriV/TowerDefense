@@ -41,16 +41,26 @@ class Turret {
     }
 
     drawTurret(ennemies) {
+        try{
+            var nearestEnnemy = this.lookForNearestEnnemy(ennemies);
 
-        var nearestEnnemy = this.lookForNearestEnnemy(ennemies);
+            var angle = this.acquireTarget(ennemies, nearestEnnemy);
+        }catch(e){
+            console.log("aucun ennemis détecté");
+            angle = 0;
+        }
 
-        var angle = this.acquireTarget(ennemies, nearestEnnemy);
 
         ctx.drawImage(this.turretBaseSprite, spritesGroundSize * this.position.X, spritesGroundSize * this.position.Y, spritesGroundSize, spritesGroundSize);
         ctx.save();
         ctx.translate(spritesGroundSize * this.position.X + spritesGroundSize / 2, spritesGroundSize * this.position.Y + spritesGroundSize / 2);
         // la rotation relative à la position du joueur - 90 degrés pour que le cannon pointe le joueur
-        ctx.rotate((Math.atan(this.distBetweenTurretEnnemyY(ennemies, nearestEnnemy) / this.distBetweenTurretEnnemyX(ennemies, nearestEnnemy))) + angle);
+        try{
+            ctx.rotate((Math.atan(this.distBetweenTurretEnnemyY(ennemies, nearestEnnemy) / this.distBetweenTurretEnnemyX(ennemies, nearestEnnemy))) + angle);
+        }catch(e){
+            console.log("aucun ennemis détecté");
+        }
+
         ctx.drawImage(this.sprite, -spritesGroundSize/2, -spritesGroundSize/2, spritesGroundSize, spritesGroundSize);
         ctx.restore();
     }

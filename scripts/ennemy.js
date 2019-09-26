@@ -42,11 +42,11 @@ class Ennemy {
     }
 
     followRoad() {
-        var lastPosition = this.getActualSquare(this.position.X, this.position.Y)
+        /*var lastPosition = this.getActualSquare(this.position.X, this.position.Y)
 
         if () {
 
-        }
+        }*/
 
         this.position.X += 0.005;
     }
