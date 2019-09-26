@@ -22,6 +22,14 @@ class Map {
                 ctx.drawImage(sprites[this.cords[i][j]], j * spritesGroundSize, i * spritesGroundSize, spritesGroundSize, spritesGroundSize);
             }
         }
+        try{
+
+            this.waypoints.forEach(function (element) {
+                element.drawWaypoints();
+            })
+        }catch (e) {
+            
+        }
     }
     //cette méthode indequera la direction à prendre pour suivre le chemin
     getRoadDirection(ActualPositionX, ActualPositionY){
@@ -64,6 +72,12 @@ class Waypoint{
     constructor(id, positionX, positionY){
         this.id = id;
         this.position = {X: positionX, Y:positionY};
+    }
+    drawWaypoints(){
+        ctx.save();
+        ctx.fillStyle = "#FF0000";
+        ctx.fillRect(this.position.X,this.position.Y,5,5);
+        ctx.restore();
     }
 }
 

@@ -51,19 +51,24 @@ class Ennemy {
         return this.position.Y - map.waypoints[waypointId].position.Y;
     }
 
-    followWaypoints() {
-        /*this.angleToWalk = Math.atan(this.distBetweenEnnemyWaypointY(this.waypointId) / this.distBetweenEnnemyWaypointX(this.waypointId));
+    walk(angle){
+        this.position.X += this.speed * Math.cos(angle * Math.PI / 180);
+        this.position.Y += this.speed * Math.sin(angle * Math.PI / 180);
+    }
 
-        if (this.position.X < map.waypoints[this.waypointId].position.X) {
-            this.position.X += this.speed * Math.cos(this.angleToWalk * Math.PI / 180);
+    followWaypoints() {
+        this.angleToWalk = Math.atan(this.distBetweenEnnemyWaypointY(this.waypointId) / this.distBetweenEnnemyWaypointX(this.waypointId));
+
+        if ((this.position.X - spritesGroundSize/2) !== map.waypoints[0].position.X) {
+            this.walk(this.angleToWalk);
+        }else{
+            console.log("j'ai atteind le waypoint!")
+            //this.waypointId++;
         }
-        if(this.position.Y <= map.waypoints[this.waypointId].position.Y){
-            this.position.Y += this.speed * Math.sin(this.angleToWalk * Math.PI / 180);
-        }
-        if(Math.floor(this.position.X) === Math.floor((map.waypoints[this.waypointId].position.X)/spritesGroundSize) && Math.floor(this.position.Y) === Math.floor((map.waypoints[this.waypointId].position.Y)/spritesGroundSize)){
-            this.waypointId++;
-        }
-        console.log("waypoint X: " + Math.floor((map.waypoints[this.waypointId].position.X)/spritesGroundSize))*/
+
+
+
+        console.log("waypoint X: " + Math.floor((map.waypoints[this.waypointId].position.X)/spritesGroundSize));
         //this.position.X++;
 
     }
