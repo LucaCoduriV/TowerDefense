@@ -1,3 +1,6 @@
+//todo faire tourner la hitbox avec le personnage
+// X' = (X - Xc) * cos(A) - (Y - Yc) * sin(A) + Xc
+// Y' = (Y - Yc) * cos(A) + (X - Xc) * sin(A) + Yc
 //ennemyType est une liste contenant les différents ennemis.
 var ennemyType = {
     GREEN: "assets/sprites/towerDefense_tile245.png",
@@ -40,7 +43,7 @@ class Ennemy {
     drawHitbox(){
         ctx.save();
         ctx.fillStyle = "rgba(255, 0, 0, 0.5)";
-        ctx.fillRect(this.hitbox.p1.X,this.hitbox.p1.Y,this.hitbox.W, this.hitbox.H);
+        ctx.fillRect(this.hitbox.p1.X ,this.hitbox.p1.Y,this.hitbox.W, this.hitbox.H);
         ctx.restore();
     }
 
@@ -66,10 +69,16 @@ class Ennemy {
 
     //permet de dessiner l'ennemi
     drawEnnemy() {
+        ctx.save();
+        ctx.translate(this.position.X + spritesGroundSize / 2, this.position.Y + spritesGroundSize / 2);
+        ctx.rotate(this.DirectionAngleInRadian);
+        ctx.translate(-(this.position.X + spritesGroundSize / 2), -(this.position.Y + spritesGroundSize / 2));
+
         ctx.drawImage(this.sprite, this.position.X, this.position.Y, spritesGroundSize, spritesGroundSize);
         this.drawHitbox()
         this.drawMaxLifePointBar();
         this.drawCurrentLifePointBar();
+        ctx.restore();
     }
 
     drawMaxLifePointBar() {
