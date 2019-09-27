@@ -96,16 +96,12 @@ class Ennemy {
     }
 
     walk(angle){ //il faut verifier si la distance entre l'ennemi et le waypoint et négatif ou pas
-        if(this.position.X < map.waypoints[this.waypointId].position.X){///////////////////////// A MODIFIER LUCA !!
-            this.position.X += this.speed * Math.cos(angle);
-        }else{
-            this.position.X += -this.speed * Math.cos(angle);
-        }///////////////////////////////////////////////////////////////////////////////////////////
+        this.position.X += this.speed * Math.cos(angle);
         this.position.Y += this.speed * Math.sin(angle);
     }
 
     followWaypoints() {
-        this.DirectionAngleInRadian = Math.atan(this.distBetweenEnnemyWaypointY(this.waypointId) / this.distBetweenEnnemyWaypointX(this.waypointId));
+        this.DirectionAngleInRadian = Math.atan2(this.distBetweenEnnemyWaypointY(this.waypointId), this.distBetweenEnnemyWaypointX(this.waypointId));
 
         // if ((this.position.X + spritesGroundSize/2) !== map.waypoints[this.waypointId].position.X || (this.position.Y + spritesGroundSize/2) !== map.waypoints[this.waypointId].position.Y) {
         if (this.checkColisionEnnemyWaypoint() !== this.waypointId) {
@@ -115,14 +111,6 @@ class Ennemy {
             //console.log("j'ai atteind le waypoint: " + this.waypointId);
             this.waypointId++;
         }
-    }
-
-    getActualSquare(ActualPositionX, ActualPositionY) {
-        var actualSquare = {
-            X: Math.ceil(ActualPositionX / spritesGroundSize) - 1,
-            Y: Math.ceil(ActualPositionY / spritesGroundSize) - 1
-        }
-        return actualSquare;
     }
 
 
