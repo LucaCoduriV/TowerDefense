@@ -61,13 +61,8 @@ class Turret {
     //Trouve l'angle que la tourrelle doit prendre pour viser l'ennemi le plus proche
     acquireTargetAngle(ennemies) {
         var nearestEnnemy = this.lookForNearestEnnemy(ennemies);
-        var angleCorrection = (this.position.X * spritesGroundSize - ennemies[nearestEnnemy].position.X > 1) ? (-90 * Math.PI / 180) : (90 * Math.PI / 180);
-        var angle = ((Math.atan(this.distBetweenTurretEnnemyY(ennemies, nearestEnnemy) / this.distBetweenTurretEnnemyX(ennemies, nearestEnnemy))) + angleCorrection);
-        if (angle === Math.PI) {
-            angle += (Math.PI);
-        } else if (angle === 0) {
-            angle += (Math.PI);
-        }
+        var angleCorrection = (-90 * Math.PI / 180);
+        var angle = ((Math.atan2(this.distBetweenTurretEnnemyY(ennemies, nearestEnnemy), this.distBetweenTurretEnnemyX(ennemies, nearestEnnemy))) + angleCorrection);
         return angle;
     }
 
