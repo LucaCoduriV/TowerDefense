@@ -46,11 +46,11 @@ class Ennemy {
 
     //intersection entre un rectangle et un point
     intersectRectanglePoint(x1,y1,w1,h1,x2,y2){
-        if(x2 < x1 + w1 && x2 > x1 && y2 > y1 && y2 < y1 + h1){
-            console.log("false");
+        if(x2 > x1 + w1 || x2 < x1 || y2 < y1 || y2 > y1 + h1){
+            //console.log("false");
             return false;
         }
-        console.log("true");
+        //console.log("true");
         return true;
     }
 
