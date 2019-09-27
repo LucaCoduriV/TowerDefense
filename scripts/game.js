@@ -1,6 +1,8 @@
 //tuto https://www.sitepoint.com/quick-tip-game-loop-in-javascript/
 //tuto2 https://spicyyoghurt.com/tutorials/html5-javascript-game-development/collision-detection-physics
 //tuto3 https://isaacsukin.com/news/2015/01/detailed-explanation-javascript-game-loops-and-timing#choosing-timestep
+//https://gamedevelopment.tutsplus.com/tutorials/collision-detection-using-the-separating-axis-theorem--gamedev-169
+//https://gamedevelopment.tutsplus.com/tutorials/collision-detection-using-the-separating-axis-theorem--gamedev-169
 //cette fonction dessine sur le canevas
 function draw(secondsPassed) {
     map.drawMap();
