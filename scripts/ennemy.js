@@ -19,11 +19,53 @@ class Ennemy {
         this.isReadyToUse = isReady;
         this.DirectionAngleInRadian;
         this.waypointId = 0;
+        this.hitbox = {p1: {X: 0, Y: 0}, p2: {X: 0, Y: 0}, p3: {X: 0, Y: 0}, p4: {X: 0, Y: 0}, W: 0, H:0};
+    }
+    //va mettre à jour les coordonnées de la hitbox
+    updateHitbox(){
+        this.hitbox.p1.X = this.position.X + 0.35 * spritesGroundSize;
+        this.hitbox.p1.Y = this.position.Y + 0.30 * spritesGroundSize;
+        this.hitbox.p2.X = this.position.X + 0.65 * spritesGroundSize;
+        this.hitbox.p4.Y = this.position.Y + 0.70 * spritesGroundSize;
+        this.hitbox.W = this.hitbox.p2.X - this.hitbox.p1.X;
+        this.hitbox.H = this.hitbox.p4.Y - this.hitbox.p1.Y;
+
+        //inutile je pense
+        //this.hitbox.p2.Y = this.position.Y + 0.30 * spritesGroundSize;
+        //this.hitbox.p3.X = this.position.X + 0.65 * spritesGroundSize;
+        //this.hitbox.p3.Y = this.position.Y + 0.70 * spritesGroundSize;
+        //this.hitbox.p4.X = this.position.X + 0.35 * spritesGroundSize;
+
+    }
+    drawHitbox(){
+        ctx.save();
+        ctx.fillStyle = "rgba(255, 0, 0, 0.5)";
+        ctx.fillRect(this.hitbox.p1.X,this.hitbox.p1.Y,this.hitbox.W, this.hitbox.H);
+        ctx.restore();
+    }
+
+    //intersection entre un rectangle et un point
+    intersectRectanglePoint(x1,y1,w1,h1,x2,y2){
+        if(x2 < x1 + w1 && x2 > x1 && y2 > y1 && y2 < y1 + h1){
+            console.log("false");
+            return false;
+        }
+        console.log("true");
+        return true;
+    }
+
+    checkColisionEnnemyWaypoint(){
+        for(var i = 0; i < map.waypoints.length;i++){
+            if(this.intersectRectanglePoint(this.hitbox.p1.X,this.hitbox.p1.Y,this.hitbox.W,this.hitbox.H,map.waypoints[i].position.X, map.waypoints[i].position.Y)){
+                console.log("tu touches !");
+            }
+        }
     }
 
     //permet de dessiner l'ennemi
     drawEnnemy() {
         ctx.drawImage(this.sprite, this.position.X, this.position.Y, spritesGroundSize, spritesGroundSize);
+        this.drawHitbox()
         this.drawMaxLifePointBar();
         this.drawCurrentLifePointBar();
     }
@@ -67,7 +109,7 @@ class Ennemy {
             this.walk(this.DirectionAngleInRadian);
             //console.log(Math.round(this.position.X),Math.round(this.position.Y) );
         }else{
-            console.log("j'ai atteind le waypoint: " + this.waypointId);
+            //console.log("j'ai atteind le waypoint: " + this.waypointId);
             this.waypointId++;
         }
     }

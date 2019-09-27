@@ -31,7 +31,11 @@ function update(timestamp) {
         ennemies[0].position.Y += 10;
     }
     for (var i = 0; i < ennemies.length; i++) {
-        if (ennemies[i].isReadyToUse) ennemies[i].followWaypoints();
+        // if (ennemies[i].isReadyToUse) {
+        //     //ennemies[i].followWaypoints()
+        // }
+        ennemies[0].updateHitbox();
+        ennemies[0].checkColisionEnnemyWaypoint();
     }
     try{
         //console.log(ennemies[0].position);
