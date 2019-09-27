@@ -57,9 +57,11 @@ class Ennemy {
     checkColisionEnnemyWaypoint(){
         for(var i = 0; i < map.waypoints.length;i++){
             if(this.intersectRectanglePoint(this.hitbox.p1.X,this.hitbox.p1.Y,this.hitbox.W,this.hitbox.H,map.waypoints[i].position.X, map.waypoints[i].position.Y)){
-                console.log("tu touches !");
+                console.log("tu touches le waypoint: " + i);
+                return i;
             }
         }
+        return -1;
     }
 
     //permet de dessiner l'ennemi
@@ -105,7 +107,8 @@ class Ennemy {
     followWaypoints() {
         this.DirectionAngleInRadian = Math.atan(this.distBetweenEnnemyWaypointY(this.waypointId) / this.distBetweenEnnemyWaypointX(this.waypointId));
 
-        if ((this.position.X + spritesGroundSize/2) !== map.waypoints[this.waypointId].position.X || (this.position.Y + spritesGroundSize/2) !== map.waypoints[this.waypointId].position.Y) {
+        // if ((this.position.X + spritesGroundSize/2) !== map.waypoints[this.waypointId].position.X || (this.position.Y + spritesGroundSize/2) !== map.waypoints[this.waypointId].position.Y) {
+        if (this.checkColisionEnnemyWaypoint() !== this.waypointId) {
             this.walk(this.DirectionAngleInRadian);
             //console.log(Math.round(this.position.X),Math.round(this.position.Y) );
         }else{

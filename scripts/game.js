@@ -31,18 +31,20 @@ function update(timestamp) {
         ennemies[0].position.Y += 10;
     }
     for (var i = 0; i < ennemies.length; i++) {
-        // if (ennemies[i].isReadyToUse) {
-        //     //ennemies[i].followWaypoints()
-        // }
-        ennemies[0].updateHitbox();
-        ennemies[0].checkColisionEnnemyWaypoint();
+        if (ennemies[i].isReadyToUse) {
+            ennemies[0].updateHitbox();
+            ennemies[i].followWaypoints();
+
+        }
+
+        //ennemies[0].checkColisionEnnemyWaypoint();
     }
-    try{
+    try {
         //console.log(ennemies[0].position);
         //console.log(Math.floor(ennemies[0].position.X), Math.floor(ennemies[0].position.Y));
         //console.log("waypoint: " + ennemies[0].waypointId);
-    }catch (e) {
-        
+    } catch (e) {
+
     }
     bullet.move();
 
