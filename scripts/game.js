@@ -3,6 +3,7 @@
 //tuto3 https://isaacsukin.com/news/2015/01/detailed-explanation-javascript-game-loops-and-timing#choosing-timestep
 //https://gamedevelopment.tutsplus.com/tutorials/collision-detection-using-the-separating-axis-theorem--gamedev-169
 //https://gamedevelopment.tutsplus.com/tutorials/collision-detection-using-the-separating-axis-theorem--gamedev-169
+//https://www.briankoponen.com/html5-javascript-game-tutorial-space-invaders-part-5/
 //cette fonction dessine sur le canevas
 function draw(secondsPassed) {
     map.drawMap();
@@ -12,7 +13,7 @@ function draw(secondsPassed) {
     bullet.drawBullet();
 
     for (var i = 0; i < ennemies.length; i++) {
-        if (ennemies[i].isReadyToUse) ennemies[i].drawEnnemy();
+        if (ennemies[i]!== undefined) ennemies[i].drawEnnemy();
     }
 
     drawFPS(secondsPassed);
@@ -33,8 +34,9 @@ function update(timestamp) {
         ennemies[0].position.Y += 10;
     }
     for (var i = 0; i < ennemies.length; i++) {
-        if (ennemies[i].isReadyToUse) {
-            ennemies[0].updateHitbox();
+        if (ennemies[i]!== undefined) {
+            ennemies[i].updateHitbox();
+            ennemies[i].checkColisionEnnemyWaypoint();
             ennemies[i].followWaypoints();
 
         }

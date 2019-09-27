@@ -10,7 +10,8 @@ var ennemyType = {
 
 //cette classe représente les ennemis que les tourelles devront abattre
 class Ennemy {
-    constructor(speed, maxLifePoint, type, positionX = 0, positionY = 0, isReady = false) {
+    constructor(id, speed, maxLifePoint, type, positionX = 0, positionY = 0, isReady = false) {
+        this.id = id;
         this.speed = speed;
         this.lifePoint = maxLifePoint;
         this.maxLifePoint = maxLifePoint;
@@ -20,36 +21,30 @@ class Ennemy {
         this.lifePointBarSizeWidth = 0.3;
         this.lifePointBarSizeHeight = 0.03;
         this.isReadyToUse = isReady;
-        this.DirectionAngleInRadian;
+        this.DirectionAngleInRadian = 0;
         this.waypointId = 0;
-        this.hitbox = {p1: {X: 0, Y: 0}, p2: {X: 0, Y: 0}, p3: {X: 0, Y: 0}, p4: {X: 0, Y: 0}, W: 0, H:0};
+        this.circleHitbox = {centerPosition: {X: 0, Y: 0}, radius: 18};
     }
+
     //va mettre à jour les coordonnées de la hitbox
-    updateHitbox(){
-        this.hitbox.p1.X = this.position.X + 0.35 * spritesGroundSize;
-        this.hitbox.p1.Y = this.position.Y + 0.30 * spritesGroundSize;
-        this.hitbox.p2.X = this.position.X + 0.65 * spritesGroundSize;
-        this.hitbox.p4.Y = this.position.Y + 0.70 * spritesGroundSize;
-        this.hitbox.W = this.hitbox.p2.X - this.hitbox.p1.X;
-        this.hitbox.H = this.hitbox.p4.Y - this.hitbox.p1.Y;
-
-        //inutile je pense
-        //this.hitbox.p2.Y = this.position.Y + 0.30 * spritesGroundSize;
-        //this.hitbox.p3.X = this.position.X + 0.65 * spritesGroundSize;
-        //this.hitbox.p3.Y = this.position.Y + 0.70 * spritesGroundSize;
-        //this.hitbox.p4.X = this.position.X + 0.35 * spritesGroundSize;
+    updateHitbox() {
+        this.circleHitbox.centerPosition.X = this.position.X + spritesGroundSize / 2;
+        this.circleHitbox.centerPosition.Y = this.position.Y + spritesGroundSize / 2;
 
     }
-    drawHitbox(){
+
+    drawHitbox() {
         ctx.save();
         ctx.fillStyle = "rgba(255, 0, 0, 0.5)";
-        ctx.fillRect(this.hitbox.p1.X ,this.hitbox.p1.Y,this.hitbox.W, this.hitbox.H);
+        ctx.beginPath();
+        ctx.arc(this.circleHitbox.centerPosition.X, this.circleHitbox.centerPosition.Y, this.circleHitbox.radius, 0, 2 * Math.PI);
+        ctx.fill();
         ctx.restore();
     }
 
     //intersection entre un rectangle et un point
-    intersectRectanglePoint(x1,y1,w1,h1,x2,y2){
-        if(x2 > x1 + w1 || x2 < x1 || y2 < y1 || y2 > y1 + h1){
+    intersectRectanglePoint(x1, y1, w1, h1, x2, y2) {
+        if (x2 > x1 + w1 || x2 < x1 || y2 < y1 || y2 > y1 + h1) {
             //console.log("false");
             return false;
         }
@@ -57,9 +52,21 @@ class Ennemy {
         return true;
     }
 
-    checkColisionEnnemyWaypoint(){
-        for(var i = 0; i < map.waypoints.length;i++){
-            if(this.intersectRectanglePoint(this.hitbox.p1.X,this.hitbox.p1.Y,this.hitbox.W,this.hitbox.H,map.waypoints[i].position.X, map.waypoints[i].position.Y)){
+    getDistanceBetweenTwoPoints(x1, y1, x2, y2) {
+        return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+    }
+
+    //intersection entre un cercle et un point
+    intersectCirclePoint(x1, y1, radius, x2, y2) {
+        if (this.getDistanceBetweenTwoPoints(x1, y1, x2, y2) < radius) {
+            return true;
+        }
+        return false;
+    }
+
+    checkColisionEnnemyWaypoint() {
+        for (var i = 0; i < map.waypoints.length; i++) {
+            if (this.intersectCirclePoint(this.circleHitbox.centerPosition.X, this.circleHitbox.centerPosition.Y, this.circleHitbox.radius, map.waypoints[i].position.X, map.waypoints[i].position.Y)) {
                 console.log("tu touches le waypoint: " + i);
                 return i;
             }
@@ -97,29 +104,36 @@ class Ennemy {
     }
 
     distBetweenEnnemyWaypointX(waypointId) {
-        return map.waypoints[this.waypointId].position.X - (this.position.X + spritesGroundSize/2);
+        return map.waypoints[this.waypointId].position.X - (this.position.X + spritesGroundSize / 2);
     }
 
     distBetweenEnnemyWaypointY(waypointId) {
-        return map.waypoints[this.waypointId].position.Y - (this.position.Y + spritesGroundSize/2);
+        return map.waypoints[this.waypointId].position.Y - (this.position.Y + spritesGroundSize / 2);
     }
 
-    walk(angle){ //il faut verifier si la distance entre l'ennemi et le waypoint et négatif ou pas
+    walk(angle) { //il faut verifier si la distance entre l'ennemi et le waypoint et négatif ou pas
         this.position.X += this.speed * Math.cos(angle);
         this.position.Y += this.speed * Math.sin(angle);
     }
 
     followWaypoints() {
-        this.DirectionAngleInRadian = Math.atan2(this.distBetweenEnnemyWaypointY(this.waypointId), this.distBetweenEnnemyWaypointX(this.waypointId));
-
-        // if ((this.position.X + spritesGroundSize/2) !== map.waypoints[this.waypointId].position.X || (this.position.Y + spritesGroundSize/2) !== map.waypoints[this.waypointId].position.Y) {
-        if (this.checkColisionEnnemyWaypoint() !== this.waypointId) {
-            this.walk(this.DirectionAngleInRadian);
-            //console.log(Math.round(this.position.X),Math.round(this.position.Y) );
+        if(this.waypointId < map.waypoints.length){
+            this.DirectionAngleInRadian = Math.atan2(this.distBetweenEnnemyWaypointY(this.waypointId), this.distBetweenEnnemyWaypointX(this.waypointId));
+            // if ((this.position.X + spritesGroundSize/2) !== map.waypoints[this.waypointId].position.X || (this.position.Y + spritesGroundSize/2) !== map.waypoints[this.waypointId].position.Y) {
+            if (this.checkColisionEnnemyWaypoint() !== this.waypointId) {
+                this.walk(this.DirectionAngleInRadian);
+                //console.log(Math.round(this.position.X),Math.round(this.position.Y) );
+            } else {
+                //console.log("j'ai atteind le waypoint: " + this.waypointId);
+                this.waypointId++;
+            }
         }else{
-            //console.log("j'ai atteind le waypoint: " + this.waypointId);
-            this.waypointId++;
+            ennemies.splice(0,1);
         }
+
+    }
+    killMe(){
+        ennemies.splice(this.id,1);
     }
 
 
@@ -131,7 +145,7 @@ function ennemyFactory(ennemyNumber, positionX, positionY, time) {
     var inter = setInterval(function () {
 
         if (numberEnnemyCreated < ennemyNumber) {
-            arr.push(new Ennemy(1, 200, ennemyType.GREEN, positionX, positionY, true));
+            arr.push(new Ennemy(numberEnnemyCreated,2, 200, ennemyType.GREEN, positionX, positionY, true));
             numberEnnemyCreated++;
         } else {
             clearInterval(inter);

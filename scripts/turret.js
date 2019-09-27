@@ -90,13 +90,15 @@ class Turret {
         var distance = 0;
 
         for (var i = 0; i < ennemies.length; i++) {
-            if (i == 0) {
-                distance = this.distBetweenTurretEnnemy(ennemies[i]);
-                nearestId = i;
-            }
-            if (this.distBetweenTurretEnnemy(ennemies[i]) < distance) {
-                distance = this.distBetweenTurretEnnemy(ennemies[i]);
-                nearestId = i;
+            if (ennemies[i]!== undefined) {
+                if (i == 0) {
+                    distance = this.distBetweenTurretEnnemy(ennemies[i]);
+                    nearestId = i;
+                }
+                if (this.distBetweenTurretEnnemy(ennemies[i]) < distance) {
+                    distance = this.distBetweenTurretEnnemy(ennemies[i]);
+                    nearestId = i;
+                }
             }
         }
         return nearestId;
