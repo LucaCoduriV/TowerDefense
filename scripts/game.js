@@ -73,7 +73,7 @@ class Game{
         //ennemies[0].checkColisionEnnemyWaypoint();
     }
 
-    }
+
 
 //cette fonction représente la gameloop du jeu
     static loop(timestamp) {
