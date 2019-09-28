@@ -65,8 +65,8 @@ class Ennemy {
     }
 
     checkColisionEnnemyWaypoint() {
-        for (var i = 0; i < map.waypoints.length; i++) {
-            if (this.intersectCirclePoint(this.circleHitbox.centerPosition.X, this.circleHitbox.centerPosition.Y, this.circleHitbox.radius, map.waypoints[i].position.X, map.waypoints[i].position.Y)) {
+        for (var i = 0; i < Game.map.waypoints.length; i++) {
+            if (this.intersectCirclePoint(this.circleHitbox.centerPosition.X, this.circleHitbox.centerPosition.Y, this.circleHitbox.radius, Game.map.waypoints[i].position.X, Game.map.waypoints[i].position.Y)) {
                 console.log("tu touches le waypoint: " + i);
                 return i;
             }
@@ -104,11 +104,11 @@ class Ennemy {
     }
 
     distBetweenEnnemyWaypointX(waypointId) {
-        return map.waypoints[this.waypointId].position.X - (this.position.X + spritesGroundSize / 2);
+        return Game.map.waypoints[this.waypointId].position.X - (this.position.X + spritesGroundSize / 2);
     }
 
     distBetweenEnnemyWaypointY(waypointId) {
-        return map.waypoints[this.waypointId].position.Y - (this.position.Y + spritesGroundSize / 2);
+        return Game.map.waypoints[this.waypointId].position.Y - (this.position.Y + spritesGroundSize / 2);
     }
 
     walk(angle) { //il faut verifier si la distance entre l'ennemi et le waypoint et négatif ou pas
@@ -117,7 +117,7 @@ class Ennemy {
     }
 
     followWaypoints() {
-        if(this.waypointId < map.waypoints.length){
+        if(this.waypointId < Game.map.waypoints.length){
             this.DirectionAngleInRadian = Math.atan2(this.distBetweenEnnemyWaypointY(this.waypointId), this.distBetweenEnnemyWaypointX(this.waypointId));
             // if ((this.position.X + spritesGroundSize/2) !== map.waypoints[this.waypointId].position.X || (this.position.Y + spritesGroundSize/2) !== map.waypoints[this.waypointId].position.Y) {
             if (this.checkColisionEnnemyWaypoint() !== this.waypointId) {
@@ -128,12 +128,12 @@ class Ennemy {
                 this.waypointId++;
             }
         }else{
-            ennemies.splice(0,1);
+            Game.ennemies.splice(0,1);
         }
 
     }
     killMe(){
-        ennemies.splice(this.id,1);
+        Game.ennemies.splice(this.id,1);
     }
 
 
@@ -150,6 +150,6 @@ function ennemyFactory(ennemyNumber, positionX, positionY, time) {
         } else {
             clearInterval(inter);
         }
-    }, time)
+    }, time);
     return arr;
 }

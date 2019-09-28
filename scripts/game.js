@@ -20,7 +20,7 @@ class Game{
         }
     }
 
-    start(){
+    static start(){
         requestAnimationFrame(this.loop);
     }
 
@@ -81,11 +81,11 @@ class Game{
         //Calculate fps
 
 
-        this.update();
-        this.draw(secondsPassed);
+        Game.update();
+        Game.draw(secondsPassed);
 
         lastRender = timestamp;
-        requestAnimationFrame(this.loop);
+        requestAnimationFrame(Game.loop);
     }
 
     static drawFPS(secondsPassed) {
