@@ -37,7 +37,9 @@ class Turret {
         this.position = {X: positionX, Y: positionY};
         this.turretBaseSprite = new Image();
         this.turretBaseSprite.src = "assets/sprites/towerDefense_tile181.png";
+        this.angle = 0;
         this.fireRate = 0;
+        this.bullet = new Bullet(this.angle * 180 / Math.PI, 1.1, this.position.X * spritesGroundSize + spritesGroundSize / 2, this.position.Y * spritesGroundSize + spritesGroundSize / 2);
     }
 
     drawTurret(ennemies) {
@@ -45,17 +47,18 @@ class Turret {
         //ces lignes de codes sont appliqué seulement quand un ennemis se trouve sur la map
         try {
            angle  = this.acquireTargetAngle(ennemies);
+            this.angle = this.acquireTargetAngle(ennemies);
         } catch (e) {
-            console.log("aucun ennemis détecté");
         }
         ctx.drawImage(this.turretBaseSprite, spritesGroundSize * this.position.X, spritesGroundSize * this.position.Y, spritesGroundSize, spritesGroundSize);
         ctx.save();
         ctx.translate(spritesGroundSize * this.position.X + spritesGroundSize / 2, spritesGroundSize * this.position.Y + spritesGroundSize / 2);
         //ces lignes de codes sont appliqué seulement quand un ennemis se trouve sur la map
         // la rotation relative à la position du joueur - 90 degrés pour que le cannon pointe le joueur
-        ctx.rotate(angle);
+        ctx.rotate(this.angle);
         ctx.drawImage(this.sprite, -spritesGroundSize / 2, -spritesGroundSize / 2, spritesGroundSize, spritesGroundSize);
         ctx.restore();
+        this.shoot();
     }
 
 
@@ -105,8 +108,16 @@ class Turret {
         return nearestId;
     }
 
-    shoot() {
+    //Créer une nouvelle balle à que la tourelle peut tirer
+    addBullet() {
+        this.bullet = new Bullet(this.angle * 180 / Math.PI, 1.1, this.position.X * spritesGroundSize + spritesGroundSize / 2, this.position.Y * spritesGroundSize + spritesGroundSize / 2);
+    }
 
+    //Tir
+    shoot() {
+        console.log("Je tire ! PEW PEW !");
+        this.bullet.drawBullet();
+        this.bullet.move();
     }
 
     getDestroyed() {

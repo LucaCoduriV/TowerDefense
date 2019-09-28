@@ -45,10 +45,8 @@ class Ennemy {
     //intersection entre un rectangle et un point
     intersectRectanglePoint(x1, y1, w1, h1, x2, y2) {
         if (x2 > x1 + w1 || x2 < x1 || y2 < y1 || y2 > y1 + h1) {
-            //console.log("false");
             return false;
         }
-        //console.log("true");
         return true;
     }
 
@@ -67,7 +65,6 @@ class Ennemy {
     checkColisionEnnemyWaypoint() {
         for (let i = 0; i < Game.map.waypoints.length; i++) {
             if (this.intersectCirclePoint(this.circleHitbox.centerPosition.X, this.circleHitbox.centerPosition.Y, this.circleHitbox.radius, Game.map.waypoints[i].position.X, Game.map.waypoints[i].position.Y)) {
-                console.log("tu touches le waypoint: " + i);
                 return i;
             }
         }
@@ -122,9 +119,7 @@ class Ennemy {
             // if ((this.position.X + spritesGroundSize/2) !== map.waypoints[this.waypointId].position.X || (this.position.Y + spritesGroundSize/2) !== map.waypoints[this.waypointId].position.Y) {
             if (this.checkColisionEnnemyWaypoint() !== this.waypointId) {
                 this.walk(this.DirectionAngleInRadian);
-                //console.log(Math.round(this.position.X),Math.round(this.position.Y) );
             } else {
-                //console.log("j'ai atteind le waypoint: " + this.waypointId);
                 this.waypointId++;
             }
         }else{

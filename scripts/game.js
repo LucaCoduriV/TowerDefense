@@ -70,6 +70,8 @@ class Game{
 
         }
         Game.bullet.move();
+        //ennemies[0].checkColisionEnnemyWaypoint();
+    }
 
     }
 
