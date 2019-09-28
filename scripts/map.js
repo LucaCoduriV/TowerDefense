@@ -51,8 +51,6 @@ class Map {
     checkPointExistInWaypointsTable(x, y) {
 
         for (var i = 0; i < this.waypoints.length; i++) {
-            console.log(this.waypoints[i].position.X, x);
-            console.log(this.waypoints[i].position.Y, y);
             if (this.waypoints[i].position.X === x && this.waypoints[i].position.Y === y) {
                 return true;
             }
@@ -74,7 +72,6 @@ class Map {
 
         while (!stop) {
             next = true;
-            console.log(currentPositionX, currentPositionY);
             //93 représente le numéro de l'image route en terre
             //on check à droite
 

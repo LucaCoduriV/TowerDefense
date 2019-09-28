@@ -10,8 +10,6 @@ function draw(secondsPassed) {
     defense.drawTurret(ennemies);
     defense1.drawTurret(ennemies);
 
-    bullet.drawBullet();
-
     for (var i = 0; i < ennemies.length; i++) {
         if (ennemies[i]!== undefined) ennemies[i].drawEnnemy();
     }
@@ -43,14 +41,6 @@ function update(timestamp) {
 
         //ennemies[0].checkColisionEnnemyWaypoint();
     }
-    try {
-        //console.log(ennemies[0].position);
-        //console.log(Math.floor(ennemies[0].position.X), Math.floor(ennemies[0].position.Y));
-        //console.log("waypoint: " + ennemies[0].waypointId);
-    } catch (e) {
-
-    }
-    bullet.move();
 
 }
 

@@ -4,7 +4,6 @@ let sprites;
 var lastRender = 0;
 var defense = new Turret(levels.level1, 9, 2);
 var defense1 = new Turret(levels.level1, 5, 2);
-var bullet = new Bullet(79, 2, 600,300);
 var map = new Map();
 
 var ennemies = ennemyFactory(20,0 * spritesGroundSize,1 * spritesGroundSize,1000);
