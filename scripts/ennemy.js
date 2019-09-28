@@ -2,7 +2,7 @@
 // X' = (X - Xc) * cos(A) - (Y - Yc) * sin(A) + Xc
 // Y' = (Y - Yc) * cos(A) + (X - Xc) * sin(A) + Yc
 //ennemyType est une liste contenant les différents ennemis.
-var ennemyType = {
+let ennemyType = {
     GREEN: "assets/sprites/towerDefense_tile245.png",
     RED: "assets/sprites/towerDefense_tile246.png",
     BROWN: "assets/sprites/towerDefense_tile247.png"
@@ -65,7 +65,7 @@ class Ennemy {
     }
 
     checkColisionEnnemyWaypoint() {
-        for (var i = 0; i < Game.map.waypoints.length; i++) {
+        for (let i = 0; i < Game.map.waypoints.length; i++) {
             if (this.intersectCirclePoint(this.circleHitbox.centerPosition.X, this.circleHitbox.centerPosition.Y, this.circleHitbox.radius, Game.map.waypoints[i].position.X, Game.map.waypoints[i].position.Y)) {
                 console.log("tu touches le waypoint: " + i);
                 return i;
@@ -96,7 +96,7 @@ class Ennemy {
     }
 
     drawCurrentLifePointBar() {
-        var currentLifeBarSize = this.lifePoint * this.lifePointBarSizeWidth / this.maxLifePoint * spritesGroundSize;
+        let currentLifeBarSize = this.lifePoint * this.lifePointBarSizeWidth / this.maxLifePoint * spritesGroundSize;
         ctx.save();
         ctx.fillStyle = "#57ff11";
         ctx.fillRect(this.position.X + spritesGroundSize / 3, this.position.Y + 20, currentLifeBarSize, this.lifePointBarSizeHeight * spritesGroundSize);
@@ -140,9 +140,9 @@ class Ennemy {
 }
 
 function ennemyFactory(ennemyNumber, positionX, positionY, time) {
-    var numberEnnemyCreated = 0;
-    var arr = [];
-    var inter = setInterval(function () {
+    let numberEnnemyCreated = 0;
+    let arr = [];
+    let inter = setInterval(function () {
 
         if (numberEnnemyCreated < ennemyNumber) {
             arr.push(new Ennemy(numberEnnemyCreated,2, 200, ennemyType.GREEN, positionX, positionY, true));

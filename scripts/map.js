@@ -19,8 +19,8 @@ class Map {
 
     //cette méthode affiche la map sur le canvas
     drawMap() {
-        for (var i = 0; i < this.cords.length; i++) {
-            for (var j = 0; j < this.cords[i].length; j++) {
+        for (let i = 0; i < this.cords.length; i++) {
+            for (let j = 0; j < this.cords[i].length; j++) {
                 ctx.drawImage(sprites[this.cords[i][j]], j * spritesGroundSize, i * spritesGroundSize, spritesGroundSize, spritesGroundSize);
             }
         }
@@ -36,9 +36,9 @@ class Map {
 
     //permet de compter le nombre d'élément egaux se trouvent dans un tableau
     countNumberElementIn2DTable(table2D, element) {
-        var count = 0;
-        for (var i = 0; i < table2D.length; i++) {
-            for (var j = 0; j < table2D[0].length; j++) {
+        let count = 0;
+        for (let i = 0; i < table2D.length; i++) {
+            for (let j = 0; j < table2D[0].length; j++) {
                 if (table2D[i][j] === 93) {
                     count++;
                 }
@@ -50,7 +50,7 @@ class Map {
     //cette méthode permet vérifier si x et y existe déjà dans le tableau des waypoints
     checkPointExistInWaypointsTable(x, y) {
 
-        for (var i = 0; i < this.waypoints.length; i++) {
+        for (let i = 0; i < this.waypoints.length; i++) {
             console.log(this.waypoints[i].position.X, x);
             console.log(this.waypoints[i].position.Y, y);
             if (this.waypoints[i].position.X === x && this.waypoints[i].position.Y === y) {
@@ -62,13 +62,13 @@ class Map {
 
     //place les waypoint de la map en vérifiant ou se trouve les chemins du tableau coords
     setWaypoints() {
-        var numberOfWaypoint = 0;
-        var totalNumberOfWayPoint = this.countNumberElementIn2DTable(this.cords, 93);
-        var currentPositionX = this.startCords.X;
-        var currentPositionY = this.startCords.Y;
+        let numberOfWaypoint = 0;
+        let totalNumberOfWayPoint = this.countNumberElementIn2DTable(this.cords, 93);
+        let currentPositionX = this.startCords.X;
+        let currentPositionY = this.startCords.Y;
 
-        var stop = false;
-        var next = true;
+        let stop = false;
+        let next = true;
 
         this.waypoints.push(new Waypoint(numberOfWaypoint, this.startCords.X * spritesGroundSize + spritesGroundSize / 2, this.startCords.Y * spritesGroundSize + spritesGroundSize / 2));
 
@@ -127,8 +127,8 @@ class Map {
         }
 
 
-        // for (var axeY = 0; axeY < this.cords.length; axeY++){
-        //     for (var axeX = 0; axeX < this.cords[i].length; axeX++) {
+        // for (let axeY = 0; axeY < this.cords.length; axeY++){
+        //     for (let axeX = 0; axeX < this.cords[i].length; axeX++) {
         //
         //     }
         // }
@@ -154,7 +154,7 @@ class Waypoint {
 //Création du tableau contenant les 299 sprites du jeux
 function loadSprites() {
     sprites = new Array(300);
-    for (var i = 1; i <= 299; i++) {
+    for (let i = 1; i <= 299; i++) {
         sprites[i] = new Image();
 
         if (i % 100 !== i) {

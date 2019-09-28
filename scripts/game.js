@@ -15,7 +15,7 @@ class Game{
     static turretsPositions = new Array(Game.map.cords.length);
 
     constructor(){
-        for (var i = 0; i < Game.turretsPositions.length; i++) {
+        for (let i = 0; i < Game.turretsPositions.length; i++) {
             Game.turretsPositions[i] = new Array(Game.map.cords[0].length);
         }
     }
@@ -31,7 +31,7 @@ class Game{
 
         Game.bullet.drawBullet();
 
-        for (var i = 0; i < Game.ennemies.length; i++) {
+        for (let i = 0; i < Game.ennemies.length; i++) {
             if (Game.ennemies[i]!== undefined) Game.ennemies[i].drawEnnemy();
         }
 
@@ -39,7 +39,7 @@ class Game{
     }
 
 //Cette fonction met à jour les éléments
-    static update() {
+    static update(timestamp) {
         if (key_left) {
             Game.ennemies[0].position.X -= 10;
         }
@@ -52,7 +52,7 @@ class Game{
         if (key_down) {
             Game.ennemies[0].position.Y += 10;
         }
-        for (var i = 0; i < Game.ennemies.length; i++) {
+        for (let i = 0; i < Game.ennemies.length; i++) {
             if (Game.ennemies[i]!== undefined) {
                 Game.ennemies[i].updateHitbox();
                 Game.ennemies[i].checkColisionEnnemyWaypoint();
@@ -77,11 +77,11 @@ class Game{
     static loop(timestamp) {
         //Calculate the number of seconds passed
         //since the last frame
-        var secondsPassed = (timestamp - lastRender) / 1000;
+        let secondsPassed = (timestamp - lastRender) / 1000;
         //Calculate fps
 
 
-        Game.update();
+        Game.update(timestamp);
         Game.draw(secondsPassed);
 
         lastRender = timestamp;
@@ -89,7 +89,7 @@ class Game{
     }
 
     static drawFPS(secondsPassed) {
-        var fps = Math.round(1 / secondsPassed);
+        let fps = Math.round(1 / secondsPassed);
         //Draw number to the screen
         ctx.font = '25px Arial';
         ctx.fillStyle = 'black';

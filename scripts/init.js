@@ -1,7 +1,7 @@
 let canvas;
 let ctx;
 let sprites;
-var lastRender = 0;
+let lastRender = 0;
 
 
 //quand la page à chargé tous ses fichiers.

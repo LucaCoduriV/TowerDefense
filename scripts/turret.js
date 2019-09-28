@@ -41,9 +41,10 @@ class Turret {
     }
 
     drawTurret(ennemies) {
+        let angle
         //ces lignes de codes sont appliqué seulement quand un ennemis se trouve sur la map
         try {
-            var angle = this.acquireTargetAngle(ennemies);
+           angle  = this.acquireTargetAngle(ennemies);
         } catch (e) {
             console.log("aucun ennemis détecté");
         }
@@ -60,9 +61,9 @@ class Turret {
 
     //Trouve l'angle que la tourrelle doit prendre pour viser l'ennemi le plus proche
     acquireTargetAngle(ennemies) {
-        var nearestEnnemy = this.lookForNearestEnnemy(ennemies);
-        var angleCorrection = (-90 * Math.PI / 180);
-        var angle = ((Math.atan2(this.distBetweenTurretEnnemyY(ennemies, nearestEnnemy), this.distBetweenTurretEnnemyX(ennemies, nearestEnnemy))) + angleCorrection);
+        let nearestEnnemy = this.lookForNearestEnnemy(ennemies);
+        let angleCorrection = (-90 * Math.PI / 180);
+        let angle = ((Math.atan2(this.distBetweenTurretEnnemyY(ennemies, nearestEnnemy), this.distBetweenTurretEnnemyX(ennemies, nearestEnnemy))) + angleCorrection);
         return angle;
     }
 
@@ -78,18 +79,18 @@ class Turret {
 
     //Est la distance entre la tourrelle et le joueur.
     distBetweenTurretEnnemy(ennemy) {
-        var distX = this.position.X * spritesGroundSize - ennemy.position.X;
-        var distY = this.position.Y * spritesGroundSize - ennemy.position.Y;
+        let distX = this.position.X * spritesGroundSize - ennemy.position.X;
+        let distY = this.position.Y * spritesGroundSize - ennemy.position.Y;
 
         return Math.sqrt(Math.pow(distX, 2) + Math.pow(distY, 2));
     }
 
     //Cherche l'id de l'ennemi le plus proche de la tourrelle en question
     lookForNearestEnnemy(ennemies) {
-        var nearestId;
-        var distance = 0;
+        let nearestId;
+        let distance = 0;
 
-        for (var i = 0; i < ennemies.length; i++) {
+        for (let i = 0; i < ennemies.length; i++) {
             if (ennemies[i]!== undefined) {
                 if (i == 0) {
                     distance = this.distBetweenTurretEnnemy(ennemies[i]);
