@@ -7,56 +7,50 @@
 //cette fonction dessine sur le canevas
 
 class Game{
-    static map = new Map();
-    static defense = new Turret(levels.level1, 9, 2);
-    static defense1 = new Turret(levels.level1, 5, 2);
-    static ennemies = ennemyFactory(20,0 * spritesGroundSize,1 * spritesGroundSize,1000);
-    static bullet = new Bullet(79, 2, 600,300);
-    static turretsPositions = new Array(Game.map.cords.length);
-
     constructor(){
-        for (let i = 0; i < Game.turretsPositions.length; i++) {
-            Game.turretsPositions[i] = new Array(Game.map.cords[0].length);
+        let that = this;
+        for (let i = 0; i < Entity.turretsPositions.length; i++) {
+            Entity.turretsPositions[i] = new Array(Entity.map.cords[0].length);
         }
     }
 
-    static start(){
-        requestAnimationFrame(this.loop);
+    start(){
+        requestAnimationFrame((timestamp) => this.loop(timestamp));
     }
 
-    static draw(secondsPassed) {
-        Game.map.drawMap();
-        Game.defense.drawTurret(Game.ennemies);
-        Game.defense1.drawTurret(Game.ennemies);
+    draw(secondsPassed) {
+        Entity.map.drawMap();
+        Entity.defense.drawTurret(Entity.ennemies);
+        Entity.defense1.drawTurret(Entity.ennemies);
 
-        Game.bullet.drawBullet();
+        Entity.bullets.drawBullet();
 
-        for (let i = 0; i < Game.ennemies.length; i++) {
-            if (Game.ennemies[i]!== undefined) Game.ennemies[i].drawEnnemy();
+        for (let i = 0; i < Entity.ennemies.length; i++) {
+            if (Entity.ennemies[i]!== undefined) Entity.ennemies[i].drawEnnemy();
         }
 
         this.drawFPS(secondsPassed);
     }
 
 //Cette fonction met à jour les éléments
-    static update(timestamp) {
+    update(timestamp) {
         if (key_left) {
-            Game.ennemies[0].position.X -= 10;
+            Entity.ennemies[0].position.X -= 10;
         }
         if (key_right) {
-            Game.ennemies[0].position.X += 10;
+            Entity.ennemies[0].position.X += 10;
         }
         if (key_up) {
-            Game.ennemies[0].position.Y -= 10;
+            Entity.ennemies[0].position.Y -= 10;
         }
         if (key_down) {
-            Game.ennemies[0].position.Y += 10;
+            Entity.ennemies[0].position.Y += 10;
         }
-        for (let i = 0; i < Game.ennemies.length; i++) {
-            if (Game.ennemies[i]!== undefined) {
-                Game.ennemies[i].updateHitbox();
-                Game.ennemies[i].checkColisionEnnemyWaypoint();
-                Game.ennemies[i].followWaypoints();
+        for (let i = 0; i < Entity.ennemies.length; i++) {
+            if (Entity.ennemies[i]!== undefined) {
+                Entity.ennemies[i].updateHitbox();
+                Entity.ennemies[i].checkColisionEnnemyWaypoint();
+                Entity.ennemies[i].followWaypoints();
 
             }
 
@@ -69,28 +63,28 @@ class Game{
         } catch (e) {
 
         }
-        Game.bullet.move();
+        Entity.bullets.move();
         //ennemies[0].checkColisionEnnemyWaypoint();
     }
 
 
 
 //cette fonction représente la gameloop du jeu
-    static loop(timestamp) {
+    loop(timestamp) {
         //Calculate the number of seconds passed
         //since the last frame
         let secondsPassed = (timestamp - lastRender) / 1000;
         //Calculate fps
 
 
-        Game.update(timestamp);
-        Game.draw(secondsPassed);
+        this.update(timestamp);
+        this.draw(secondsPassed);
 
         lastRender = timestamp;
-        requestAnimationFrame(Game.loop);
+        requestAnimationFrame((timestamp) => this.loop(timestamp));
     }
 
-    static drawFPS(secondsPassed) {
+    drawFPS(secondsPassed) {
         let fps = Math.round(1 / secondsPassed);
         //Draw number to the screen
         ctx.font = '25px Arial';

@@ -2,6 +2,7 @@ let canvas;
 let ctx;
 let sprites;
 let lastRender = 0;
+let game = new Game();
 
 
 //quand la page à chargé tous ses fichiers.
@@ -17,6 +18,6 @@ function init() {
     loadSprites();
     console.log("sprites loaded");
 
-    Game.start();
+    game.start();
 
 }
