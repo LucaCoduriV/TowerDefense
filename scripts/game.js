@@ -22,11 +22,12 @@ class Game{
 
     draw(secondsPassed) {
         Entity.map.drawMap();
-        Entity.defense.draw();
-        Entity.defense1.draw();
         Entity.bullets.forEach( (element) => {
             element.draw();
         } );
+        Entity.defense.draw();
+        Entity.defense1.draw();
+
 
 
 
