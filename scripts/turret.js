@@ -9,11 +9,12 @@ class Bullet {
         this.sprite.src = "assets/sprites/towerDefense_tile297.png";
         this.position = {X: positionX, Y: positionY};
         this.speed = speed;
-        this.angle = angle;
+        this.angle = angle - Math.PI / 2;
     }
 
     draw(){
         this.drawBullet();
+
     }
     update(){
         this.move();
@@ -23,14 +24,14 @@ class Bullet {
     drawBullet() {
         ctx.save();
         ctx.translate(this.position.X, this.position.Y);
-        ctx.rotate(this.angle * Math.PI / 180);
+        ctx.rotate(this.angle - Math.PI / 2);
         ctx.drawImage(this.sprite, -spritesGroundSize / 2, -spritesGroundSize / 2, spritesGroundSize, spritesGroundSize); //-spritesGroudSize / 2 permet de placer le sprite en gardant l'origine au milieu de l'image
         ctx.restore();
     }
 
     move() {
-        this.position.X += this.speed * Math.sin(this.angle * Math.PI / -180);
-        this.position.Y += this.speed * Math.cos(this.angle * Math.PI / -180);
+        this.position.X += this.speed * Math.cos(this.angle);
+        this.position.Y += this.speed * Math.sin(this.angle);
     }
 
     hitTarget() {
@@ -47,7 +48,6 @@ class Turret {
         this.turretBaseSprite.src = "assets/sprites/towerDefense_tile181.png";
         this.angle = 0;
         this.fireRate = 0;
-        this.bullet = new Bullet(this.angle * 180 / Math.PI, 1.1, this.position.X * spritesGroundSize + spritesGroundSize / 2, this.position.Y * spritesGroundSize + spritesGroundSize / 2);
     }
 
     draw(){
@@ -107,7 +107,7 @@ class Turret {
 
         for (let i = 0; i < ennemies.length; i++) {
             if (ennemies[i]!== undefined) {
-                if (i == 0) {
+                if (i === 0) {
                     distance = this.distBetweenTurretEnnemy(ennemies[i]);
                     nearestId = i;
                 }
@@ -122,9 +122,12 @@ class Turret {
 
     //Tir
     shoot() {
-        //console.log("Je tire ! PEW PEW !");
-        this.bullet.drawBullet();
-        this.bullet.move();
+        //
+
+        //À la fin des 60 refresh, on crée une balle (Ici, une balle est créée chaque seconde)
+        if (game.remainingRefreshes === 1) {
+            Entity.createBullet(this.angle, 1, spritesGroundSize * this.position.X + spritesGroundSize / 2, spritesGroundSize * this.position.Y + spritesGroundSize / 2);
+        }
     }
 
     getDestroyed() {

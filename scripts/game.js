@@ -7,12 +7,13 @@
 //cette fonction dessine sur le canevas
 
 class Game{
+    remainingRefreshes = 60; //Nombre de refresh restants à effectuer en une seconde
     constructor(){
         let that = this;
         for (let i = 0; i < Entity.turretsPositions.length; i++) {
             Entity.turretsPositions[i] = new Array(Entity.map.cords[0].length);
         }
-        Entity.ennemies = Entity.createEnnemy(20,0 * spritesGroundSize,1 * spritesGroundSize,1000);
+        Entity.ennemies = Entity.createEnnemy(1,0 * spritesGroundSize,1 * spritesGroundSize,1000);
     }
 
     start(){
@@ -23,6 +24,9 @@ class Game{
         Entity.map.drawMap();
         Entity.defense.draw();
         Entity.defense1.draw();
+        Entity.bullets.forEach( (element) => {
+            element.draw();
+        } );
 
 
 
@@ -40,6 +44,9 @@ class Game{
     update(timestamp) {
         Entity.defense.update();
         Entity.defense1.update();
+        Entity.bullets.forEach( (element) => {
+            element.update();
+        } );
 
         if (key_left) {
             Entity.ennemies[0].position.X -= 10;
@@ -72,6 +79,13 @@ class Game{
 
         this.update(timestamp);
         this.draw(secondsPassed);
+
+        if (this.remainingRefreshes > 1) {
+            this.remainingRefreshes--;
+        }
+        else {
+            this.remainingRefreshes = 60;
+        }
 
         lastRender = timestamp;
         requestAnimationFrame((timestamp) => this.loop(timestamp));

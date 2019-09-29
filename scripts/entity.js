@@ -19,8 +19,8 @@ class Entity {
     }
 
 
-    static createBullet(bulletNumber, angle, speed, positionX, positionY, time) {
-                Entity.bullets.push(new Bullet(angle, speed, positionX, positionY));
+    static createBullet(angle, speed, positionX, positionY) {
+        Entity.bullets.push(new Bullet(angle, speed, positionX, positionY));
     }
 
 
