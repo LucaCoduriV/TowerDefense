@@ -12,11 +12,12 @@ class Bullet {
         this.angle = angle - Math.PI / 2;
     }
 
-    draw(){
+    draw() {
         this.drawBullet();
 
     }
-    update(){
+
+    update() {
         this.move();
     }
 
@@ -42,6 +43,8 @@ class Bullet {
 class Turret {
     _distanceBetweenTurretEnnemy;
     _nearestEnnemy;
+    _hitbox;
+
     constructor(level, positionX, positionY) {
         this.sprite = new Image();
         this.sprite.src = level;
@@ -51,16 +54,27 @@ class Turret {
         this.angle = 0;
         this.fireRate = 15;
         this.range = 250;
+        this._hitbox = {
+            X: positionX * spritesGroundSize,
+            Y: positionY * spritesGroundSize,
+            W: spritesGroundSize,
+            H: spritesGroundSize
+        };
     }
 
-    draw(){
-        this.drawRange();
+    draw() {
+        //quand la souris est sur la tourelle
+        if(this.isMouseOnTurret()){
+            this.drawRange();
+        }
+
         this.drawTurret(Entity.ennemies);
     }
-    update(){
+
+    update() {
 
         //vérifier si un ennemis se trouve sur la map
-        if(Entity.ennemies.length > 0) {
+        if (Entity.ennemies.length > 0) {
             this.angle = this.acquireTargetAngle(Entity.ennemies);
         }
         this.shoot();
@@ -76,16 +90,30 @@ class Turret {
         ctx.drawImage(this.sprite, -spritesGroundSize / 2, -spritesGroundSize / 2, spritesGroundSize, spritesGroundSize);
         ctx.restore();
     }
-    drawRange(){
+
+    drawRange() {
         ctx.save();
         ctx.fillStyle = "rgba(255, 255, 255, 0.5)";
         ctx.strokeStyle = "rgba(0,0,0)";
         ctx.beginPath();
-        ctx.arc(this.position.X * spritesGroundSize + spritesGroundSize/2, this.position.Y * spritesGroundSize + spritesGroundSize/2, this.range, 0, 2 * Math.PI);
+        ctx.arc(this.position.X * spritesGroundSize + spritesGroundSize / 2, this.position.Y * spritesGroundSize + spritesGroundSize / 2, this.range, 0, 2 * Math.PI);
         ctx.fill();
         ctx.stroke();
         ctx.restore();
     }
+
+    intersectRectanglePoint(x1, y1, w1, h1, x2, y2) {
+        if (x2 > x1 + w1 || x2 < x1 || y2 < y1 || y2 > y1 + h1) {
+            return false;
+        }
+        return true;
+    }
+
+    isMouseOnTurret() {
+        return this.intersectRectanglePoint(this._hitbox.X, this._hitbox.Y, this._hitbox.W, this._hitbox.H, Mouse.position.X, Mouse.position.Y);
+    }
+
+
 
 
     //Trouve l'angle que la tourrelle doit prendre pour viser l'ennemi le plus proche
@@ -119,7 +147,7 @@ class Turret {
         let nearestId;
 
         for (let i = 0; i < ennemies.length; i++) {
-            if (ennemies[i]!== undefined) {
+            if (ennemies[i] !== undefined) {
                 if (i === 0) {
                     this._distanceBetweenTurretEnnemy = this.distBetweenTurretEnnemy(ennemies[i]);
                     nearestId = i;
@@ -136,7 +164,7 @@ class Turret {
     //Tir
     shoot() {
         //on verifie si l'ennemi se trouve dans le range de la tourelle
-        if(this._distanceBetweenTurretEnnemy < this.range){
+        if (this._distanceBetweenTurretEnnemy < this.range) {
             //À la fin des 60 refresh, on crée une balle (Ici, une balle est créée chaque seconde)
             if (game.remainingRefreshes % this.fireRate === 0) {
                 Entity.createBullet(this.angle, 5, spritesGroundSize * this.position.X + spritesGroundSize / 2, spritesGroundSize * this.position.Y + spritesGroundSize / 2);
