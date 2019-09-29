@@ -126,7 +126,6 @@ class Ennemy {
     followWaypoints() {
         if(this.waypointId < Entity.map.waypoints.length){
             this.DirectionAngleInRadian = Math.atan2(this.distBetweenEnnemyWaypointY(this.waypointId), this.distBetweenEnnemyWaypointX(this.waypointId));
-            console.log(this.DirectionAngleInRadian);
             // if ((this.position.X + spritesGroundSize/2) !== map.waypoints[this.waypointId].position.X || (this.position.Y + spritesGroundSize/2) !== map.waypoints[this.waypointId].position.Y) {
             if (this.checkColisionEnnemyWaypoint() !== this.waypointId) {
                 this.walk(this.DirectionAngleInRadian);

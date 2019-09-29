@@ -9,7 +9,7 @@ var key_right = false;
 
 
 //permet de détecter quand une touche est appuyée.
-function handleKeyDown(event){
+function handleKeyDown(event) {
     switch (event.code) {
         default:
             break;
@@ -27,6 +27,7 @@ function handleKeyDown(event){
             break;
     }
 }
+
 //permet de détecter quand une touche est relachée
 function handleKeyUp(event) {
     switch (event.code) {
@@ -46,6 +47,15 @@ function handleKeyUp(event) {
             break;
     }
 }
-function handleMouseMove(event) {
 
+function handleMouseMove(event) {
+    var rect = canvas.getBoundingClientRect();
+    Mouse.position.X = event.clientX - rect.left;
+    Mouse.position.Y = event.clientY - rect.top;
+
+}
+class Mouse{
+    static position = {X: 0, Y:0}
+    constructor(){
+    }
 }
