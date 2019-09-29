@@ -108,14 +108,9 @@ class Turret {
         return nearestId;
     }
 
-    //Créer une nouvelle balle à que la tourelle peut tirer
-    addBullet() {
-        this.bullet = new Bullet(this.angle * 180 / Math.PI, 1.1, this.position.X * spritesGroundSize + spritesGroundSize / 2, this.position.Y * spritesGroundSize + spritesGroundSize / 2);
-    }
-
     //Tir
     shoot() {
-        console.log("Je tire ! PEW PEW !");
+        //console.log("Je tire ! PEW PEW !");
         this.bullet.drawBullet();
         this.bullet.move();
     }

@@ -12,6 +12,7 @@ class Game{
         for (let i = 0; i < Entity.turretsPositions.length; i++) {
             Entity.turretsPositions[i] = new Array(Entity.map.cords[0].length);
         }
+        Entity.ennemies = Entity.createEnnemy(20,0 * spritesGroundSize,1 * spritesGroundSize,1000);
     }
 
     start(){
@@ -23,8 +24,11 @@ class Game{
         Entity.defense.drawTurret(Entity.ennemies);
         Entity.defense1.drawTurret(Entity.ennemies);
 
-        Entity.bullets.drawBullet();
 
+
+        // for (let i = 0; i < Entity.bullets.length; i++) {
+        //     if (Entity.bullets[i]!== undefined) Entity.bullets[i].drawBullet();
+        // }
         for (let i = 0; i < Entity.ennemies.length; i++) {
             if (Entity.ennemies[i]!== undefined) Entity.ennemies[i].drawEnnemy();
         }
@@ -53,18 +57,7 @@ class Game{
                 Entity.ennemies[i].followWaypoints();
 
             }
-
-            //ennemies[0].checkColisionEnnemyWaypoint();
         }
-        try {
-            //console.log(ennemies[0].position);
-            //console.log(Math.floor(ennemies[0].position.X), Math.floor(ennemies[0].position.Y));
-            //console.log("waypoint: " + ennemies[0].waypointId);
-        } catch (e) {
-
-        }
-        Entity.bullets.move();
-        //ennemies[0].checkColisionEnnemyWaypoint();
     }
 
 
