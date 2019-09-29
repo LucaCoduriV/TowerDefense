@@ -22,21 +22,11 @@ class Game{
 
     draw(secondsPassed) {
         Entity.map.drawMap();
-        Entity.bullets.forEach( (element) => {
-            element.draw();
-        } );
+        Entity.bullets.forEach( (element) => element.draw());
         Entity.defense.draw();
         Entity.defense1.draw();
 
-
-
-
-        // for (let i = 0; i < Entity.bullets.length; i++) {
-        //     if (Entity.bullets[i]!== undefined) Entity.bullets[i].drawBullet();
-        // }
-        for (let i = 0; i < Entity.ennemies.length; i++) {
-            if (Entity.ennemies[i]!== undefined) Entity.ennemies[i].draw();
-        }
+        Entity.ennemies.forEach( (element) => element.draw());
 
         this.drawFPS(secondsPassed);
     }
