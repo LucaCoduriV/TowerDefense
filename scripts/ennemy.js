@@ -134,7 +134,7 @@ class Ennemy {
         }
 
     }
-    killMe(){
+    die(){
         Entity.ennemies.splice(this.id,1);
     }
 
