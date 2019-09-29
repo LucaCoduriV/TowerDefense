@@ -47,7 +47,7 @@ class Turret {
         this.turretBaseSprite = new Image();
         this.turretBaseSprite.src = "assets/sprites/towerDefense_tile181.png";
         this.angle = 0;
-        this.fireRate = 0;
+        this.fireRate = 15;
     }
 
     draw(){
@@ -125,8 +125,8 @@ class Turret {
         //
 
         //À la fin des 60 refresh, on crée une balle (Ici, une balle est créée chaque seconde)
-        if (game.remainingRefreshes === 1) {
-            Entity.createBullet(this.angle, 1, spritesGroundSize * this.position.X + spritesGroundSize / 2, spritesGroundSize * this.position.Y + spritesGroundSize / 2);
+        if (game.remainingRefreshes % this.fireRate === 0) {
+            Entity.createBullet(this.angle, 5, spritesGroundSize * this.position.X + spritesGroundSize / 2, spritesGroundSize * this.position.Y + spritesGroundSize / 2);
         }
     }
 

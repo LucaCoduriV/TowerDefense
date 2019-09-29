@@ -7,7 +7,7 @@
 //cette fonction dessine sur le canevas
 
 class Game{
-    remainingRefreshes = 60; //Nombre de refresh restants à effectuer en une seconde
+    remainingRefreshes = 3600; //Nombre de refresh restants à effectuer pour 1 minutes
     constructor(){
         let that = this;
         for (let i = 0; i < Entity.turretsPositions.length; i++) {
@@ -85,7 +85,7 @@ class Game{
             this.remainingRefreshes--;
         }
         else {
-            this.remainingRefreshes = 60;
+            this.remainingRefreshes = 3600;
         }
 
         lastRender = timestamp;
