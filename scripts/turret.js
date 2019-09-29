@@ -40,6 +40,8 @@ class Bullet {
 }
 
 class Turret {
+    _distanceBetweenTurretEnnemy;
+    _nearestEnnemy;
     constructor(level, positionX, positionY) {
         this.sprite = new Image();
         this.sprite.src = level;
@@ -48,9 +50,11 @@ class Turret {
         this.turretBaseSprite.src = "assets/sprites/towerDefense_tile181.png";
         this.angle = 0;
         this.fireRate = 15;
+        this.range = 300;
     }
 
     draw(){
+        this.drawRange();
         this.drawTurret(Entity.ennemies);
     }
     update(){
@@ -72,13 +76,23 @@ class Turret {
         ctx.drawImage(this.sprite, -spritesGroundSize / 2, -spritesGroundSize / 2, spritesGroundSize, spritesGroundSize);
         ctx.restore();
     }
+    drawRange(){
+        ctx.save();
+        ctx.fillStyle = "rgba(255, 255, 255, 0.5)";
+        ctx.strokeStyle = "rgba(0,0,0)";
+        ctx.beginPath();
+        ctx.arc(this.position.X * spritesGroundSize + spritesGroundSize/2, this.position.Y * spritesGroundSize + spritesGroundSize/2, this.range, 0, 2 * Math.PI);
+        ctx.fill();
+        ctx.stroke();
+        ctx.restore();
+    }
 
 
     //Trouve l'angle que la tourrelle doit prendre pour viser l'ennemi le plus proche
     acquireTargetAngle(ennemies) {
-        let nearestEnnemy = this.lookForNearestEnnemy(ennemies);
+        this._nearestEnnemy = this.lookForNearestEnnemy(ennemies);
         let angleCorrection = (-90 * Math.PI / 180);
-        let angle = ((Math.atan2(this.distBetweenTurretEnnemyY(ennemies, nearestEnnemy), this.distBetweenTurretEnnemyX(ennemies, nearestEnnemy))) + angleCorrection);
+        let angle = ((Math.atan2(this.distBetweenTurretEnnemyY(ennemies, this._nearestEnnemy), this.distBetweenTurretEnnemyX(ennemies, this._nearestEnnemy))) + angleCorrection);
         return angle;
     }
 
@@ -103,16 +117,15 @@ class Turret {
     //Cherche l'id de l'ennemi le plus proche de la tourrelle en question
     lookForNearestEnnemy(ennemies) {
         let nearestId;
-        let distance = 0;
 
         for (let i = 0; i < ennemies.length; i++) {
             if (ennemies[i]!== undefined) {
                 if (i === 0) {
-                    distance = this.distBetweenTurretEnnemy(ennemies[i]);
+                    this._distanceBetweenTurretEnnemy = this.distBetweenTurretEnnemy(ennemies[i]);
                     nearestId = i;
                 }
-                if (this.distBetweenTurretEnnemy(ennemies[i]) < distance) {
-                    distance = this.distBetweenTurretEnnemy(ennemies[i]);
+                if (this.distBetweenTurretEnnemy(ennemies[i]) < this._distanceBetweenTurretEnnemy) {
+                    this._distanceBetweenTurretEnnemy = this.distBetweenTurretEnnemy(ennemies[i]);
                     nearestId = i;
                 }
             }
@@ -122,12 +135,15 @@ class Turret {
 
     //Tir
     shoot() {
-        //
-
-        //À la fin des 60 refresh, on crée une balle (Ici, une balle est créée chaque seconde)
-        if (game.remainingRefreshes % this.fireRate === 0) {
-            Entity.createBullet(this.angle, 5, spritesGroundSize * this.position.X + spritesGroundSize / 2, spritesGroundSize * this.position.Y + spritesGroundSize / 2);
+        //on verifie si l'ennemi se trouve dans le range de la tourelle
+        if(this._distanceBetweenTurretEnnemy < this.range){
+            //À la fin des 60 refresh, on crée une balle (Ici, une balle est créée chaque seconde)
+            if (game.remainingRefreshes % this.fireRate === 0) {
+                Entity.createBullet(this.angle, 5, spritesGroundSize * this.position.X + spritesGroundSize / 2, spritesGroundSize * this.position.Y + spritesGroundSize / 2);
+            }
         }
+
+
     }
 
     getDestroyed() {
