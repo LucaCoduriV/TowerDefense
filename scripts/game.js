@@ -5,6 +5,7 @@
 //https://gamedevelopment.tutsplus.com/tutorials/collision-detection-using-the-separating-axis-theorem--gamedev-169
 //https://www.briankoponen.com/html5-javascript-game-tutorial-space-invaders-part-5/
 //cette fonction dessine sur le canevas
+//todo adapter la vitesse en fonction de la taille du canevas
 
 class Game{
     remainingRefreshes = 3600; //Nombre de refresh restants à effectuer pour 1 minutes

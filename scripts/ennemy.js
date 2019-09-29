@@ -1,6 +1,3 @@
-//todo faire tourner la hitbox avec le personnage
-// X' = (X - Xc) * cos(A) - (Y - Yc) * sin(A) + Xc
-// Y' = (Y - Yc) * cos(A) + (X - Xc) * sin(A) + Yc
 //ennemyType est une liste contenant les différents ennemis.
 let ennemyType = {
     GREEN: "assets/sprites/towerDefense_tile245.png",

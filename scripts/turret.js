@@ -53,7 +53,7 @@ class Turret {
         this.turretBaseSprite.src = "assets/sprites/towerDefense_tile181.png";
         this.angle = 0;
         this.fireRate = 15;
-        this.range = 250;
+        this.range = 2.5 * spritesGroundSize;
         this._hitbox = {
             X: positionX * spritesGroundSize,
             Y: positionY * spritesGroundSize,
