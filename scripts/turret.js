@@ -42,14 +42,19 @@ class Turret {
         this.bullet = new Bullet(this.angle * 180 / Math.PI, 1.1, this.position.X * spritesGroundSize + spritesGroundSize / 2, this.position.Y * spritesGroundSize + spritesGroundSize / 2);
     }
 
-    drawTurret(ennemies) {
-        let angle
-        //ces lignes de codes sont appliqué seulement quand un ennemis se trouve sur la map
-        try {
-           angle  = this.acquireTargetAngle(ennemies);
-            this.angle = this.acquireTargetAngle(ennemies);
-        } catch (e) {
+    draw(){
+        this.drawTurret(Entity.ennemies);
+    }
+    update(){
+
+        //vérifier si un ennemis se trouve sur la map
+        if(Entity.ennemies.length > 0) {
+            this.angle = this.acquireTargetAngle(Entity.ennemies);
         }
+        this.shoot();
+    }
+
+    drawTurret(ennemies) {
         ctx.drawImage(this.turretBaseSprite, spritesGroundSize * this.position.X, spritesGroundSize * this.position.Y, spritesGroundSize, spritesGroundSize);
         ctx.save();
         ctx.translate(spritesGroundSize * this.position.X + spritesGroundSize / 2, spritesGroundSize * this.position.Y + spritesGroundSize / 2);
@@ -58,7 +63,6 @@ class Turret {
         ctx.rotate(this.angle);
         ctx.drawImage(this.sprite, -spritesGroundSize / 2, -spritesGroundSize / 2, spritesGroundSize, spritesGroundSize);
         ctx.restore();
-        this.shoot();
     }
 
 

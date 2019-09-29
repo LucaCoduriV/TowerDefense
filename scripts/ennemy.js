@@ -25,13 +25,21 @@ class Ennemy {
         this.waypointId = 0;
         this.circleHitbox = {centerPosition: {X: 0, Y: 0}, radius: 18};
     }
-
-    //va mettre à jour les coordonnées de la hitbox
-    updateHitbox() {
-        this.circleHitbox.centerPosition.X = this.position.X + spritesGroundSize / 2;
-        this.circleHitbox.centerPosition.Y = this.position.Y + spritesGroundSize / 2;
-
+    //draw est appelé en boucle par la fonction draw de la classe game
+    draw(){
+        this.drawEnnemy();
+        this.drawHitbox();
+        this.drawMaxLifePointBar();
+        this.drawCurrentLifePointBar();
     }
+
+    //update est appelé en boucle par la fonction update de la classe game
+    update(){
+        this.updateHitbox();
+        this.checkColisionEnnemyWaypoint();
+        this.followWaypoints();
+    }
+
 
     drawHitbox() {
         ctx.save();
@@ -40,6 +48,37 @@ class Ennemy {
         ctx.arc(this.circleHitbox.centerPosition.X, this.circleHitbox.centerPosition.Y, this.circleHitbox.radius, 0, 2 * Math.PI);
         ctx.fill();
         ctx.restore();
+    }
+    //permet de dessiner l'ennemi
+    drawEnnemy() {
+        ctx.save();
+        ctx.translate(this.position.X + spritesGroundSize / 2, this.position.Y + spritesGroundSize / 2);
+        ctx.rotate(this.DirectionAngleInRadian);
+        ctx.translate(-(this.position.X + spritesGroundSize / 2), -(this.position.Y + spritesGroundSize / 2));
+        ctx.drawImage(this.sprite, this.position.X, this.position.Y, spritesGroundSize, spritesGroundSize);
+        ctx.restore();
+    }
+
+    drawMaxLifePointBar() {
+        ctx.save();
+        ctx.fillStyle = "#FF0000";
+        ctx.fillRect(this.position.X + spritesGroundSize / 3, this.position.Y + 20, this.lifePointBarSizeWidth * spritesGroundSize, this.lifePointBarSizeHeight * spritesGroundSize);
+        ctx.restore();
+    }
+
+    drawCurrentLifePointBar() {
+        let currentLifeBarSize = this.lifePoint * this.lifePointBarSizeWidth / this.maxLifePoint * spritesGroundSize;
+        ctx.save();
+        ctx.fillStyle = "#57ff11";
+        ctx.fillRect(this.position.X + spritesGroundSize / 3, this.position.Y + 20, currentLifeBarSize, this.lifePointBarSizeHeight * spritesGroundSize);
+        ctx.restore();
+    }
+
+    //va mettre à jour les coordonnées de la hitbox
+    updateHitbox() {
+        this.circleHitbox.centerPosition.X = this.position.X + spritesGroundSize / 2;
+        this.circleHitbox.centerPosition.Y = this.position.Y + spritesGroundSize / 2;
+
     }
 
     //intersection entre un rectangle et un point
@@ -69,35 +108,6 @@ class Ennemy {
             }
         }
         return -1;
-    }
-
-    //permet de dessiner l'ennemi
-    drawEnnemy() {
-        ctx.save();
-        ctx.translate(this.position.X + spritesGroundSize / 2, this.position.Y + spritesGroundSize / 2);
-        ctx.rotate(this.DirectionAngleInRadian);
-        ctx.translate(-(this.position.X + spritesGroundSize / 2), -(this.position.Y + spritesGroundSize / 2));
-
-        ctx.drawImage(this.sprite, this.position.X, this.position.Y, spritesGroundSize, spritesGroundSize);
-        this.drawHitbox()
-        this.drawMaxLifePointBar();
-        this.drawCurrentLifePointBar();
-        ctx.restore();
-    }
-
-    drawMaxLifePointBar() {
-        ctx.save();
-        ctx.fillStyle = "#FF0000";
-        ctx.fillRect(this.position.X + spritesGroundSize / 3, this.position.Y + 20, this.lifePointBarSizeWidth * spritesGroundSize, this.lifePointBarSizeHeight * spritesGroundSize);
-        ctx.restore();
-    }
-
-    drawCurrentLifePointBar() {
-        let currentLifeBarSize = this.lifePoint * this.lifePointBarSizeWidth / this.maxLifePoint * spritesGroundSize;
-        ctx.save();
-        ctx.fillStyle = "#57ff11";
-        ctx.fillRect(this.position.X + spritesGroundSize / 3, this.position.Y + 20, currentLifeBarSize, this.lifePointBarSizeHeight * spritesGroundSize);
-        ctx.restore();
     }
 
     distBetweenEnnemyWaypointX(waypointId) {

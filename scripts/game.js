@@ -21,8 +21,8 @@ class Game{
 
     draw(secondsPassed) {
         Entity.map.drawMap();
-        Entity.defense.drawTurret(Entity.ennemies);
-        Entity.defense1.drawTurret(Entity.ennemies);
+        Entity.defense.draw();
+        Entity.defense1.draw();
 
 
 
@@ -30,7 +30,7 @@ class Game{
         //     if (Entity.bullets[i]!== undefined) Entity.bullets[i].drawBullet();
         // }
         for (let i = 0; i < Entity.ennemies.length; i++) {
-            if (Entity.ennemies[i]!== undefined) Entity.ennemies[i].drawEnnemy();
+            if (Entity.ennemies[i]!== undefined) Entity.ennemies[i].draw();
         }
 
         this.drawFPS(secondsPassed);
@@ -38,6 +38,9 @@ class Game{
 
 //Cette fonction met à jour les éléments
     update(timestamp) {
+        Entity.defense.update();
+        Entity.defense1.update();
+
         if (key_left) {
             Entity.ennemies[0].position.X -= 10;
         }
@@ -52,10 +55,7 @@ class Game{
         }
         for (let i = 0; i < Entity.ennemies.length; i++) {
             if (Entity.ennemies[i]!== undefined) {
-                Entity.ennemies[i].updateHitbox();
-                Entity.ennemies[i].checkColisionEnnemyWaypoint();
-                Entity.ennemies[i].followWaypoints();
-
+                Entity.ennemies[i].update();
             }
         }
     }
