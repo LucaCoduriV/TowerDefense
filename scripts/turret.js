@@ -12,6 +12,14 @@ class Bullet {
         this.angle = angle;
     }
 
+    draw(){
+        this.drawBullet();
+    }
+    update(){
+        this.move();
+    }
+
+
     drawBullet() {
         ctx.save();
         ctx.translate(this.position.X, this.position.Y);
