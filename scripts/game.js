@@ -17,7 +17,7 @@ class Game{
         Entity.turretsPositions.forEach((element) => {element = new Array(Entity.map.cords[0].length);})
         Entity.ennemies = Entity.createEnnemy(20,0 * spritesGroundSize,1 * spritesGroundSize,1500);
         Entity.UI.push(new Interface(0,600,200,1600));
-        Entity.UI[0].addUIObjects(new Button(0,0,40,100,"test", "rgba(255,0,0,1"));
+        Entity.UI[0].addUIObjects(new Button(0,0,40,100,"test", "rgba(100,100,100,1)"));
     }
 
     start(){

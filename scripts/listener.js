@@ -52,10 +52,10 @@ function handleMouseMove(event) {
     var rect = canvas.getBoundingClientRect();
     Mouse.position.X = event.clientX - rect.left;
     Mouse.position.Y = event.clientY - rect.top;
-
 }
+
 class Mouse{
-    static position = {X: 0, Y:0}
+    static position = {X: 0, Y:0};
     constructor(){
     }
 }

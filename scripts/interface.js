@@ -24,6 +24,8 @@ class Interface {
     addUIObjects(object){
         object.position.X += this.position.X;
         object.position.Y += this.position.Y;
+        object.hitbox.X += this.position.X;
+        object.hitbox.Y += this.position.Y;
         this._UIObjects.push(object);
     }
     drawUIobjects(){
@@ -41,9 +43,16 @@ class Button {
         this.text = text;
         this.textColor = textColor;
         this.font = font;
+        this.hitbox = {X:positionX,Y:positionY,H:height,W:width};
     }
 
     draw() {
+
+        if(this.isMouseOver()){
+            this.backgroundColor = "rgba(255,0,0,1)";
+        }else{
+            this.backgroundColor = "rgba(100,100,100,1)";
+        }
         this.createButton();
     }
 
@@ -67,7 +76,13 @@ class Button {
     }
 
     isMouseOver() {
-
+        return this.intersectRectanglePoint(this.hitbox.X, this.hitbox.Y, this.hitbox.W, this.hitbox.H, Mouse.position.X, Mouse.position.Y);
+    }
+    intersectRectanglePoint(x1, y1, w1, h1, x2, y2) {
+        if (x2 > x1 + w1 || x2 < x1 || y2 < y1 || y2 > y1 + h1) {
+            return false;
+        }
+        return true;
     }
 }
 
