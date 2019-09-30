@@ -10,11 +10,14 @@
 class Game{
     remainingRefreshes = 3600; //Nombre de refresh restants à effectuer pour 1 minutes
     constructor(){
-        let that = this;
-        for (let i = 0; i < Entity.turretsPositions.length; i++) {
-            Entity.turretsPositions[i] = new Array(Entity.map.cords[0].length);
-        }
-        Entity.ennemies = Entity.createEnnemy(1,0 * spritesGroundSize,1 * spritesGroundSize,1000);
+        this.load();
+    }
+
+    load(){
+        Entity.turretsPositions.forEach((element) => {element = new Array(Entity.map.cords[0].length);})
+        Entity.ennemies = Entity.createEnnemy(20,0 * spritesGroundSize,1 * spritesGroundSize,1500);
+        Entity.UI.push(new Interface(0,600,200,1600));
+        Entity.UI[0].addUIObjects(new Button(0,0,40,100,"test", "rgba(255,0,0,1"));
     }
 
     start(){
@@ -29,6 +32,10 @@ class Game{
 
         Entity.ennemies.forEach( (element) => element.draw());
 
+        Entity.UI.forEach((element) => {
+            element.draw();
+            element.drawUIobjects();
+        });
         this.drawFPS(secondsPassed);
     }
 
