@@ -9,6 +9,7 @@
 
 class Game{
     remainingRefreshes = 3600; //Nombre de refresh restants à effectuer pour 1 minutes
+    _UI;
     constructor(){
         this.load();
     }
@@ -16,9 +17,9 @@ class Game{
     load(){
         Entity.turretsPositions.forEach((element) => {element = new Array(Entity.map.cords[0].length);})
         Entity.ennemies = Entity.createEnnemy(20,0 * spritesGroundSize,1 * spritesGroundSize,1500);
-        Entity.UI.push(new Interface(0,0,50,1600,"rgba(0,0,0,0.3)"));
-        Entity.UI[0].addUIObjects(new Button(1090,5,40,100,"Menu", "rgba(100,100,100,0.8)","rgba(255,255,255,1)","30px Arial","rgb(201,201,201)"));
-        Entity.UI[0].addUIObjects(new Button(980,5,40,100,"Pause", "rgba(100,100,100,0.8)","rgba(255,255,255,1)","30px Arial","rgb(201,201,201)"));
+        this._UI = new Interface(0,0,50,1600,"rgba(0,0,0,0.3)");
+        this._UI.addUIObjects(new Button(1090,5,40,100,"Menu", "rgba(100,100,100,0.8)","rgba(255,255,255,1)","30px Arial","rgb(201,201,201)"));
+        this._UI.addUIObjects(new Button(980,5,40,100,"Pause", "rgba(100,100,100,0.8)","rgba(255,255,255,1)","30px Arial","rgb(201,201,201)"));
     }
 
     start(){
@@ -33,9 +34,9 @@ class Game{
 
         Entity.ennemies.forEach( (element) => element.draw());
 
-        Entity.UI.forEach((element) => {
-            element.draw();
-        });
+        //dessiner le menu
+        //todo fair een sorte que le menu se raffraichisse seuelement quand il y a du changement
+        this._UI.draw();
         this.drawFPS(secondsPassed);
     }
 
@@ -44,7 +45,7 @@ class Game{
         Entity.defense.update();
         Entity.defense1.update();
         Entity.bullets.forEach( (element) => element.update());
-        Entity.UI.forEach( (element) => element.update());
+        this._UI.update();
 
         if (key_left) {
             Entity.ennemies[0].position.X -= 10;
