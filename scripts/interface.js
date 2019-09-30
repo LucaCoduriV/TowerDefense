@@ -9,10 +9,11 @@ class Interface {
 
     draw() {
         this.createBackground();
+        this.drawUIobjects();
     }
 
     update() {
-        //this._UIObjects.push();
+        this.updateUIobjects()
     }
 
     createBackground() {
@@ -29,17 +30,27 @@ class Interface {
         this._UIObjects.push(object);
     }
     drawUIobjects(){
-        this._UIObjects.forEach((element) => element.draw());
+        this._UIObjects.forEach((element) => {
+            element.draw();
+        });
+    }
+    updateUIobjects(){
+        this._UIObjects.forEach((element) => {
+            element.update();
+        });
     }
 
 
 }
 
 class Button {
-    constructor(positionX, positionY, height, width, text = "Button", backgroundColor = "rgba(100,100,100,1)", textColor = "rgba(255,255,255,1)",font = "30px Arial") {
+    _currentColor;
+    constructor(positionX, positionY, height, width, text = "Button", backgroundColor = "rgba(100,100,100,1)", textColor = "rgba(255,255,255,1)",font = "30px Arial", mouseOverColor = "rgba(255,255,255,1)") {
         this.position = {X: positionX, Y: positionY};
         this.size = {H: height, W: width};
         this.backgroundColor = backgroundColor;
+        this.mouseOverColor = mouseOverColor;
+        this._currentColor = backgroundColor;
         this.text = text;
         this.textColor = textColor;
         this.font = font;
@@ -49,21 +60,27 @@ class Button {
     draw() {
 
         if(this.isMouseOver()){
-            this.backgroundColor = "rgba(255,0,0,1)";
+            this._currentColor = this.mouseOverColor;
+
         }else{
-            this.backgroundColor = "rgba(100,100,100,1)";
+            this._currentColor = this.backgroundColor;
         }
         this.createButton();
     }
 
     update() {
-
+    this.isClicked();
     }
 
     createButton() {
         ctx.save();
-        ctx.fillStyle = this.backgroundColor
-        ctx.fillRect(this.position.X, this.position.Y, this.size.W, this.size.H);
+        let cornerRadius = 10;
+        ctx.lineJoin = "round";
+        ctx.lineWidth = cornerRadius;
+        ctx.fillStyle = this._currentColor;
+        ctx.strokeStyle = this._currentColor;
+        ctx.strokeRect(this.position.X+(cornerRadius/2), this.position.Y+(cornerRadius/2), this.size.W-cornerRadius, this.size.H-cornerRadius);
+        ctx.fillRect(this.position.X+(cornerRadius/2), this.position.Y+(cornerRadius/2), this.size.W-cornerRadius, this.size.H-cornerRadius);
         ctx.font = this.font;
         ctx.textAlign = 'center';
         ctx.fillStyle = this.textColor;
@@ -72,7 +89,10 @@ class Button {
     }
 
     isClicked() {
-
+        if(Mouse.isClicked && this.isMouseOver()){
+            Mouse.isClicked = false;
+            return true;
+        }
     }
 
     isMouseOver() {

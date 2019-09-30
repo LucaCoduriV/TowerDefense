@@ -1,6 +1,7 @@
 document.addEventListener("keydown", handleKeyDown, true);
 document.addEventListener("keyup", handleKeyUp, true);
 document.addEventListener("mousemove", handleMouseMove);
+document.addEventListener("mouseup", handleMouseUp);
 
 var key_left = false;
 var key_up = false;
@@ -48,6 +49,11 @@ function handleKeyUp(event) {
     }
 }
 
+function handleMouseUp(event) {
+    Mouse.isClicked = true;
+}
+
+
 function handleMouseMove(event) {
     var rect = canvas.getBoundingClientRect();
     Mouse.position.X = event.clientX - rect.left;
@@ -56,6 +62,7 @@ function handleMouseMove(event) {
 
 class Mouse{
     static position = {X: 0, Y:0};
+    static isClicked = false;
     constructor(){
     }
 }
