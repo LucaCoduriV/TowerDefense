@@ -4,17 +4,18 @@ let levels = {
 }
 
 class Bullet {
-    constructor(angle, speed, positionX, positionY) {
+    constructor(id, angle, speed, positionX, positionY) {
+        this.id = id;
         this.sprite = new Image();
         this.sprite.src = "assets/sprites/towerDefense_tile297.png";
         this.position = {X: positionX, Y: positionY};
+        this.hitPoint = {X: positionX + spritesGroundSize / 2, Y: positionY + spritesGroundSize / 2}; //Permet d'obtenir les coordonnées centrale de l'image
         this.speed = speed;
         this.angle = angle - Math.PI / 2;
     }
 
     draw() {
         this.drawBullet();
-
     }
 
     update() {
@@ -35,8 +36,9 @@ class Bullet {
         this.position.Y += this.speed * Math.sin(this.angle);
     }
 
-    hitTarget() {
-
+    getDestroyed() {
+        let index = Entity.bullets.findIndex( el => el.id === this.id );
+        Entity.destroyBullet(index);
     }
 }
 
@@ -44,6 +46,7 @@ class Turret {
     _distanceBetweenTurretEnnemy;
     _nearestEnnemy;
     _hitbox;
+    _bulletId;
 
     constructor(level, positionX, positionY) {
         this.sprite = new Image();
@@ -165,9 +168,10 @@ class Turret {
     shoot() {
         //on verifie si l'ennemi se trouve dans le range de la tourelle
         if (this._distanceBetweenTurretEnnemy < this.range) {
-            //À la fin des 60 refresh, on crée une balle (Ici, une balle est créée chaque seconde)
+            //À la fin des 60 refresh, on crée une balle qu'on inscrit dans un tableau
             if (game.remainingRefreshes % this.fireRate === 0) {
-                Entity.createBullet(this.angle, 5, spritesGroundSize * this.position.X + spritesGroundSize / 2, spritesGroundSize * this.position.Y + spritesGroundSize / 2);
+                Entity.createBullet(this._bulletId, this.angle, 5, spritesGroundSize * this.position.X + spritesGroundSize / 2, spritesGroundSize * this.position.Y + spritesGroundSize / 2);
+                this._bulletId++;
             }
         }
 
