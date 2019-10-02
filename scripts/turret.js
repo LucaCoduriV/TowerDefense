@@ -9,17 +9,22 @@ class Bullet {
         this.sprite = new Image();
         this.sprite.src = "assets/sprites/towerDefense_tile297.png";
         this.position = {X: positionX, Y: positionY};
-        this.hitPoint = {X: positionX + spritesGroundSize / 2, Y: positionY + spritesGroundSize / 2}; //Permet d'obtenir les coordonnées centrale de l'image
+        this.hitPoint = {X: this.position.X, Y: this.position.Y}; //Permet d'obtenir les coordonnées centrale de l'image
         this.speed = speed;
         this.angle = angle - Math.PI / 2;
     }
 
     draw() {
         this.drawBullet();
+        ctx.save();
+        ctx.fillStyle = "rgb(255,0,0)";
+        ctx.fillRect(this.hitPoint.X,this.hitPoint.Y,10,10); //Repère visuel pour la hitbox des balles
+        ctx.restore();
     }
 
     update() {
         this.move();
+        this.getDestroyed();
     }
 
 
@@ -34,11 +39,40 @@ class Bullet {
     move() {
         this.position.X += this.speed * Math.cos(this.angle);
         this.position.Y += this.speed * Math.sin(this.angle);
+
+        this.hitPoint.X += this.speed * Math.cos(this.angle);
+        this.hitPoint.Y += this.speed * Math.sin(this.angle);
     }
 
+    getDistanceBetweenTwoPoints(x1, y1, x2, y2) {
+        return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+    }
+
+    intersectCirclePoint(x1, y1, radius, x2, y2) {
+        if (this.getDistanceBetweenTwoPoints(x1, y1, x2, y2) < radius) {
+            return true;
+        }
+        return false;
+    }
+
+    hasHitEnnemy() {
+        for (let i = 0; i < Entity.ennemies.length; i ++) {
+            if (this.intersectCirclePoint(Entity.ennemies[i].circleHitbox.centerPosition.X, Entity.ennemies[i].circleHitbox.centerPosition.Y, Entity.ennemies[i].circleHitbox.radius, this.hitPoint.X, this.hitPoint.Y)) {
+                console.log("J'ai touché");
+                return true;
+            }
+        }
+    }
+
+    //Supprime du tableau toutes les balles entrées en collision avec un ennemi
     getDestroyed() {
-        let index = Entity.bullets.findIndex( el => el.id === this.id );
-        Entity.destroyBullet(index);
+        if (this.hasHitEnnemy() === true) {
+            for (let i = 0; i < Entity.bullets.length; i++){
+                if (this === Entity.bullets[i]) {
+                    Entity.destroyBullet(i);
+                }
+            }
+        }
     }
 }
 
@@ -55,8 +89,8 @@ class Turret {
         this.turretBaseSprite = new Image();
         this.turretBaseSprite.src = "assets/sprites/towerDefense_tile181.png";
         this.angle = 0;
-        this.fireRate = 15;
-        this.range = 2.5 * spritesGroundSize;
+        this.fireRate = 5;
+        this.range = 10 * spritesGroundSize;
         this._hitbox = {
             X: positionX * spritesGroundSize,
             Y: positionY * spritesGroundSize,

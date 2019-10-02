@@ -30,7 +30,7 @@ class Entity {
         let inter = setInterval(function () {
 
             if (numberEnnemyCreated < ennemyNumber) {
-                arr.push(new Ennemy(numberEnnemyCreated, 2, 200, ennemyType.GREEN, positionX, positionY, true));
+                arr.push(new Ennemy(numberEnnemyCreated, 0.5, 200, ennemyType.GREEN, positionX, positionY, true));
                 numberEnnemyCreated++;
             } else {
                 clearInterval(inter);
