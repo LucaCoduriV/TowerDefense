@@ -10,6 +10,7 @@
 class Game{
     remainingRefreshes = 3600; //Nombre de refresh restants à effectuer pour 1 minutes
     _UI;
+    shopTest = new Shop(600,300);
     constructor(){
         this.load();
     }
@@ -17,9 +18,11 @@ class Game{
     load(){
         Entity.turretsPositions.forEach((element) => {element = new Array(Entity.map.cords[0].length);})
         Entity.ennemies = Entity.createEnnemy(20,0 * spritesGroundSize,1 * spritesGroundSize,1500);
+
         this._UI = new Interface(0,0,50,1600,"rgba(0,0,0,0.3)");
         this._UI.addUIObjects(new Button(1090,5,40,100,"Menu", "rgba(100,100,100,0.8)","rgba(255,255,255,1)","30px Arial","rgb(201,201,201)"));
         this._UI.addUIObjects(new Button(980,5,40,100,"Pause", "rgba(100,100,100,0.8)","rgba(255,255,255,1)","30px Arial","rgb(201,201,201)"));
+
     }
 
     start(){
@@ -37,6 +40,7 @@ class Game{
         //dessiner le menu
         //todo fair een sorte que le menu se raffraichisse seuelement quand il y a du changement
         this._UI.draw();
+        this.shopTest.draw();
         this.drawFPS(secondsPassed);
     }
 
@@ -64,6 +68,7 @@ class Game{
                 Entity.ennemies[i].update();
             }
         }
+        this.shopTest.update();
     }
 
 
