@@ -1,6 +1,7 @@
 class Shop{
-    _animationRadius = 0;
+    _animationCurrentRadius = 0;
     _animationSpeed = 0.1;
+    _animationMaxRadius = 0.40 * spritesGroundSize;
     _open = false;
     _isVisible = false;
     _shopItemSize = 0.5;
@@ -30,14 +31,14 @@ class Shop{
         ctx.save();
         ctx.lineWidth = 4;
         ctx.beginPath();
-        ctx.arc(this.position.X, this.position.Y, this._animationRadius * spritesGroundSize, 0, 2 * Math.PI);
+        ctx.arc(this.position.X, this.position.Y, this._animationCurrentRadius * spritesGroundSize, 0, 2 * Math.PI);
         ctx.stroke();
         ctx.restore();
     }
 
     //dessine les tourrelles achetable
     drawBuyableTurret(){
-        let positionShift = this._animationRadius * spritesGroundSize;
+        let positionShift = this._animationCurrentRadius * spritesGroundSize;
 
         let scaledX = this.position.X - (spritesGroundSize/2 * this._shopItemSize);
         let scaledY = this.position.Y - (spritesGroundSize/2 * this._shopItemSize);
@@ -54,10 +55,10 @@ class Shop{
 
     //met à jour le paramètre visible selon la taille du cercle
     updateVisibleState(){
-        if(this._animationRadius <= 0){
+        if(this._animationCurrentRadius <= 0){
             this._isVisible = false;
         }
-        else if(this._animationRadius > 0){
+        else if(this._animationCurrentRadius > 0){
             this._isVisible = true;
         }
     }
@@ -65,9 +66,9 @@ class Shop{
     //met à jour la taille du cercle pour donner l'impression d'une animation
     updateAnimation(){
         if(this._open === true){
-            if(this._animationRadius * spritesGroundSize < spritesGroundSize/2){this._animationRadius+= this._animationSpeed}
+            if(this._animationCurrentRadius * spritesGroundSize < this._animationMaxRadius){this._animationCurrentRadius+= this._animationSpeed}
         }else{
-            if(this._animationRadius * spritesGroundSize > 0){this._animationRadius-= this._animationSpeed}
+            if(this._animationCurrentRadius * spritesGroundSize > 0){this._animationCurrentRadius-= this._animationSpeed}
         }
     }
 
