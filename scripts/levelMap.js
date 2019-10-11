@@ -1,20 +1,84 @@
-class Map {
+class LevelMap {
+    _shops = [];
+    _shopsPosition = [];
     constructor() {
         //ce tableau indique quelle sprite doit se trouver à chaque emplacement du cadrillage.
         this.cords = [
-            [24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 93, 93, 24, 24, 24,24,24,24],
-            [93, 93, 93, 93, 24, 24, 24, 24, 24, 24, 93, 24, 24, 24, 24,24,24,24],
-            [24, 24, 24, 93, 24, 24, 24, 24, 24, 24, 93, 93, 24, 24, 24,24,24,24],
-            [24, 24, 24, 93, 24, 24, 93, 93, 93, 93, 24, 93, 24, 24, 24,24,24,24],
-            [24, 24, 45, 93, 24, 24, 93, 24, 24, 93, 24, 93, 24, 24, 24,24,24,24],
-            [24, 24, 24, 93, 93, 93, 93, 24, 24, 93, 93, 93, 24, 24, 24,24,24,24],
-            [24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24,24,24,24],
-            [24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24,24,24,24],
-            [24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24,24,24,24]
+            [24, 24, 45, 24, 24, 24, 24, 24, 24, 24, 93, 93, 24, 24, 24, 24, 24, 24],
+            [93, 93, 93, 93, 24, 24, 24, 24, 24, 45, 93, 24, 24, 24, 24, 24, 45, 24],
+            [24, 24, 24, 93, 24, 24, 24, 24, 24, 24, 93, 93, 24, 24, 24, 24, 24, 24],
+            [24, 24, 24, 93, 24, 24, 93, 93, 93, 93, 24, 93, 24, 24, 24, 24, 24, 24],
+            [24, 24, 45, 93, 24, 24, 93, 24, 24, 93, 24, 93, 24, 24, 24, 24, 24, 24],
+            [24, 24, 24, 93, 93, 93, 93, 24, 24, 93, 93, 93, 24, 24, 24, 24, 24, 24],
+            [24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24],
+            [24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24],
+            [24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24]
         ];
         this.startCords = {X: 0, Y: 1};
         this.waypoints = [];
         this.setWaypoints();
+        this._shopsPosition = this.getShopTilesPositions(45);
+        this.addShopForEachTile(45);
+    }
+
+    draw() {
+        this.drawMap();
+        this.drawWaypoint();
+        this.drawShops();
+    }
+
+    update() {
+        this.updateShops();
+        this.checkMouseClickedShopTile(45);
+    }
+
+    drawShops(){
+        this._shops.forEach((shop) =>{
+            shop.draw();
+        });
+    }
+
+    updateShops(){
+        this._shops.forEach((shop) =>{
+            shop.update();
+        });
+    }
+
+    checkMouseClickedShopTile(tileID){
+        this._shopsPosition.forEach((shop, id) =>{
+            if(this.intersectRectanglePoint(shop.X * spritesGroundSize,shop.Y * spritesGroundSize,spritesGroundSize,spritesGroundSize,Mouse.position.X,Mouse.position.Y)){
+                if(Mouse.isClicked){
+                    this._shops[id].toggleMenu();
+                    Mouse.isClicked = false;
+                }
+            }
+        });
+    }
+
+    intersectRectanglePoint(x1, y1, w1, h1, x2, y2) {
+        if (x2 > x1 + w1 || x2 < x1 || y2 < y1 || y2 > y1 + h1) {
+            return false;
+        }
+        return true;
+    }
+
+    getShopTilesPositions(tileID){
+        let tilesPositions = [];
+        this.cords.forEach((array, indexY) => {
+            array.forEach((tile, indexX) =>{
+                if(tile === tileID){
+                    tilesPositions.push({X:indexX, Y:indexY});
+                }
+            });
+        });
+        return tilesPositions;
+    }
+
+    addShopForEachTile(tileID){
+        this._shopsPosition.forEach((tileShop, id) => {
+                   this._shops.push(new Shop(tileShop.X * spritesGroundSize + spritesGroundSize/2,tileShop.Y * spritesGroundSize + spritesGroundSize/2));
+        });
+
     }
 
     //cette méthode affiche la map sur le canvas
@@ -24,15 +88,19 @@ class Map {
                 ctx.drawImage(sprites[this.cords[i][j]], j * spritesGroundSize, i * spritesGroundSize, spritesGroundSize, spritesGroundSize);
             }
         }
-        try {
+    }
 
+    //cette méthode affiche le waypoints sur le canvas
+    drawWaypoint() {
+        try {
             this.waypoints.forEach(function (element) {
                 element.drawWaypoints();
             })
         } catch (e) {
-
+            console.log(e);
         }
     }
+
 
     //permet de compter le nombre d'élément egaux se trouvent dans un tableau
     countNumberElementIn2DTable(table2D, element) {
@@ -122,15 +190,6 @@ class Map {
 
 
         }
-
-
-        // for (let axeY = 0; axeY < this.cords.length; axeY++){
-        //     for (let axeX = 0; axeX < this.cords[i].length; axeX++) {
-        //
-        //     }
-        // }
-
-
     }
 }
 

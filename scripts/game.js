@@ -10,7 +10,6 @@
 class Game{
     remainingRefreshes = 3600; //Nombre de refresh restants à effectuer pour 1 minutes
     _UI;
-    shopTest = new Shop(600,300);
     constructor(){
         this.load();
     }
@@ -30,7 +29,7 @@ class Game{
     }
 
     draw(secondsPassed) {
-        Entity.map.drawMap();
+        Entity.map.draw();
         Entity.bullets.forEach( (element) => element.draw());
         Entity.defense.draw();
         Entity.defense1.draw();
@@ -40,12 +39,13 @@ class Game{
         //dessiner le menu
         //todo fair een sorte que le menu se raffraichisse seuelement quand il y a du changement
         this._UI.draw();
-        this.shopTest.draw();
+
         this.drawFPS(secondsPassed);
     }
 
 //Cette fonction met à jour les éléments
     update(timestamp) {
+        Entity.map.update();
         Entity.defense.update();
         Entity.defense1.update();
         Entity.bullets.forEach( (element) => element.update());
@@ -68,7 +68,7 @@ class Game{
                 Entity.ennemies[i].update();
             }
         }
-        this.shopTest.update();
+
     }
 
 

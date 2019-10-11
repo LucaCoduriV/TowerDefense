@@ -15,6 +15,8 @@ function init() {
     canvas = document.getElementById("canvas");
     ctx = canvas.getContext("2d");
 
+    initListener();
+
     loadSprites();
     console.log("sprites loaded");
 

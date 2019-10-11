@@ -1,5 +1,5 @@
 class Entity {
-    static map = new Map();
+    static map = new LevelMap();
     static defense = new Turret(levels.level1, 9, 2);
     static defense1 = new Turret(levels.level1, 5, 2);
     static ennemies = []//
