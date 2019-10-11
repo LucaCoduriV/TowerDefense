@@ -5,11 +5,12 @@ class Shop{
     _open = false;
     _isVisible = false;
     _shopItemSize = 0.5;
-    constructor(x,y) {
+    constructor(x,y,isUpgradeShop = false) {
         this.position = {
             X: x,
             Y: y
         }
+        this.isUpgradeShop = isUpgradeShop;
     }
 
     draw(){
@@ -36,21 +37,36 @@ class Shop{
         ctx.restore();
     }
 
-    //dessine les tourrelles achetable
+    //dessine les tourrelles achetable ou les upgrades
     drawBuyableTurret(){
-        let positionShift = this._animationCurrentRadius * spritesGroundSize;
+        let sprite1;
+        let sprite2;
+        let sprite3;
+        let sprite4;
 
+
+        let positionShift = this._animationCurrentRadius * spritesGroundSize;
         let scaledX = this.position.X - (spritesGroundSize/2 * this._shopItemSize);
         let scaledY = this.position.Y - (spritesGroundSize/2 * this._shopItemSize);
-
+        if(!this.isUpgradeShop){
+            sprite1 = 249;
+            sprite2 = 203;
+            sprite3 = 205;
+            sprite4 = 206;
+        }else if(this.isUpgradeShop){
+            sprite1 = 200;
+            sprite2 = 200;
+            sprite3 = 200;
+            sprite4 = 200;
+        }
         //top
-        ctx.drawImage(sprites[249], scaledX, -positionShift + scaledY, spritesGroundSize * this._shopItemSize, spritesGroundSize * this._shopItemSize);
+        ctx.drawImage(sprites[sprite1], scaledX, -positionShift + scaledY, spritesGroundSize * this._shopItemSize, spritesGroundSize * this._shopItemSize);
         //right
-        ctx.drawImage(sprites[203], positionShift + scaledX,  scaledY, spritesGroundSize * this._shopItemSize, spritesGroundSize * this._shopItemSize);
+        ctx.drawImage(sprites[sprite2], positionShift + scaledX,  scaledY, spritesGroundSize * this._shopItemSize, spritesGroundSize * this._shopItemSize);
         //bottom
-        ctx.drawImage(sprites[205], scaledX, positionShift + scaledY, spritesGroundSize * this._shopItemSize, spritesGroundSize * this._shopItemSize);
+        ctx.drawImage(sprites[sprite3], scaledX, positionShift + scaledY, spritesGroundSize * this._shopItemSize, spritesGroundSize * this._shopItemSize);
         //left
-        ctx.drawImage(sprites[206],-positionShift + scaledX, scaledY, spritesGroundSize * this._shopItemSize, spritesGroundSize * this._shopItemSize);
+        ctx.drawImage(sprites[sprite4],-positionShift + scaledX, scaledY, spritesGroundSize * this._shopItemSize, spritesGroundSize * this._shopItemSize);
     }
 
     //met à jour le paramètre visible selon la taille du cercle
