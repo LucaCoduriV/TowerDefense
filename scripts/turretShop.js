@@ -46,11 +46,11 @@ class Shop{
         //top
         ctx.drawImage(sprites[249], scaledX, -positionShift + scaledY, spritesGroundSize * this._shopItemSize, spritesGroundSize * this._shopItemSize);
         //right
-        ctx.drawImage(sprites[249], positionShift + scaledX,  scaledY, spritesGroundSize * this._shopItemSize, spritesGroundSize * this._shopItemSize);
+        ctx.drawImage(sprites[203], positionShift + scaledX,  scaledY, spritesGroundSize * this._shopItemSize, spritesGroundSize * this._shopItemSize);
         //bottom
-        ctx.drawImage(sprites[249], scaledX, positionShift + scaledY, spritesGroundSize * this._shopItemSize, spritesGroundSize * this._shopItemSize);
+        ctx.drawImage(sprites[205], scaledX, positionShift + scaledY, spritesGroundSize * this._shopItemSize, spritesGroundSize * this._shopItemSize);
         //left
-        ctx.drawImage(sprites[249],-positionShift + scaledX, scaledY, spritesGroundSize * this._shopItemSize, spritesGroundSize * this._shopItemSize);
+        ctx.drawImage(sprites[206],-positionShift + scaledX, scaledY, spritesGroundSize * this._shopItemSize, spritesGroundSize * this._shopItemSize);
     }
 
     //met à jour le paramètre visible selon la taille du cercle
