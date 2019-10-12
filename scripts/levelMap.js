@@ -45,10 +45,15 @@ class LevelMap {
     }
 
     checkMouseClickedShopTile(tileID){
-        this._shopsPosition.forEach((shop, id) =>{
-            if(this.intersectRectanglePoint(shop.X * spritesGroundSize,shop.Y * spritesGroundSize,spritesGroundSize,spritesGroundSize,Mouse.position.X,Mouse.position.Y)){
+        this._shopsPosition.forEach((shopPosition, id) =>{
+            if(this.intersectRectanglePoint(shopPosition.X * spritesGroundSize,shopPosition.Y * spritesGroundSize,spritesGroundSize,spritesGroundSize,Mouse.position.X,Mouse.position.Y)){
                 if(Mouse.isClicked){
-                    this._shops[id].toggleMenu();
+                    this._shops[id].clicked();
+                    this._shops.forEach(shop =>{
+                        if(this._shops[id] !== shop){
+                            shop.closeMenu();
+                        }
+                    });
                     Mouse.isClicked = false;
                 }
             }
