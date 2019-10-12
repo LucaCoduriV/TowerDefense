@@ -1,6 +1,7 @@
 class LevelMap {
     _shops = [];
     _shopsPosition = [];
+
     constructor() {
         //ce tableau indique quelle sprite doit se trouver à chaque emplacement du cadrillage.
         this.cords = [
@@ -28,36 +29,53 @@ class LevelMap {
     }
 
     update() {
+        this.updateShopsPosition();
         this.updateShops();
         this.checkMouseClickedShopTile(45);
     }
 
-    drawShops(){
-        this._shops.forEach((shop) =>{
-            shop.draw();
+    drawShops() {
+        this._shops.forEach((shop) => {
+            if (shop instanceof Shop) shop.draw();
         });
     }
 
-    updateShops(){
-        this._shops.forEach((shop) =>{
-            shop.update();
+    updateShopsPosition() {
+        this._shopsPosition = this.getShopTilesPositions(45);
+    }
+
+    updateShops() {
+        this._shops.forEach((shop) => {
+            if (shop instanceof Shop) shop.update();
         });
     }
 
-    checkMouseClickedShopTile(tileID){
-        this._shopsPosition.forEach((shopPosition, id) =>{
-            if(this.intersectRectanglePoint(shopPosition.X * spritesGroundSize,shopPosition.Y * spritesGroundSize,spritesGroundSize,spritesGroundSize,Mouse.position.X,Mouse.position.Y)){
-                if(Mouse.isClicked){
-                    this._shops[id].clicked();
-                    this._shops.forEach(shop =>{
-                        if(this._shops[id] !== shop){
-                            shop.closeMenu();
+    checkMouseClickedShopTile(tileID) {
+        this._shopsPosition.forEach((shopPosition, id) => {
+                if (this._shops[id] instanceof Shop) {
+                    if (this.intersectRectanglePoint(shopPosition.X * spritesGroundSize, shopPosition.Y * spritesGroundSize, spritesGroundSize, spritesGroundSize, Mouse.position.X, Mouse.position.Y)) {
+                        if (Mouse.isClicked) {
+                            //verifie s'il faut replacer le shop par une tourelle
+                            let gotReplaced = this._shops[id].clicked();
+                            if (gotReplaced) {
+                                this._shops[id] = null;
+                            }
+                            //ferme les autres shop
+                            this._shops.forEach(shop => {
+                                if (this._shops[id] instanceof Shop) {
+                                    if (this._shops[id] !== shop) {
+                                        shop.closeMenu();
+                                    }
+                                }
+                            });
+                            //remettre la variable click à faux
+                            Mouse.isClicked = false;
                         }
-                    });
-                    Mouse.isClicked = false;
+                    }
                 }
             }
-        });
+        );
+
     }
 
     intersectRectanglePoint(x1, y1, w1, h1, x2, y2) {
@@ -67,21 +85,21 @@ class LevelMap {
         return true;
     }
 
-    getShopTilesPositions(tileID){
+    getShopTilesPositions(tileID) {
         let tilesPositions = [];
         this.cords.forEach((array, indexY) => {
-            array.forEach((tile, indexX) =>{
-                if(tile === tileID){
-                    tilesPositions.push({X:indexX, Y:indexY});
+            array.forEach((tile, indexX) => {
+                if (tile === tileID) {
+                    tilesPositions.push({X: indexX, Y: indexY});
                 }
             });
         });
         return tilesPositions;
     }
 
-    addShopForEachTile(tileID){
+    addShopForEachTile(tileID) {
         this._shopsPosition.forEach((tileShop, id) => {
-                   this._shops.push(new Shop(tileShop.X * spritesGroundSize + spritesGroundSize/2,tileShop.Y * spritesGroundSize + spritesGroundSize/2));
+            this._shops.push(new Shop(tileShop.X * spritesGroundSize + spritesGroundSize / 2, tileShop.Y * spritesGroundSize + spritesGroundSize / 2));
         });
 
     }

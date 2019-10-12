@@ -31,7 +31,7 @@ class Game{
     draw(secondsPassed) {
         Entity.map.draw();
         Entity.bullets.forEach( (element) => element.draw());
-        Entity.defense.draw();
+        Entity.defense.forEach((element) => element.draw());
         Entity.defense1.draw();
 
         Entity.ennemies.forEach( (element) => element.draw());
@@ -46,7 +46,7 @@ class Game{
 //Cette fonction met à jour les éléments
     update(timestamp) {
         Entity.map.update();
-        Entity.defense.update();
+        Entity.defense.forEach((element) => element.update());
         Entity.defense1.update();
         Entity.bullets.forEach( (element) => element.update());
         this._UI.update();

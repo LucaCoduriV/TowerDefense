@@ -15,7 +15,8 @@ class Shop {
     constructor(x, y, isUpgradeShop = false) {
         this.position = {
             X: x,
-            Y: y
+            Y: y,
+            tile: {X: (x - spritesGroundSize/2)/spritesGroundSize,Y: (y - spritesGroundSize/2)/spritesGroundSize}
         }
         this.isUpgradeShop = isUpgradeShop;
     }
@@ -44,21 +45,26 @@ class Shop {
             //les conditions sont mis de cette manière afin d'éviter des calcules inutiles
             const isTopClicked = this.intersectRectanglePoint(this._shopItemsPosition.top.X, this._shopItemsPosition.top.Y, spritesGroundSize * this._shopItemsSize, spritesGroundSize * this._shopItemsSize, Mouse.position.X, Mouse.position.Y)
             if (isTopClicked) {
-                console.log("acheter le top");
+                Entity.defense.push(new Turret(levels.level1,this.position.tile.X, this.position.tile.Y));
+                return true;
             } else {
                 const isRightClicked = this.intersectRectanglePoint(this._shopItemsPosition.right.X, this._shopItemsPosition.right.Y, spritesGroundSize * this._shopItemsSize, spritesGroundSize * this._shopItemsSize, Mouse.position.X, Mouse.position.Y)
                 if (isRightClicked) {
-                    console.log("acheter le right");
+                    Entity.defense.push(new Turret(levels.level1,this.position.tile.X, this.position.tile.Y));
+                    return true;
                 } else {
                     const isBottomClicked = this.intersectRectanglePoint(this._shopItemsPosition.bottom.X, this._shopItemsPosition.bottom.Y, spritesGroundSize * this._shopItemsSize, spritesGroundSize * this._shopItemsSize, Mouse.position.X, Mouse.position.Y)
                     if (isBottomClicked) {
-                        console.log("acheter le bottom");
+                        Entity.defense.push(new Turret(levels.level1,this.position.tile.X, this.position.tile.Y));
+                        return true;
                     } else {
                         const isLeftTopClicked = this.intersectRectanglePoint(this._shopItemsPosition.left.X, this._shopItemsPosition.left.Y, spritesGroundSize * this._shopItemsSize, spritesGroundSize * this._shopItemsSize, Mouse.position.X, Mouse.position.Y)
                         if (isLeftTopClicked) {
-                            console.log("acheter le left");
+                            Entity.defense.push(new Turret(levels.level1,this.position.tile.X, this.position.tile.Y));
+                            return true;
                         }else{
                             this.closeMenu();
+                            return false;
                         }
                     }
                 }
