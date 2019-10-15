@@ -34,7 +34,7 @@ class Ennemy {
     update(){
         this.updateHitbox();
         this.checkColisionEnnemyWaypoint();
-        //this.followWaypoints();
+        this.followWaypoints();
     }
 
 
