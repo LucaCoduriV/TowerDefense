@@ -4,21 +4,27 @@ let levels = {
 }
 
 class Bullet {
-    constructor(angle, speed, positionX, positionY) {
+    constructor(id, angle, speed, positionX, positionY) {
+        this.id = id;
         this.sprite = new Image();
         this.sprite.src = "assets/sprites/towerDefense_tile297.png";
         this.position = {X: positionX, Y: positionY};
+        this.hitPoint = {X: this.position.X, Y: this.position.Y}; //Permet d'obtenir les coordonnées centrale de l'image
         this.speed = speed;
         this.angle = angle - Math.PI / 2;
     }
 
     draw() {
         this.drawBullet();
-
+        ctx.save();
+        ctx.fillStyle = "rgb(255,0,0)";
+        ctx.fillRect(this.hitPoint.X,this.hitPoint.Y,10,10); //Repère visuel pour la hitbox des balles
+        ctx.restore();
     }
 
     update() {
         this.move();
+        this.getDestroyed();
     }
 
 
@@ -33,10 +39,40 @@ class Bullet {
     move() {
         this.position.X += this.speed * Math.cos(this.angle);
         this.position.Y += this.speed * Math.sin(this.angle);
+
+        this.hitPoint.X += this.speed * Math.cos(this.angle);
+        this.hitPoint.Y += this.speed * Math.sin(this.angle);
     }
 
-    hitTarget() {
+    getDistanceBetweenTwoPoints(x1, y1, x2, y2) {
+        return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+    }
 
+    intersectCirclePoint(x1, y1, radius, x2, y2) {
+        if (this.getDistanceBetweenTwoPoints(x1, y1, x2, y2) < radius) {
+            return true;
+        }
+        return false;
+    }
+
+    hasHitEnnemy() {
+        for (let i = 0; i < Entity.ennemies.length; i ++) {
+            if (this.intersectCirclePoint(Entity.ennemies[i].circleHitbox.centerPosition.X, Entity.ennemies[i].circleHitbox.centerPosition.Y, Entity.ennemies[i].circleHitbox.radius, this.hitPoint.X, this.hitPoint.Y)) {
+                console.log("J'ai touché");
+                return true;
+            }
+        }
+    }
+
+    //Supprime du tableau toutes les balles entrées en collision avec un ennemi
+    getDestroyed() {
+        if (this.hasHitEnnemy() === true) {
+            for (let i = 0; i < Entity.bullets.length; i++){
+                if (this === Entity.bullets[i]) {
+                    Entity.destroyBullet(i);
+                }
+            }
+        }
     }
 }
 
@@ -44,6 +80,7 @@ class Turret {
     _distanceBetweenTurretEnnemy;
     _nearestEnnemy;
     _hitbox;
+    _bulletId;
 
     constructor(level, positionX, positionY) {
         this.sprite = new Image();
@@ -165,9 +202,10 @@ class Turret {
     shoot() {
         //on verifie si l'ennemi se trouve dans le range de la tourelle
         if (this._distanceBetweenTurretEnnemy < this.range) {
-            //À la fin des 60 refresh, on crée une balle (Ici, une balle est créée chaque seconde)
+            //À la fin des 60 refresh, on crée une balle qu'on inscrit dans un tableau
             if (game.remainingRefreshes % this.fireRate === 0) {
-                Entity.createBullet(this.angle, 5, spritesGroundSize * this.position.X + spritesGroundSize / 2, spritesGroundSize * this.position.Y + spritesGroundSize / 2);
+                Entity.createBullet(this._bulletId, this.angle, 5, spritesGroundSize * this.position.X + spritesGroundSize / 2, spritesGroundSize * this.position.Y + spritesGroundSize / 2);
+                this._bulletId++;
             }
         }
 
