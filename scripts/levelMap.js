@@ -31,7 +31,6 @@ class LevelMap {
     update() {
         this.updateShopsPosition();
         this.updateShops();
-        this.checkMouseClickedShopTile(45);
     }
 
     drawShops() {
@@ -48,34 +47,6 @@ class LevelMap {
         this._shops.forEach((shop) => {
             if (shop instanceof Shop) shop.update();
         });
-    }
-
-    checkMouseClickedShopTile(tileID) {
-        this._shopsPosition.forEach((shopPosition, id) => {
-                if (this._shops[id] instanceof Shop) {
-                    if (this.intersectRectanglePoint(shopPosition.X * spritesGroundSize, shopPosition.Y * spritesGroundSize, spritesGroundSize, spritesGroundSize, Mouse.position.X, Mouse.position.Y)) {
-                        if (Mouse.isClicked) {
-                            //verifie s'il faut replacer le shop par une tourelle
-                            let gotReplaced = this._shops[id].clicked();
-                            if (gotReplaced) {
-                                this._shops[id] = null;
-                            }
-                            //ferme les autres shop
-                            this._shops.forEach(shop => {
-                                if (this._shops[id] instanceof Shop) {
-                                    if (this._shops[id] !== shop) {
-                                        shop.closeMenu();
-                                    }
-                                }
-                            });
-                            //remettre la variable click à faux
-                            Mouse.isClicked = false;
-                        }
-                    }
-                }
-            }
-        );
-
     }
 
     intersectRectanglePoint(x1, y1, w1, h1, x2, y2) {

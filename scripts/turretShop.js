@@ -17,7 +17,7 @@ class Shop {
             X: x,
             Y: y,
             tile: {X: (x - spritesGroundSize/2)/spritesGroundSize,Y: (y - spritesGroundSize/2)/spritesGroundSize}
-        }
+        };
         this.isUpgradeShop = isUpgradeShop;
     }
 
@@ -30,12 +30,13 @@ class Shop {
     }
 
     update() {
+        this.clicked();
         this.updateAnimation();
         this.updateVisibleState();
 
     }
 
-    clicked() {
+    clickAction(){
         //si le menu n'est pas ouvert on l'ouvre
         if (this._open === false) {
             this.openMenu();
@@ -68,6 +69,24 @@ class Shop {
                         }
                     }
                 }
+            }
+        }
+    }
+
+    clicked() {
+        if (this.intersectRectanglePoint(this.position.X - spritesGroundSize/2, this.position.Y - spritesGroundSize/2, spritesGroundSize, spritesGroundSize, Mouse.position.X, Mouse.position.Y)){
+            if (Mouse.isClicked){
+                let gotReplaced = this.clickAction();
+                if (gotReplaced) {
+                    Entity.map._shops.forEach((shop, id)=>{
+                        if(shop === this){
+                            Entity.map._shops.splice(id,1);
+                        }
+                    });
+                }
+
+
+                Mouse.isClicked = false;
             }
         }
     }
