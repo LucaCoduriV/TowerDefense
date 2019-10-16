@@ -16,7 +16,7 @@ class Game{
 
     load(){
         Entity.turretsPositions.forEach((element) => {element = new Array(Entity.map.cords[0].length);})
-        Entity.ennemies = Entity.createEnnemy(1,0 * spritesGroundSize,1 * spritesGroundSize,1500);
+        Entity.ennemies = Entity.createEnnemy(50,0 * spritesGroundSize,1 * spritesGroundSize,1500);
 
         this._UI = new Interface(0,600,50,1600,"rgba(0,0,0,0.3)");
         this._UI.addUIObjects(new Button(1090,5,40,100,"Menu", "rgba(100,100,100,0.8)","rgba(255,255,255,1)","30px Arial","rgb(201,201,201)"));
@@ -32,7 +32,6 @@ class Game{
         Entity.map.draw();
         Entity.bullets.forEach( (element) => element.draw());
         Entity.defense.forEach((element) => element.draw());
-        Entity.defense1.draw();
 
         Entity.ennemies.forEach( (element) => element.draw());
 
@@ -47,7 +46,6 @@ class Game{
     update(timestamp) {
         Entity.map.update();
         Entity.defense.forEach((element) => element.update());
-        Entity.defense1.update();
         Entity.bullets.forEach( (element) => element.update());
         this._UI.update();
 

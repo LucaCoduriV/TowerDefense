@@ -36,9 +36,11 @@ class Shop {
 
     }
 
-    clickAction(){
+    actionAfterClick(){
         //si le menu n'est pas ouvert on l'ouvre
         if (this._open === false) {
+            Entity.map._shops.forEach(shop =>shop.closeMenu());
+            Entity.defense.forEach(turret =>turret._updateMenu.closeMenu());
             this.openMenu();
         }
         //sinon on check la position de la souris et s'il elle se trouve sur une tourelle, on l'achète
@@ -73,10 +75,11 @@ class Shop {
         }
     }
 
+    //vérifie si la souris se trouve sur le shop puis supprime le shop si on achète qqch
     clicked() {
         if (this.intersectRectanglePoint(this.position.X - spritesGroundSize/2, this.position.Y - spritesGroundSize/2, spritesGroundSize, spritesGroundSize, Mouse.position.X, Mouse.position.Y)){
             if (Mouse.isClicked){
-                let gotReplaced = this.clickAction();
+                let gotReplaced = this.actionAfterClick();
                 if (gotReplaced) {
                     Entity.map._shops.forEach((shop, id)=>{
                         if(shop === this){

@@ -92,6 +92,7 @@ class Turret {
     _hitbox;
     _bulletId;
     _bulletSpeed = 5;
+    _updateMenu;
 
     constructor(level, positionX, positionY) {
         this.sprite = new Image();
@@ -108,6 +109,7 @@ class Turret {
             W: spritesGroundSize,
             H: spritesGroundSize
         };
+        this._updateMenu = new Shop(this.position.X * spritesGroundSize + spritesGroundSize/2, this.position.Y * spritesGroundSize + spritesGroundSize/2, true);
     }
 
     draw() {
@@ -117,6 +119,7 @@ class Turret {
         }
 
         this.drawTurret(Entity.ennemies);
+        this._updateMenu.draw();
     }
 
     update() {
@@ -127,7 +130,7 @@ class Turret {
             this.angle = this.acquireTargetAngle();
             this.shoot();
         }
-
+        this._updateMenu.update();
     }
 
     drawTurret(ennemies) {
