@@ -81,6 +81,7 @@ class Turret {
     _nearestEnnemyID;
     _hitbox;
     _bulletId;
+    _bulletSpeed = 5;
 
     constructor(level, positionX, positionY) {
         this.sprite = new Image();
@@ -89,8 +90,8 @@ class Turret {
         this.turretBaseSprite = new Image();
         this.turretBaseSprite.src = "assets/sprites/towerDefense_tile181.png";
         this.angle = 0;
-        this.fireRate = 50;
-        this.range = 10 * spritesGroundSize;
+        this.fireRate = 20;
+        this.range = 2.5 * spritesGroundSize;
         this._hitbox = {
             X: positionX * spritesGroundSize,
             Y: positionY * spritesGroundSize,
@@ -155,7 +156,7 @@ class Turret {
 
     //prédire la postion de l'ennemy le plus proche
     predictPositionOfNearestEnnemy(){
-        const bulletSpeed = 5;
+        const bulletSpeed = this._bulletSpeed;
         const distance = this.distBetweenTurretEnnemy(Entity.ennemies[this._nearestEnnemyID]);
         const travelTime = Math.abs(distance / bulletSpeed);
         const predictedPostion = {
@@ -174,7 +175,7 @@ class Turret {
         return angle;
     }
 
-
+    //donne la prochaine position de l'ennemi basé sur ça vitesse, ça distance de la tourelle ainsi que la vitesse des balles
     distanceBetweenTurretAndPredictedPositionX(){
         const position = this.predictPositionOfNearestEnnemy();
         return this.position.X * spritesGroundSize - position.X;
@@ -229,7 +230,7 @@ class Turret {
         if (this._distanceBetweenTurretEnnemy < this.range) {
             //À la fin des 60 refresh, on crée une balle qu'on inscrit dans un tableau
             if (game.remainingRefreshes % this.fireRate === 0) {
-                Entity.createBullet(this._bulletId, this.angle, 5, spritesGroundSize * this.position.X + spritesGroundSize / 2, spritesGroundSize * this.position.Y + spritesGroundSize / 2);
+                Entity.createBullet(this._bulletId, this.angle, this._bulletSpeed, spritesGroundSize * this.position.X + spritesGroundSize / 2, spritesGroundSize * this.position.Y + spritesGroundSize / 2);
                 this._bulletId++;
             }
         }
