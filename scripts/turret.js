@@ -250,9 +250,4 @@ class Turret {
 
 
     }
-
-    getDestroyed() {
-
-    }
-
 }
