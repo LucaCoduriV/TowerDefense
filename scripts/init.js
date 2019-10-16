@@ -1,4 +1,4 @@
-let canvas;
+let canvas = document.getElementById("canvas");
 let ctx;
 let sprites;
 let lastRender = 0;
@@ -12,7 +12,6 @@ window.onload = function () {
 
 //Function qui se chargera d'executer toutes les autres fonctions
 function init() {
-    canvas = document.getElementById("canvas");
     ctx = canvas.getContext("2d");
 
     initListener();

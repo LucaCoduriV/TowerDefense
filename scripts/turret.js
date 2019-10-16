@@ -18,13 +18,14 @@ class Bullet {
         this.drawBullet();
         ctx.save();
         ctx.fillStyle = "rgb(255,0,0)";
-        ctx.fillRect(this.hitPoint.X,this.hitPoint.Y,10,10); //Repère visuel pour la hitbox des balles
+        ctx.fillRect(this.hitPoint.X, this.hitPoint.Y, 10, 10); //Repère visuel pour la hitbox des balles
         ctx.restore();
     }
 
     update() {
         this.move();
-        this.getDestroyed();
+        this.hasHitEnnemy();
+        this.isBulletOutOfBundle();
     }
 
 
@@ -56,21 +57,30 @@ class Bullet {
     }
 
     hasHitEnnemy() {
-        for (let i = 0; i < Entity.ennemies.length; i ++) {
+        for (let i = 0; i < Entity.ennemies.length; i++) {
             if (this.intersectCirclePoint(Entity.ennemies[i].circleHitbox.centerPosition.X, Entity.ennemies[i].circleHitbox.centerPosition.Y, Entity.ennemies[i].circleHitbox.radius, this.hitPoint.X, this.hitPoint.Y)) {
-                console.log("J'ai touché");
+                //remove ennemy life
+                if (Entity.ennemies[i].lifePoint >= 0) Entity.ennemies[i].lifePoint -= 5;
+                //destroy bullet
+                this.selfDestroy();
                 return true;
             }
         }
     }
 
+    //checker si la balle est sorti de l'écran, si oui la détruire
+    isBulletOutOfBundle(){
+        if(this.position.X < 0 ||  this.position.X > canvas.width || this.position.Y > canvas.height || this.position.Y < 0){
+            this.selfDestroy();
+        }
+    }
+
     //Supprime du tableau toutes les balles entrées en collision avec un ennemi
-    getDestroyed() {
-        if (this.hasHitEnnemy() === true) {
-            for (let i = 0; i < Entity.bullets.length; i++){
-                if (this === Entity.bullets[i]) {
-                    Entity.destroyBullet(i);
-                }
+    selfDestroy() {
+        for (let i = 0; i < Entity.bullets.length; i++) {
+            if (this === Entity.bullets[i]) {
+                Entity.destroyBullet(i);
+                return;
             }
         }
     }
@@ -90,7 +100,7 @@ class Turret {
         this.turretBaseSprite = new Image();
         this.turretBaseSprite.src = "assets/sprites/towerDefense_tile181.png";
         this.angle = 0;
-        this.fireRate = 20;
+        this.fireRate = 5;
         this.range = 2.5 * spritesGroundSize;
         this._hitbox = {
             X: positionX * spritesGroundSize,
@@ -102,7 +112,7 @@ class Turret {
 
     draw() {
         //quand la souris est sur la tourelle
-        if(this.isMouseOnTurret()){
+        if (this.isMouseOnTurret()) {
             this.drawRange();
         }
 
@@ -155,7 +165,7 @@ class Turret {
 
 
     //prédire la postion de l'ennemy le plus proche
-    predictPositionOfNearestEnnemy(){
+    predictPositionOfNearestEnnemy() {
         const bulletSpeed = this._bulletSpeed;
         const distance = this.distBetweenTurretEnnemy(Entity.ennemies[this._nearestEnnemyID]);
         const travelTime = Math.abs(distance / bulletSpeed);
@@ -176,12 +186,12 @@ class Turret {
     }
 
     //donne la prochaine position de l'ennemi basé sur ça vitesse, ça distance de la tourelle ainsi que la vitesse des balles
-    distanceBetweenTurretAndPredictedPositionX(){
+    distanceBetweenTurretAndPredictedPositionX() {
         const position = this.predictPositionOfNearestEnnemy();
         return this.position.X * spritesGroundSize - position.X;
     }
 
-    distanceBetweenTurretAndPredictedPositionY(){
+    distanceBetweenTurretAndPredictedPositionY() {
         const position = this.predictPositionOfNearestEnnemy();
         return this.position.Y * spritesGroundSize - position.Y;
     }
