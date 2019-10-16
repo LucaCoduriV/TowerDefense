@@ -21,6 +21,7 @@ class Ennemy {
         this.DirectionAngleInRadian = 0;
         this.waypointId = 0;
         this.circleHitbox = {centerPosition: {X: 0, Y: 0}, radius: 18};
+        this.velocity = {X:0, Y:0 }
     }
     //draw est appelé en boucle par la fonction draw de la classe game
     draw(){
@@ -116,8 +117,10 @@ class Ennemy {
     }
 
     walk(angle) { //il faut verifier si la distance entre l'ennemi et le waypoint et négatif ou pas
-        this.position.X += this.speed * Math.cos(angle);
-        this.position.Y += this.speed * Math.sin(angle);
+        this.velocity.X = this.speed * Math.cos(angle);
+        this.velocity.Y = this.speed * Math.sin(angle);
+        this.position.X += this.velocity.X;
+        this.position.Y += this.velocity.Y;
     }
 
     followWaypoints() {
