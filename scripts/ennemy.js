@@ -36,6 +36,7 @@ class Ennemy {
         this.updateHitbox();
         this.checkColisionEnnemyWaypoint();
         this.followWaypoints();
+        this.checkIfDead();
     }
 
 
@@ -137,8 +138,17 @@ class Ennemy {
         }
 
     }
+
+    checkIfDead(){
+        if(this.lifePoint <= 0) this.die();
+    }
+
     die(){
-        Entity.ennemies.splice(this.id,1);
+        Entity.ennemies.forEach((ennemy, id)=>{
+            if(ennemy === this){
+                Entity.ennemies.splice(id,1);
+            }
+        });
     }
 
 
