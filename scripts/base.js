@@ -13,7 +13,8 @@ class Base {
     }
 
     draw(){
-
+        //ctx.fillStyle = "rgb(186,80,165)";
+        //ctx.fillRect(0,0,spritesGroundSize,spritesGroundSize);
     }
 
 

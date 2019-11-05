@@ -5,7 +5,7 @@ class LevelMap {
     constructor() {
         //ce tableau indique quelle sprite doit se trouver à chaque emplacement du cadrillage.
         this.cords = [
-            [24, 24, 45, 24, 24, 24, 24, 24, 24, 24, 93, 93, 24, 24, 24, 24, 24, 24],
+            [24, 24, 45, 24, 24, 24, 24, 24, 24, 24, 93, 93, 300, 24, 24, 24, 24, 24],
             [93, 93, 93, 93, 24, 24, 24, 24, 24, 45, 93, 24, 24, 24, 24, 24, 45, 24],
             [24, 24, 24, 93, 24, 24, 24, 24, 24, 24, 93, 93, 24, 24, 24, 24, 24, 24],
             [24, 24, 24, 93, 24, 24, 93, 93, 93, 93, 24, 93, 24, 24, 24, 24, 24, 24],
@@ -203,8 +203,9 @@ class Waypoint {
 
 //Création du tableau contenant les 299 sprites du jeux
 function loadSprites() {
-    sprites = new Array(300);
-    for (let i = 1; i <= 299; i++) {
+    const numberImages = 301;
+    sprites = new Array(numberImages);
+    for (let i = 1; i <= numberImages - 1; i++) {
         sprites[i] = new Image();
 
         if (i % 100 !== i) {
