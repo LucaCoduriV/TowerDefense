@@ -1,1 +1,1 @@
-const spritesGroundSize = 100;
+const spritesGroundSize = 50;
