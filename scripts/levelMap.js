@@ -1,6 +1,7 @@
 class LevelMap {
     _shops = [];
     _shopsPosition = [];
+    _basePosition = {x:0,y:0};
 
     constructor() {
         //ce tableau indique quelle sprite doit se trouver à chaque emplacement du cadrillage.
@@ -16,21 +17,26 @@ class LevelMap {
             [24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24]
         ];
         this.startCords = {X: 0, Y: 1};
+        this._basePosition = {X:12 * spritesGroundSize,Y:0 * spritesGroundSize};
+        this.base = new Base(1000, this._basePosition);
         this.waypoints = [];
         this.setWaypoints();
         this._shopsPosition = this.getShopTilesPositions(45);
         this.addShopForEachTile(45);
+
     }
 
     draw() {
         this.drawMap();
         this.drawWaypoint();
         this.drawShops();
+        this.base.draw();
     }
 
     update() {
         this.updateShopsPosition();
         this.updateShops();
+        this.base.update();
     }
 
     drawShops() {
@@ -184,6 +190,9 @@ class LevelMap {
 
 
         }
+        //ajouter un waypoint sur la base
+        this.waypoints.push(new Waypoint(numberOfWaypoint, this._basePosition.X, (this._basePosition.Y - 1) + spritesGroundSize / 2));//on ajoute le waypoint dans le tableau de waypoint
+
     }
 }
 

@@ -134,6 +134,7 @@ class Ennemy {
                 this.waypointId++;
             }
         }else{
+            Entity.map.base.looseLife(100);
             Entity.ennemies.splice(0,1);
         }
 

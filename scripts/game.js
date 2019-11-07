@@ -22,7 +22,6 @@ class Game{
         this._UI.addUIObjects(new Button(1090,5,40,100,"Menu", "rgba(100,100,100,0.8)","rgba(255,255,255,1)","30px Arial","rgb(201,201,201)"));
         this._UI.addUIObjects(new Button(980,5,40,100,"Pause", "rgba(100,100,100,0.8)","rgba(255,255,255,1)","30px Arial","rgb(201,201,201)"));
 
-        this.chateau = new Base(100);
     }
 
     start(){
@@ -35,8 +34,6 @@ class Game{
         Entity.defense.forEach((element) => element.draw());
 
         Entity.ennemies.forEach( (element) => element.draw());
-
-        this.chateau.draw();
 
 
         //dessiner le menu

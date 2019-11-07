@@ -1,11 +1,15 @@
 class Base {
-    _spriteLocation;
     _maxLifePoint;
     _currentLife;
 
-    constructor(life){
+    constructor(life, position){
         this._maxLifePoint = life;
         this._currentLife = this._maxLifePoint;
+        this.position = position;
+        this.lifePointBarSizeWidth = 0.5;
+        this.lifePointBarSizeHeight = 0.1;
+
+        console.log(this.position);
     }
 
     update(){
@@ -13,10 +17,27 @@ class Base {
     }
 
     draw(){
-        //ctx.fillStyle = "rgb(186,80,165)";
-        //ctx.fillRect(0,0,spritesGroundSize,spritesGroundSize);
+        this.drawMaxLifePointBar();
+        this.drawCurrentLifePointBar();
     }
 
+    drawMaxLifePointBar() {
+        ctx.save();
+        ctx.fillStyle = "#FF0000";
+        ctx.fillRect(this.position.X + spritesGroundSize / 3, this.position.Y + 20, this.lifePointBarSizeWidth * spritesGroundSize, this.lifePointBarSizeHeight * spritesGroundSize);
+        ctx.restore();
+    }
 
+    drawCurrentLifePointBar() {
+        let currentLifeBarSize = this._currentLife * this.lifePointBarSizeWidth / this._maxLifePoint * spritesGroundSize;
+        ctx.save();
+        ctx.fillStyle = "#57ff11";
+        ctx.fillRect(this.position.X + spritesGroundSize / 3, this.position.Y + 20, currentLifeBarSize, this.lifePointBarSizeHeight * spritesGroundSize);
+        ctx.restore();
+    }
+
+    looseLife(damage){
+        this._currentLife -= damage;
+    }
 
 }
