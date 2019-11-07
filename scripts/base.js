@@ -30,6 +30,7 @@ class Base {
 
     drawCurrentLifePointBar() {
         let currentLifeBarSize = this._currentLife * this.lifePointBarSizeWidth / this._maxLifePoint * spritesGroundSize;
+        if(currentLifeBarSize <= 0) currentLifeBarSize = 0;
         ctx.save();
         ctx.fillStyle = "#57ff11";
         ctx.fillRect(this.position.X + spritesGroundSize / 3, this.position.Y + 20, currentLifeBarSize, this.lifePointBarSizeHeight * spritesGroundSize);

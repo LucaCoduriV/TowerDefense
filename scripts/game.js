@@ -10,6 +10,7 @@
 class Game{
     remainingRefreshes = 3600; //Nombre de refresh restants à effectuer pour 1 minutes
     _UI;
+    test;
     constructor(){
         this.load();
     }
@@ -22,6 +23,7 @@ class Game{
         this._UI.addUIObjects(new Button(1090,5,40,100,"Menu", "rgba(100,100,100,0.8)","rgba(255,255,255,1)","30px Arial","rgb(201,201,201)"));
         this._UI.addUIObjects(new Button(980,5,40,100,"Pause", "rgba(100,100,100,0.8)","rgba(255,255,255,1)","30px Arial","rgb(201,201,201)"));
 
+        this.test = new TurretV2(levels.level1,5,5);
     }
 
     start(){
@@ -32,6 +34,7 @@ class Game{
         Entity.map.draw();
         Entity.bullets.forEach( (element) => element.draw());
         Entity.defense.forEach((element) => element.draw());
+        this.test.draw();
 
         Entity.ennemies.forEach( (element) => element.draw());
 
@@ -47,6 +50,7 @@ class Game{
     update(timestamp) {
         Entity.map.update();
         Entity.defense.forEach((element) => element.update());
+        this.test.update();
         Entity.bullets.forEach( (element) => element.update());
         this._UI.update();
 

@@ -20,7 +20,7 @@ class Ennemy {
         this.isReadyToUse = isReady;
         this.DirectionAngleInRadian = 0;
         this.waypointId = 0;
-        this.circleHitbox = {centerPosition: {X: 0, Y: 0}, radius: 18};
+        this.circleHitbox = {centerPosition: {X: 0, Y: 0}, radius: 0.18 * spritesGroundSize};
         this.velocity = {X:0, Y:0 }
     }
     //draw est appelé en boucle par la fonction draw de la classe game

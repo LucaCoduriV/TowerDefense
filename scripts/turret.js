@@ -4,7 +4,7 @@ let levels = {
 }
 
 class Bullet {
-    constructor(id, angle, speed, positionX, positionY) {
+    constructor(id, angle, speed, positionX, positionY, damage) {
         this.id = id;
         this.sprite = new Image();
         this.sprite.src = "assets/sprites/towerDefense_tile297.png";
@@ -12,6 +12,7 @@ class Bullet {
         this.hitPoint = {X: this.position.X, Y: this.position.Y}; //Permet d'obtenir les coordonnées centrale de l'image
         this.speed = speed;
         this.angle = angle - Math.PI / 2;
+        this.damage = damage;
     }
 
     draw() {
@@ -60,7 +61,7 @@ class Bullet {
         for (let i = 0; i < Entity.ennemies.length; i++) {
             if (this.intersectCirclePoint(Entity.ennemies[i].circleHitbox.centerPosition.X, Entity.ennemies[i].circleHitbox.centerPosition.Y, Entity.ennemies[i].circleHitbox.radius, this.hitPoint.X, this.hitPoint.Y)) {
                 //remove ennemy life
-                if (Entity.ennemies[i].lifePoint >= 0) Entity.ennemies[i].lifePoint -= 5;
+                if (Entity.ennemies[i].lifePoint >= 0) Entity.ennemies[i].lifePoint -= this.damage;
                 //destroy bullet
                 this.selfDestroy();
                 return true;
@@ -110,6 +111,7 @@ class Turret {
             H: spritesGroundSize
         };
         this._updateMenu = new Shop(this.position.X * spritesGroundSize + spritesGroundSize/2, this.position.Y * spritesGroundSize + spritesGroundSize/2, true);
+        this.damage = 5;
     }
 
     draw() {
@@ -243,11 +245,24 @@ class Turret {
         if (this._distanceBetweenTurretEnnemy < this.range) {
             //À la fin des 60 refresh, on crée une balle qu'on inscrit dans un tableau
             if (game.remainingRefreshes % this.fireRate === 0) {
-                Entity.createBullet(this._bulletId, this.angle, this._bulletSpeed, spritesGroundSize * this.position.X + spritesGroundSize / 2, spritesGroundSize * this.position.Y + spritesGroundSize / 2);
+                Entity.createBullet(this._bulletId, this.angle, this._bulletSpeed, spritesGroundSize * this.position.X + spritesGroundSize / 2, spritesGroundSize * this.position.Y + spritesGroundSize / 2, this.damage);
                 this._bulletId++;
             }
         }
 
 
+    }
+    test(){
+        console.log("coucou fdp");
+    }
+}
+
+class TurretV2 extends Turret{
+    constructor(level, positionX, positionY){
+        super();
+        this.sprite.src = level;
+        this.damage = 100;
+        this.positionX = positionX;
+        this.positionY = positionY;
     }
 }
