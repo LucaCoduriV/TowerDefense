@@ -13,7 +13,11 @@ class Base {
     }
 
     update(){
-
+        if(this._currentLife === 0){
+            alert("Vous avez perdu !");
+            location.reload();
+            cancelAnimationFrame(raf);
+        }
     }
 
     draw(){

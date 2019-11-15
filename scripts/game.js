@@ -19,15 +19,15 @@ class Game{
         Entity.turretsPositions.forEach((element) => {element = new Array(Entity.map.cords[0].length);})
         Entity.ennemies = Entity.createEnnemy(50,0 * spritesGroundSize,1 * spritesGroundSize,1500);
 
-        this._UI = new Interface(0,600,50,1600,"rgba(0,0,0,0.3)");
-        this._UI.addUIObjects(new Button(1090,5,40,100,"Menu", "rgba(100,100,100,0.8)","rgba(255,255,255,1)","30px Arial","rgb(201,201,201)"));
-        this._UI.addUIObjects(new Button(980,5,40,100,"Pause", "rgba(100,100,100,0.8)","rgba(255,255,255,1)","30px Arial","rgb(201,201,201)"));
+        //this._UI = new Interface(0,600,50,1600,"rgba(0,0,0,0.3)");
+        //this._UI.addUIObjects(new Button(1090,5,40,100,"Menu", "rgba(100,100,100,0.8)","rgba(255,255,255,1)","30px Arial","rgb(201,201,201)"));
+        //this._UI.addUIObjects(new Button(980,5,40,100,"Pause", "rgba(100,100,100,0.8)","rgba(255,255,255,1)","30px Arial","rgb(201,201,201)"));
 
         this.test = new TurretV2(levels.level1,5,5);
     }
 
     start(){
-        requestAnimationFrame((timestamp) => this.loop(timestamp));
+        raf = requestAnimationFrame((timestamp) => this.loop(timestamp));
     }
 
     draw(secondsPassed) {
@@ -41,7 +41,7 @@ class Game{
 
         //dessiner le menu
         //todo fair een sorte que le menu se raffraichisse seuelement quand il y a du changement
-        this._UI.draw();
+        //this._UI.draw();
 
         this.drawFPS(secondsPassed);
     }
@@ -52,7 +52,7 @@ class Game{
         Entity.defense.forEach((element) => element.update());
         this.test.update();
         Entity.bullets.forEach( (element) => element.update());
-        this._UI.update();
+        //this._UI.update();
 
         if (key_left) {
             Entity.ennemies[0].position.X -= 10;
@@ -95,7 +95,7 @@ class Game{
         }
 
         lastRender = timestamp;
-        requestAnimationFrame((timestamp) => this.loop(timestamp));
+        raf = requestAnimationFrame((timestamp) => this.loop(timestamp));
     }
 
     drawFPS(secondsPassed) {
